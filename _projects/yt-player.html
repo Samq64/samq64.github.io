@@ -1,0 +1,52 @@
+---
+layout: default
+title: YouTube Player
+description: A simple YouTube player I made that supports URL paremeters.
+---
+
+<style>
+	iframe {border: none; display: none;}
+	.player {text-align: center;}
+</style>
+
+	<div class="player">
+		<h1>YouTube Player</h1>
+		<div id="description">
+			<p>Enter the URL for your favorite YouTube video in the textbox below:</p>
+		</div>
+		<iframe src="about:blank" id="output" width="800" height="450" allowfullscreen></iframe>
+		<br>
+		<label>https://www.youtube.com/watch?v=</label>
+		<input type="text" size="15" name="input" id="input">
+	</div>
+	
+<script>
+
+	const URL = "https://samq64.github.io/projects/yt-player"
+
+	const input = document.querySelector("#input");
+	const output = document.querySelector("#output");
+	const video = getUrlVars()['v'];
+
+	if (video !== undefined) {
+		input.value = video;
+		output.src = "https://www.youtube.com/embed/"+video;
+		output.style.display = "inline";
+		description.style.display = "none";
+	};
+	
+	input.onkeyup = function(event) {
+		if (event.keyCode === 13 && input.value !== "") {
+		window.location.href = URL+"?v="+input.value;
+		}
+	}
+	
+	function getUrlVars() {
+		var vars = {};
+		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+			vars[key] = value;
+		});
+		return vars;
+	}
+
+</script>
