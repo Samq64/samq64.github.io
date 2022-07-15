@@ -1,19 +1,24 @@
 ---
 layout: default
 title: Home
-description: The home page for my personal website.
+description: The home page for my GitHub Pages website.
 ---
 
 # Welcome to my website!
 
+
+## About me
+
+I'm a 15 year old boy who started Scratching when I was 13. Since then I've learned Python and front-end web development, made a GitHub account and controbuted to a Scratch browser extension, participated in the Windows 11 beta program, played with virtual machines, dualbooted Linux, decided to ditch Windows altogether and now I'm learning Java.
+
+
 ## Pages
-* [Projects](projects.html)
+
+* [My HTML Projects](projects.html)
+* [Scratch extensions](scratch-extensions)
+* [Blissboard for CARE](blissboard)
 
 ## Links
-* [Samq64 on Scratch](https://scratch.mit.edu/users/samq64/)
-* [Samq64 on GitHub](https://github.com/Samq64)
-* [Samq64 on Snap*!*](https://snap.berkeley.edu/user?user=samq64)
 
-## Other Stuff
-* [GitHub Repository](https://github.com/Samq64/samq64.github.io)
-* [Give Feedback](https://github.com/Samq64/samq64.github.io/discussions)
+* [Me on Scratch](https://scratch.mit.edu/users/knotrocket)
+* [Me on GitHub](https://github.com/Samq64)
