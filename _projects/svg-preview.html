@@ -1,0 +1,102 @@
+---
+layout: default
+title: SVG Preview
+description: Shows an SVG preview when typing into the textarea.
+---
+
+<style>
+	.svgInput {
+		box-sizing: border-box;
+		resize: vertical;
+		width: 100%;
+	}
+
+	.svgOutput {
+		border-style: solid;
+		border-width: 1px;
+		border-color: #676774;
+		display: block;
+	}
+
+	.output {
+		width: fit-content;
+		height: fit-content;
+		margin-top: 1em;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.hidden {
+		display: none;
+	}
+
+</style>
+
+<div class="hidden">
+	<a id="download" download="vector.svg" />
+	<input type="file" id="upload" accept="image/svg+xml" />
+</div>
+
+<button title="Reset" onClick="reset()">New</button>
+<button title="Open" onClick="svgOpen()">Open</button>
+<button title="Save" onClick="svgSave()">Save</button>
+
+<textarea class="svgInput" id="svgInput" rows="10"></textarea>
+
+<div class="output">
+	<img class="svgOutut" id="svgOutput" alt="Invalid SVG." />
+</div>
+
+<script>
+	const textarea = document.getElementById('svgInput');
+	const img = document.getElementById('svgOutput');
+	const upload = document.getElementById('upload');
+	let reader = new FileReader();
+
+	function reset() {
+		textarea.value = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+  <!--vectors go here-->
+</svg>`;
+		svgUpdate();
+	}
+
+	function svgUpdate() {
+		const blob = new Blob([textarea.value], {type: 'image/svg+xml'});
+		img.src = URL.createObjectURL(blob);
+	}
+
+	function svgSave() {
+		let element = document.getElementById('download');
+		element.setAttribute('href', 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(textarea.value));
+		element.click();
+	}
+
+	function svgOpen() {
+		upload.click();
+	}
+
+	upload.addEventListener('change', (event) => {
+		const file = event.target.files[0];
+		reader.readAsText(file);
+		reader.addEventListener('load', (event) => {
+			textarea.value = event.target.result;
+			svgUpdate();
+		});
+	});
+
+	textarea.addEventListener('keyup', function(e) {
+		if (e.key === 'Enter') {
+			svgUpdate();
+		}
+	});
+
+	function insertText(text) {
+		// https://stackoverflow.com/questions/1064089/inserting-a-text-where-cursor-is-using-javascript-jquery
+		let caretPos = textarea.selectionStart;
+    	let textAreaTxt = textarea.value;
+    	textarea.value = textAreaTxt.substring(0, caretPos) + text + textAreaTxt.substring(caretPos);
+	}
+
+	reset();
+
+</script>
