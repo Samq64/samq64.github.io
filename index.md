@@ -9,7 +9,7 @@ description: The home page for my GitHub Pages website.
 
 ## About me
 
-I'm a 16 year old boy who started using [Scratch](https://scratch.mit.edu) at 13. Since then I've learned Python, front-end web development and the basics of some other languages, contributed to the [Scratch Addons](https://scratchaddons.com) browser extension and evenually a mamber for the GitHub organisation. I also ran Windows 11 beta my laptop, played with virtual machines, got a Raspberry Pi, dualbooted Linux, and ditched Windows a few weeks later. Now I'm a Linux fanboy running Fedora and planning on switching to Arch Linux.
+I'm a 16 year old boy who started using [Scratch](https://scratch.mit.edu) at 13. Since then I've learned Python, front-end web development and some basics of other languages. I contributed to the [Scratch Addons](https://scratchaddons.com) browser extension and eventually became a member of the GitHub organisation. I also ran Windows 11 beta my laptop, played with virtual machines, got a Raspberry Pi, dualbooted Linux, and ditched Windows a few weeks later. Now I'm a Linux fanboy running Fedora and planning on switching to Arch Linux.
 
 ## Pages
 
