@@ -9,8 +9,7 @@ description: The home page for my GitHub Pages website.
 
 ## About me
 
-I'm a 15 year old boy who started Scratching when I was 13. Since then I've learned Python and front-end web development, made a GitHub account and controbuted to a Scratch browser extension, participated in the Windows 11 beta program, played with virtual machines, dualbooted Linux, decided to ditch Windows altogether and now I'm learning Java.
-
+I'm a 16 year old boy who started using [Scratch](https://scratch.mit.edu) at 13. Since then I've learned Python, front-end web development and the basics of some other languages, contributed to the [Scratch Addons](https://scratchaddons.com) browser extension and evenually a mamber for the GitHub organisation. I also ran Windows 11 beta my laptop, played with virtual machines, got a Raspberry Pi, dualbooted Linux, and ditched Windows a few weeks later. Now I'm a Linux fanboy running Fedora and planning on switching to Arch Linux.
 
 ## Pages
 
