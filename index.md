@@ -9,15 +9,21 @@ description: The home page for my GitHub Pages website.
 
 ## About me
 
-I'm a 16-year-old boy who started using [Scratch](https://scratch.mit.edu) at 13. Since then I've learned Python, front-end web development and some basics of other languages. I contributed to the [Scratch Addons](https://scratchaddons.com) browser extension and eventually became a member of the GitHub organisation. I also daily drove the Windows 11 beta, played with virtual machines, got a Raspberry Pi, dual booted Ubuntu, and ditched Windows a few weeks later. Now I run Arch (btw) with [Hyprland](https://hyprland.org).
+I'm a 17-year-old Canadian man who started using [Scratch](https://scratch.mit.edu) at 13. Since then I've learned Python, front-end web development and some basics of other languages. I contributed to the [Scratch Addons](https://scratchaddons.com) browser extension and eventually became a member of the GitHub organization. I also daily drove the Windows 11 beta, played with virtual machines, got a Raspberry Pi 4, dual booted Ubuntu, and ditched Windows a few weeks later. Now I use Arch BTW.
 
 ## Pages
 
-* [My HTML Projects](projects.html)
-* [Scratch extensions](scratch-extensions)
-* [Blissboard for CARE](blissboard)
+* [HTML Projects](projects.html)
+* [Bliss Board for C.A.R.E.](blissboard)
+
+## Other projects
+
+* [Scratch Addons](https://scratchaddons.com) - All-in-one browser extension for Scratch. (org member)
+* [scratch-extensions](https://github.com/Samq64/scratch-extensions) - Mouse cursor Scratch extension. Moved to https://github.com/TurboWarp/extensions
+* [color-ascii](GitHub.com/Samq64/color-ascii) - A Python script that converts images to ASCII art with ANSI terminal colour codes.
+* [dotfiles](GitHub.com/Samq64/dotfiles) - Some of my Linux dotfiles. Most of them are pretty basic.
 
 ## Links
 
-* [Me on Scratch](https://scratch.mit.edu/users/knotrocket)
-* [Me on GitHub](https://github.com/Samq64)
+* [Scratch](https://scratch.mit.edu/users/knotrocket)
+* [GitHub](https://github.com/Samq64)
