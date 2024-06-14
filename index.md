@@ -18,12 +18,12 @@ I'm a 17-year-old Canadian boy who started using [Scratch](https://scratch.mit.e
 
 ## Other projects
 
-* [Scratch Addons](https://scratchaddons.com) - All-in-one browser extension for Scratch. (org member)
-* [color-ascii](https://gitHub.com/Samq64/color-ascii) - A Python script that converts images to ASCII art with ANSI terminal colour codes.
-* [scratch-extensions](https://github.com/Samq64/scratch-extensions) - Mouse cursor Scratch extension. Moved to https://github.com/TurboWarp/extensions
-* [dotfiles](https://gitHub.com/Samq64/dotfiles) - Some of my Linux dotfiles. Most of them are pretty basic.
+* [Scratch Addons](https://scratchaddons.com) - All-in-one browser extension for Scratch (GitHub organization member)
+* [color-ascii-player](https://gitHub.com/Samq64/color-ascii) - A Python ASCII video player using Curses, FFPyPlayer, and yt-dlp.
+* [dotfiles](https://gitHub.com/Samq64/dotfiles) - Some Linux dotfiles. Most of them are pretty basic.
+* [scratch-extensions](https://github.com/Samq64/scratch-extensions) - A mouse cursor Scratch extension. Moved to the [TurboWarp Extension Gallery](https://github.com/TurboWarp/extensions/).
 
 ## Links
 
-* [Scratch](https://scratch.mit.edu/users/knotrocket)
 * [GitHub](https://github.com/Samq64)
+* [Scratch](https://scratch.mit.edu/users/knotrocket)
