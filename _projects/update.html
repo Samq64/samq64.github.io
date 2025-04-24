@@ -1,0 +1,100 @@
+---
+title: Windows Update Simulator
+description: Simulates a Windows 10 update displaying the spinner as actual characters.
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ page.title }}</title>
+    <link
+      rel="preload"
+      href="https://raw.githubusercontent.com/Diax170/SegoeBootSemilight/main/Win11/segoe_slboot.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+
+    <style>
+      @font-face {
+        font-family: "SegoeBoot";
+        src: url("https://raw.githubusercontent.com/Diax170/SegoeBootSemilight/main/Win11/segoe_slboot.ttf");
+      }
+
+      body,
+      html {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        color: white;
+        background-color: #005c9f;
+        font-family: SegoeBoot;
+      }
+
+      span {
+        font-size: 20px;
+      }
+
+      .main {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      #spinner {
+        margin: 0.5rem;
+        font-size: 36px;
+      }
+
+      #msg3 {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main" id="main">
+      <span id="spinner"></span>
+      <span id="msg1">Restarting</span>
+      <span id="msg2"></span>
+      <span id="msg3">Don't turn off your computer</span>
+    </div>
+    <script>
+      function getChar(c, offset) {
+        return String.fromCharCode(c.charCodeAt(0) + offset);
+      }
+
+      async function spinner(el, start, end) {
+        let i = start;
+        spinnerInterval = setInterval(() => {
+          el.textContent = String.fromCharCode(i);
+          i++;
+          if (i > end) i = start;
+        }, 1000 / 30);
+      }
+
+      spinner(document.getElementById("spinner"), 0xe052, 0xe0cb);
+
+      setTimeout(() => {
+        document.getElementById("msg1").textContent = "Getting Windows ready";
+        document.getElementById("msg3").style.display = "block";
+      }, 5000);
+
+      setTimeout(() => {
+        document.getElementById("msg1").textContent = "Working on updates";
+        document.getElementById("msg2").textContent = `0% complete`;
+
+        let i = 0;
+        const counterIntervalId = setInterval(() => {
+          document.getElementById("msg2").textContent = `${i}% complete`;
+          if (i === 30) return;
+          i++;
+        }, 5000);
+      }, 15000);
+    </script>
+  </body>
+</html>
