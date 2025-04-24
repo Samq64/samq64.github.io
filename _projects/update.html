@@ -64,10 +64,6 @@ description: Simulates a Windows 10 update displaying the spinner as actual char
       <span id="msg3">Don't turn off your computer</span>
     </div>
     <script>
-      function getChar(c, offset) {
-        return String.fromCharCode(c.charCodeAt(0) + offset);
-      }
-
       async function spinner(el, start, end) {
         let i = start;
         spinnerInterval = setInterval(() => {
@@ -86,14 +82,14 @@ description: Simulates a Windows 10 update displaying the spinner as actual char
 
       setTimeout(() => {
         document.getElementById("msg1").textContent = "Working on updates";
-        document.getElementById("msg2").textContent = `0% complete`;
+        document.getElementById("msg2").textContent = "0% complete";
 
-        let i = 0;
+        let i = 1;
         const counterIntervalId = setInterval(() => {
           document.getElementById("msg2").textContent = `${i}% complete`;
           if (i === 30) return;
           i++;
-        }, 5000);
+        }, 10000);
       }, 15000);
     </script>
   </body>
