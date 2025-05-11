@@ -19,7 +19,7 @@ Hi, I'm Sam. I started using [Scratch](https://scratch.mit.edu) at 13. Since the
 ## Other projects
 
 * [Scratch Addons](https://scratchaddons.com) - All-in-one browser extension for Scratch (GitHub organization member)
-* [color-ascii-player](https://gitHub.com/Samq64/color-ascii) - A Python ASCII video player using Curses, FFPyPlayer, and yt-dlp.
+* [color-ascii-player](https://gitHub.com/Samq64/color-ascii-player) - A Python ASCII video player using Curses, FFPyPlayer, and yt-dlp.
 * [dotfiles](https://gitHub.com/Samq64/dotfiles) - Some Linux dotfiles. Most of them are pretty basic.
 * [scratch-extensions](https://github.com/Samq64/scratch-extensions) - A mouse cursor Scratch extension. Moved to the [TurboWarp Extension Gallery](https://github.com/TurboWarp/extensions/).
 
