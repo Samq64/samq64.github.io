@@ -3,291 +3,309 @@ title: YouTube RSS Feed Generator
 description: Generate a YouTube RSS feed from a handle, channel or playlist. Supports filtering channel upload by type and sorting by popularity.
 ---
 
-<style>
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-
-  :root {
-    --bg: white;
-    --red: #ff0033;
-    --text: #444;
-    --heading: #222;
-  }
-
-  body {
-    font-family: Roboto, sans-serif;
-    line-height: 1.5;
-    accent-color: var(--red);
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 1rem;
-    background-color: var(--bg);
-  }
-
-  p {
-    color: var(--text);
-  }
-
-  h1,
-  h2,
-  h3 {
-    color: var(--heading);
-  }
-
-  fieldset {
-    flex: 1;
-    border: 1px solid grey;
-    padding: 0.8rem;
-    border-radius: 4px;
-  }
-
-  label {
-    display: block;
-    margin: 0.25rem 0;
-  }
-
-  legend {
-    color: var(--heading);
-    font-weight: bold;
-  }
-
-  button {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    min-width: 6rem;
-    border: none;
-    background: var(--red);
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-  }
-
-  button:hover {
-    background: #e6002e;
-  }
-
-  button:disabled {
-    opacity: 0.5;
-    cursor: wait;
-  }
-
-  input[type="text"] {
-    padding: 0.5rem;
-    font-size: 1rem;
-    border: 1px solid grey;
-    border-radius: 4px;
-    background-color: var(--bg);
-  }
-  input[type="text"]:focus {
-    outline: 2px solid var(--red);
-  }
-
-  .flex-row {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-  }
-
-  .flex-row > :first-child {
-    flex: 1;
-  }
-
-  #filters {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin: 0.5rem 0;
-  }
-
-  #error {
-    color: black;
-    border: 1px solid grey;
-    background-color: orange;
-    border-radius: 4px;
-    padding: 0.5rem;
-  }
-
-  #error,
-  #filters,
-  #result {
-    display: none;
-  }
-
-  @media (max-width: 600px) {
-    #filters {
-      flex-direction: column;
-    }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      color-scheme: dark;
-      --bg: #111;
-      --heading: #ddd;
-      --text: #bbb;
-    }
-  }
-</style>
-<h1>{{ page.title }}</h1>
-<p>{{ page.description }}</p>
-
-<div class="flex-row">
-  <input
-    type="text"
-    id="inputEl"
-    placeholder="https://www.youtube.com/@mkbhd"
-  />
-  <button id="submitBtn">Submit</button>
-</div>
-
-<p id="error"></p>
-
-<div id="filters">
-  <fieldset>
-    <legend>Latest public</legend>
-    <label><input type="radio" name="filter" value="ALL" checked /> All</label>
-    <label><input type="radio" name="filter" value="UULF" /> Long-form</label>
-    <label><input type="radio" name="filter" value="UUSH" /> Shorts</label>
-    <label
-      ><input type="radio" name="filter" value="UULV" /> Live streams</label
-    >
-  </fieldset>
-
-  <fieldset>
-    <legend>Most popular</legend>
-    <label><input type="radio" name="filter" value="PU" /> All</label>
-    <label><input type="radio" name="filter" value="UULP" /> Long-form</label>
-    <label><input type="radio" name="filter" value="UUPS" /> Shorts</label>
-    <label
-      ><input type="radio" name="filter" value="UUPV" /> Live streams</label
-    >
-  </fieldset>
-
-  <fieldset>
-    <legend>Members-only</legend>
-    <label><input type="radio" name="filter" value="UUMO" /> All</label>
-    <label><input type="radio" name="filter" value="UUMF" /> Long-form</label>
-    <label><input type="radio" name="filter" value="UUMS" /> Shorts</label>
-    <label
-      ><input type="radio" name="filter" value="UUMV" /> Live streams</label
-    >
-  </fieldset>
-</div>
-
-<div id="result">
-  <div class="flex-row">
-    <h3>Feed URL</h3>
-    <a id="link"></a>
-  </div>
-  <div class="flex-row">
-    <input type="text" id="outputEl" readonly />
-    <button id="copyBtn">Copy</button>
-  </div>
-</div>
-
-<script>
-  const inputEl = document.getElementById("inputEl");
-  const outputEl = document.getElementById("outputEl");
-  const errorEl = document.getElementById("error");
-  const filtersEl = document.getElementById("filters");
-  const resultEl = document.getElementById("result");
-  const copyBtn = document.getElementById("copyBtn");
-  const link = document.getElementById("link");
-
-  channelId = null;
-
-  function displayError(msg) {
-    errorEl.innerText = msg;
-    errorEl.style.display = "block";
-    resultEl.style.display = "none";
-    filtersEl.style.display = "none";
-  }
-
-  function displayOutput(msg) {
-    outputEl.value = msg;
-    errorEl.style.display = "none";
-    resultEl.style.display = "block";
-    const end = outputEl.value.length;
-    outputEl.setSelectionRange(end, end);
-    outputEl.focus();
-  }
-
-  async function resolveChannel() {
-    submitBtn.disabled = true;
-    const raw = inputEl.value.trim();
-    try {
-      const res = await fetch(
-        `https://handle2id.knotrocket12.workers.dev/?q=${encodeURIComponent(raw)}`,
-      );
-      const result = await res.json();
-      if (result.error) {
-        displayError(result.error);
-      } else if (result.type === "playlist") {
-        filtersEl.style.display = "none";
-        link.href = `https://www.youtube.com/playlist?v=&list=${result.id}`;
-        link.innerText = "Open playlist page";
-        displayOutput(
-          `https://www.youtube.com/feeds/videos.xml?playlist_id=${result.id}`,
-        );
-      } else {
-        channelId = result.id;
-        buildRssUrl();
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ page.title }}</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
       }
-    } catch (e) {
-      displayError(`Fetch error: ${e}`);
-    } finally {
-      submitBtn.disabled = false;
-    }
-  }
 
-  function buildRssUrl() {
-    if (!channelId) return;
-    filtersEl.style.display = "flex";
-    const base = "https://www.youtube.com/feeds/videos.xml";
-    const selected = document.querySelector(
-      'input[name="filter"]:checked',
-    ).value;
+      :root {
+        --bg: white;
+        --red: #ff0033;
+        --text: #444;
+        --heading: #222;
+      }
 
-    let rss = base;
-    if (selected === "ALL") {
-      rss += `?channel_id=${channelId}`;
-    } else {
-      rss += `?playlist_id=${selected + channelId.slice(2)}`;
-    }
-    ((link.href = `https://www.youtube.com/channel/${channelId}`),
-      (link.innerText = "Open channel page"),
-      displayOutput(rss));
-  }
+      body {
+        font-family: Roboto, sans-serif;
+        line-height: 1.5;
+        accent-color: var(--red);
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 1rem;
+        background-color: var(--bg);
+      }
 
-  copyBtn.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(outputEl.value);
-      copyBtn.textContent = "Copied!";
-    } catch {
-      const tmp = document.createElement("input");
-      tmp.value = outputEl.value;
-      document.body.appendChild(tmp);
-      tmp.select();
-      document.execCommand("copy");
-      document.body.removeChild(tmp);
-      copyBtn.textContent = "Copied!";
-    }
-    setTimeout(() => (copyBtn.textContent = "Copy"), 1000);
-  });
+      p {
+        color: var(--text);
+      }
 
-  document
-    .getElementById("submitBtn")
-    .addEventListener("click", resolveChannel);
-  inputEl.addEventListener("keyup", (e) => {
-    if (e.key === "Enter") {
-      resolveChannel();
-    }
-  });
-  document
-    .querySelectorAll('input[name="filter"]')
-    .forEach((r) => r.addEventListener("change", buildRssUrl));
-</script>
+      h1,
+      h2,
+      h3 {
+        color: var(--heading);
+      }
+
+      fieldset {
+        flex: 1;
+        border: 1px solid grey;
+        padding: 0.8rem;
+        border-radius: 4px;
+      }
+
+      label {
+        display: block;
+        margin: 0.25rem 0;
+      }
+
+      legend {
+        color: var(--heading);
+        font-weight: bold;
+      }
+
+      button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        min-width: 6rem;
+        border: none;
+        background: var(--red);
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      button:hover {
+        background: #e6002e;
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        cursor: wait;
+      }
+
+      input[type="text"] {
+        padding: 0.5rem;
+        font-size: 1rem;
+        border: 1px solid grey;
+        border-radius: 4px;
+        background-color: var(--bg);
+      }
+      input[type="text"]:focus {
+        outline: 2px solid var(--red);
+      }
+
+      .flex-row {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+      }
+
+      .flex-row > :first-child {
+        flex: 1;
+      }
+
+      #filters {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin: 0.5rem 0;
+      }
+
+      #error {
+        color: black;
+        border: 1px solid grey;
+        background-color: orange;
+        border-radius: 4px;
+        padding: 0.5rem;
+      }
+
+      #error,
+      #filters,
+      #result {
+        display: none;
+      }
+
+      @media (max-width: 600px) {
+        #filters {
+          flex-direction: column;
+        }
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          color-scheme: dark;
+          --bg: #111;
+          --heading: #ddd;
+          --text: #bbb;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{ page.title }}</h1>
+    <p>{{ page.description }}</p>
+
+    <div class="flex-row">
+      <input
+        type="text"
+        id="inputEl"
+        placeholder="https://www.youtube.com/@mkbhd"
+      />
+      <button id="submitBtn">Submit</button>
+    </div>
+
+    <p id="error"></p>
+
+    <div id="filters">
+      <fieldset>
+        <legend>Latest public</legend>
+        <label
+          ><input type="radio" name="filter" value="ALL" checked /> All</label
+        >
+        <label
+          ><input type="radio" name="filter" value="UULF" /> Long-form</label
+        >
+        <label><input type="radio" name="filter" value="UUSH" /> Shorts</label>
+        <label
+          ><input type="radio" name="filter" value="UULV" /> Live streams</label
+        >
+      </fieldset>
+
+      <fieldset>
+        <legend>Most popular</legend>
+        <label><input type="radio" name="filter" value="PU" /> All</label>
+        <label
+          ><input type="radio" name="filter" value="UULP" /> Long-form</label
+        >
+        <label><input type="radio" name="filter" value="UUPS" /> Shorts</label>
+        <label
+          ><input type="radio" name="filter" value="UUPV" /> Live streams</label
+        >
+      </fieldset>
+
+      <fieldset>
+        <legend>Members-only</legend>
+        <label><input type="radio" name="filter" value="UUMO" /> All</label>
+        <label
+          ><input type="radio" name="filter" value="UUMF" /> Long-form</label
+        >
+        <label><input type="radio" name="filter" value="UUMS" /> Shorts</label>
+        <label
+          ><input type="radio" name="filter" value="UUMV" /> Live streams</label
+        >
+      </fieldset>
+    </div>
+
+    <div id="result">
+      <div class="flex-row">
+        <h3>Feed URL</h3>
+        <a id="link"></a>
+      </div>
+      <div class="flex-row">
+        <input type="text" id="outputEl" readonly />
+        <button id="copyBtn">Copy</button>
+      </div>
+    </div>
+
+    <script>
+      const inputEl = document.getElementById("inputEl");
+      const outputEl = document.getElementById("outputEl");
+      const errorEl = document.getElementById("error");
+      const filtersEl = document.getElementById("filters");
+      const resultEl = document.getElementById("result");
+      const copyBtn = document.getElementById("copyBtn");
+      const link = document.getElementById("link");
+
+      channelId = null;
+
+      function displayError(msg) {
+        errorEl.innerText = msg;
+        errorEl.style.display = "block";
+        resultEl.style.display = "none";
+        filtersEl.style.display = "none";
+      }
+
+      function displayOutput(msg) {
+        outputEl.value = msg;
+        errorEl.style.display = "none";
+        resultEl.style.display = "block";
+        const end = outputEl.value.length;
+        outputEl.setSelectionRange(end, end);
+        outputEl.focus();
+      }
+
+      async function resolveChannel() {
+        submitBtn.disabled = true;
+        const raw = inputEl.value.trim();
+        try {
+          const res = await fetch(
+            `https://handle2id.knotrocket12.workers.dev/?q=${encodeURIComponent(raw)}`,
+          );
+          const result = await res.json();
+          if (result.error) {
+            displayError(result.error);
+          } else if (result.type === "playlist") {
+            filtersEl.style.display = "none";
+            link.href = `https://www.youtube.com/playlist?v=&list=${result.id}`;
+            link.innerText = "Open playlist page";
+            displayOutput(
+              `https://www.youtube.com/feeds/videos.xml?playlist_id=${result.id}`,
+            );
+          } else {
+            channelId = result.id;
+            buildRssUrl();
+          }
+        } catch (e) {
+          displayError(`Fetch error: ${e}`);
+        } finally {
+          submitBtn.disabled = false;
+        }
+      }
+
+      function buildRssUrl() {
+        if (!channelId) return;
+        filtersEl.style.display = "flex";
+        const base = "https://www.youtube.com/feeds/videos.xml";
+        const selected = document.querySelector(
+          'input[name="filter"]:checked',
+        ).value;
+
+        let rss = base;
+        if (selected === "ALL") {
+          rss += `?channel_id=${channelId}`;
+        } else {
+          rss += `?playlist_id=${selected + channelId.slice(2)}`;
+        }
+        ((link.href = `https://www.youtube.com/channel/${channelId}`),
+          (link.innerText = "Open channel page"),
+          displayOutput(rss));
+      }
+
+      copyBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(outputEl.value);
+          copyBtn.textContent = "Copied!";
+        } catch {
+          const tmp = document.createElement("input");
+          tmp.value = outputEl.value;
+          document.body.appendChild(tmp);
+          tmp.select();
+          document.execCommand("copy");
+          document.body.removeChild(tmp);
+          copyBtn.textContent = "Copied!";
+        }
+        setTimeout(() => (copyBtn.textContent = "Copy"), 1000);
+      });
+
+      document
+        .getElementById("submitBtn")
+        .addEventListener("click", resolveChannel);
+      inputEl.addEventListener("keyup", (e) => {
+        if (e.key === "Enter") {
+          resolveChannel();
+        }
+      });
+      document
+        .querySelectorAll('input[name="filter"]')
+        .forEach((r) => r.addEventListener("change", buildRssUrl));
+    </script>
+  </body>
+</html>
