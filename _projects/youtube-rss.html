@@ -17,7 +17,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       }
 
       :root {
-        --bg: white;
+        --bckground: white;
         --red: #ff0033;
         --text: #444;
         --heading: #222;
@@ -30,7 +30,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         max-width: 800px;
         margin: 0 auto;
         padding: 1rem;
-        background-color: var(--bg);
+        background-color: var(--bckground);
       }
 
       p {
@@ -86,7 +86,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         font-size: 1rem;
         border: 1px solid grey;
         border-radius: 4px;
-        background-color: var(--bg);
+        background-color: var(--bckground);
       }
       input[type="text"]:focus {
         outline: 2px solid var(--red);
@@ -110,9 +110,9 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       }
 
       #error {
-        color: black;
-        border: 1px solid grey;
-        background-color: orange;
+        color: white;
+        background-color: #b93a57;
+        border: 1px solid #8b1e3f;
         border-radius: 4px;
         padding: 0.5rem;
       }
@@ -132,7 +132,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       @media (prefers-color-scheme: dark) {
         :root {
           color-scheme: dark;
-          --bg: #111;
+          --bckground: #111;
           --heading: #ddd;
           --text: #bbb;
         }
