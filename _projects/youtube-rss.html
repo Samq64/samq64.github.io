@@ -17,10 +17,11 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       }
 
       :root {
-        --bckground: white;
+        --background: white;
         --red: #ff0033;
         --text: #444;
         --heading: #222;
+        --radius: 4px;
       }
 
       body {
@@ -30,10 +31,10 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         max-width: 800px;
         margin: 0 auto;
         padding: 1rem;
-        background-color: var(--bckground);
+        background-color: var(--background);
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.5rem;
       }
 
       p {
@@ -42,8 +43,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       }
 
       h1,
-      h2,
-      h3 {
+      h2 {
         color: var(--heading);
         margin: 0;
       }
@@ -53,20 +53,16 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         text-decoration: none;
       }
 
-      a:hover {
-        text-decoration: underline;
-      }
-
       fieldset {
         flex: 1;
         border: 1px solid grey;
-        padding: 0.8rem;
-        border-radius: 4px;
+        padding: 1rem;
+        border-radius: var(--radius);
       }
 
       label {
         display: block;
-        margin: 0.25rem 0;
+        margin: 0.5rem 0;
       }
 
       legend {
@@ -81,7 +77,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         border: none;
         background: var(--red);
         color: white;
-        border-radius: 4px;
+        border-radius: var(--radius);
         cursor: pointer;
         font-weight: bold;
       }
@@ -99,8 +95,8 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         padding: 0.5rem;
         font-size: 1rem;
         border: 1px solid grey;
-        border-radius: 4px;
-        background-color: var(--bckground);
+        border-radius: var(--radius);
+        background-color: var(--background);
       }
       input[type="text"]:focus {
         outline: 2px solid var(--red);
@@ -116,38 +112,45 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         flex: 1;
       }
 
-      .info {
-        text-align: center;
+      .info,
+      .info a {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
       }
 
       .avatar {
         width: 80px;
         height: 80px;
-        border-radius: 40px;
+        border-radius: 50%;
+        object-fit: cover;
       }
 
       .thumbnail {
-        width: 224px;
-        height: 126px;
-        border-radius: 4px;
+        width: 160px;
+        height: 90px;
+        border-radius: var(--radius);
+        object-fit: cover;
       }
 
       #filters {
         display: flex;
         gap: 0.5rem;
         flex-wrap: wrap;
-        margin: 0.5rem 0;
+        margin-top: -0.75rem;
       }
 
       #error {
         color: white;
         background-color: #b93a57;
         border: 1px solid #8b1e3f;
-        border-radius: 4px;
+        border-radius: var(--radius);
         padding: 0.5rem;
       }
 
       #error,
+      #info,
       #filters,
       #result {
         display: none;
@@ -162,7 +165,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       @media (prefers-color-scheme: dark) {
         :root {
           color-scheme: dark;
-          --bckground: #111;
+          --background: #111;
           --heading: #ddd;
           --text: #bbb;
         }
@@ -184,50 +187,14 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
 
     <p id="error"></p>
 
-    <div class="info">
-      <img id="resultImg" />
-      <h2><a target="_blank" id="link"></a></h2>
+    <div id="info" class="info">
+      <a target="_blank" id="link">
+        <img id="resultImg" />
+        <h2 id="linkText"></h2>
+      </a>
     </div>
 
-    <div id="filters">
-      <fieldset>
-        <legend>Latest public</legend>
-        <label
-          ><input type="radio" name="filter" value="ALL" checked /> All</label
-        >
-        <label
-          ><input type="radio" name="filter" value="UULF" /> Long-form</label
-        >
-        <label><input type="radio" name="filter" value="UUSH" /> Shorts</label>
-        <label
-          ><input type="radio" name="filter" value="UULV" /> Live streams</label
-        >
-      </fieldset>
-
-      <fieldset>
-        <legend>Most popular</legend>
-        <label><input type="radio" name="filter" value="PU" /> All</label>
-        <label
-          ><input type="radio" name="filter" value="UULP" /> Long-form</label
-        >
-        <label><input type="radio" name="filter" value="UUPS" /> Shorts</label>
-        <label
-          ><input type="radio" name="filter" value="UUPV" /> Live streams</label
-        >
-      </fieldset>
-
-      <fieldset>
-        <legend>Members-only</legend>
-        <label><input type="radio" name="filter" value="UUMO" /> All</label>
-        <label
-          ><input type="radio" name="filter" value="UUMF" /> Long-form</label
-        >
-        <label><input type="radio" name="filter" value="UUMS" /> Shorts</label>
-        <label
-          ><input type="radio" name="filter" value="UUMV" /> Live streams</label
-        >
-      </fieldset>
-    </div>
+    <div id="filters"></div>
 
     <div id="result" class="flex-row">
       <span>Feed URL:</span>
@@ -242,25 +209,83 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       const filtersEl = document.getElementById("filters");
       const resultEl = document.getElementById("result");
       const copyBtn = document.getElementById("copyBtn");
+      const submitBtn = document.getElementById("submitBtn");
+      const infoEl = document.getElementById("info");
       const link = document.getElementById("link");
+      const linkText = document.getElementById("linkText");
       const image = document.getElementById("resultImg");
 
-      channelId = null;
+      const FILTERS = [
+        {
+          legend: "Latest public",
+          options: [
+            { label: "All", value: "ALL", checked: true },
+            { label: "Long form", value: "UULF" },
+            { label: "Shorts", value: "UUSH" },
+            { label: "Live streams", value: "UULV" },
+          ],
+        },
+        {
+          legend: "Most popular",
+          options: [
+            { label: "All", value: "PU" },
+            { label: "Long form", value: "UULP" },
+            { label: "Shorts", value: "UUPS" },
+            { label: "Live streams", value: "UUPV" },
+          ],
+        },
+        {
+          legend: "Members only",
+          options: [
+            { label: "All", value: "UUMO" },
+            { label: "Long form", value: "UUMF" },
+            { label: "Shorts", value: "UUMS" },
+            { label: "Live streams", value: "UUMV" },
+          ],
+        },
+      ];
 
-      function displayError(msg) {
-        errorEl.innerText = msg;
-        errorEl.style.display = "block";
-        resultEl.style.display = "none";
-        filtersEl.style.display = "none";
+      filtersEl.innerHTML = FILTERS.map(
+        ({ legend, options }) =>
+          `<fieldset><legend>${legend}</legend>${options
+            .map(
+              ({ label, value, checked }) =>
+                `<label><input type="radio" name="filter" value="${value}"${checked ? " checked" : ""} /> ${label}</label>`,
+            )
+            .join("")}</fieldset>`,
+      ).join("");
+
+      let state = { result: null, error: null };
+
+      function feedUrl() {
+        const { result } = state;
+        const base = "https://www.youtube.com/feeds/videos.xml";
+        if (result.type === "playlist") {
+          return `${base}?playlist_id=${result.id}`;
+        }
+        const filter = document.querySelector('input[name="filter"]:checked').value;
+        return filter === "ALL"
+          ? `${base}?channel_id=${result.id}`
+          : `${base}?playlist_id=${filter + result.id.slice(2)}`;
       }
 
-      function displayOutput(msg) {
-        outputEl.value = msg;
-        errorEl.style.display = "none";
-        resultEl.style.display = "flex";
-        const end = outputEl.value.length;
-        outputEl.setSelectionRange(end, end);
-        outputEl.focus();
+      function render() {
+        const { result, error } = state;
+        errorEl.style.display = error ? "block" : "none";
+        errorEl.innerText = error ?? "";
+        infoEl.style.display = result ? "flex" : "none";
+        filtersEl.style.display = result && result.type !== "playlist" ? "flex" : "none";
+        resultEl.style.display = result ? "flex" : "none";
+        if (result) {
+          image.src = result.thumbnail;
+          image.className = result.type === "playlist" ? "thumbnail" : "avatar";
+          linkText.innerText = result.name;
+          link.href = result.type === "playlist"
+            ? `https://www.youtube.com/playlist?list=${result.id}`
+            : `https://www.youtube.com/channel/${result.id}`;
+          outputEl.value = feedUrl();
+          outputEl.scrollLeft = outputEl.scrollWidth;
+        }
       }
 
       async function resolveChannel() {
@@ -272,48 +297,18 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
           );
           const result = await res.json();
           if (result.error) {
-            displayError(result.error);
-            submitBtn.disabled = false;
+            state = { result: null, error: result.error };
+            render();
             return;
           }
-          link.innerText = result.name;
-          resultImg.src = result.thumbnail;
-          if (result.type === "playlist") {
-            filtersEl.style.display = "none";
-            resultImg.className = "thumbnail";
-
-            link.href = `https://www.youtube.com/playlist?&list=${result.id}`;
-            displayOutput(
-              `https://www.youtube.com/feeds/videos.xml?playlist_id=${result.id}`,
-            );
-          } else {
-            channelId = result.id;
-            resultImg.className = "avatar";
-            link.href = `https://www.youtube.com/channel/${channelId}`;
-            buildRssUrl();
-          }
+          state = { result, error: null };
+          render();
         } catch (e) {
-          displayError(`Fetch error: ${e}`);
+          state = { result: null, error: `Fetch error: ${e}` };
+          render();
         } finally {
           submitBtn.disabled = false;
         }
-      }
-
-      function buildRssUrl() {
-        if (!channelId) return;
-        filtersEl.style.display = "flex";
-        const base = "https://www.youtube.com/feeds/videos.xml";
-        const selected = document.querySelector(
-          'input[name="filter"]:checked',
-        ).value;
-
-        let rss = base;
-        if (selected === "ALL") {
-          rss += `?channel_id=${channelId}`;
-        } else {
-          rss += `?playlist_id=${selected + channelId.slice(2)}`;
-        }
-        displayOutput(rss);
       }
 
       copyBtn.addEventListener("click", async () => {
@@ -332,17 +327,11 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         setTimeout(() => (copyBtn.textContent = "Copy"), 1000);
       });
 
-      document
-        .getElementById("submitBtn")
-        .addEventListener("click", resolveChannel);
+      submitBtn.addEventListener("click", resolveChannel);
       inputEl.addEventListener("keyup", (e) => {
-        if (e.key === "Enter") {
-          resolveChannel();
-        }
+        if (e.key === "Enter") resolveChannel();
       });
-      document
-        .querySelectorAll('input[name="filter"]')
-        .forEach((r) => r.addEventListener("change", buildRssUrl));
+      filtersEl.addEventListener("change", render);
     </script>
   </body>
 </html>
