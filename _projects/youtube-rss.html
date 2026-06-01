@@ -305,7 +305,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
             return;
           }
           state = { result, error: null };
-          history.replaceState(null, "", "?q=" + result.id);
+          history.replaceState(null, "", "?q=" + (result.handle ?? result.id));
           render();
         } catch (e) {
           state = { result: null, error: `Fetch error: ${e}` };
@@ -339,7 +339,8 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
 
       const initial = new URLSearchParams(location.search).get("q");
       if (initial) {
-        inputEl.value = initial;
+        const isId = initial.startsWith("UC") || initial.startsWith("PL");
+        inputEl.value = isId ? initial : "@" + initial;
         resolveChannel();
       }
     </script>
