@@ -117,11 +117,6 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         padding: 0.5rem;
       }
 
-      #outputEl {
-        /* Easy way keep the relevant part of the output visible */
-        direction: rtl;
-      }
-
       #error,
       #filters,
       #result {
@@ -232,6 +227,9 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         outputEl.value = msg;
         errorEl.style.display = "none";
         resultEl.style.display = "block";
+        const end = outputEl.value.length;
+        outputEl.setSelectionRange(end, end);
+        outputEl.focus();
       }
 
       async function resolveChannel() {
