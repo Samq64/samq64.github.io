@@ -277,8 +277,11 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         filtersEl.style.display = result && result.type !== "playlist" ? "flex" : "none";
         resultEl.style.display = result ? "flex" : "none";
         if (result) {
-          image.src = result.thumbnail;
           image.className = result.type === "playlist" ? "thumbnail" : "avatar";
+          image.style.visibility = "hidden";
+          image.onload = () => { image.style.visibility = ""; };
+          image.src = result.thumbnail;
+          if (image.complete) image.style.visibility = "";
           linkText.innerText = result.name;
           link.href = result.type === "playlist"
             ? `https://www.youtube.com/playlist?list=${result.id}`
