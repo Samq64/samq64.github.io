@@ -294,7 +294,6 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       async function resolveChannel() {
         submitBtn.disabled = true;
         const raw = inputEl.value.trim();
-        history.replaceState(null, "", "?q=" + encodeURIComponent(raw));
         try {
           const res = await fetch(
             `https://handle2id.knotrocket12.workers.dev/?q=${encodeURIComponent(raw)}`,
@@ -306,6 +305,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
             return;
           }
           state = { result, error: null };
+          history.replaceState(null, "", "?q=" + result.id);
           render();
         } catch (e) {
           state = { result: null, error: `Fetch error: ${e}` };
