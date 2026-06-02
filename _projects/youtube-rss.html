@@ -159,17 +159,26 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         gap: 0.5rem;
       }
 
-      #error {
+      .banner {
         padding: 0.5rem;
         border-radius: var(--radius);
-        border: 1px solid #8b1e3f;
-        background-color: #b93a57;
         color: white;
+      }
+
+      #error {
+        border: 1px solid #7f1d1d;
+        background-color: #9b1c1c;
+      }
+
+      #notice {
+        border: 1px solid #92400e;
+        background-color: #b45309;
       }
 
       #error,
       #output,
-      #filters {
+      #filters,
+      #notice {
         display: none;
       }
 
@@ -193,7 +202,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       <button id="submitBtn">Submit</button>
     </div>
 
-    <p id="error"></p>
+    <p class="banner" id="error"></p>
 
     <div id="output">
       <a class="info" target="_blank" rel="noopener noreferrer" id="link">
@@ -202,6 +211,11 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       </a>
 
       <div id="filters"></div>
+
+      <p class="banner" id="notice">
+        Popularity feeds are sorted correctly by YouTube, but most RSS readers
+        will re-sort by publish date.
+      </p>
 
       <div class="flex-row">
         <span>Feed URL:</span>
@@ -216,51 +230,49 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       const errorEl = document.getElementById("error");
       const filtersEl = document.getElementById("filters");
       const outputSection = document.getElementById("output");
+      const noticeEl = document.getElementById("notice");
       const copyBtn = document.getElementById("copyBtn");
       const submitBtn = document.getElementById("submitBtn");
       const link = document.getElementById("link");
       const linkText = document.getElementById("linkText");
       const image = document.getElementById("resultImg");
 
-      const FILTERS = [
-        {
-          legend: "Latest public",
-          options: [
-            { label: "All", value: "ALL", checked: true },
-            { label: "Long form", value: "UULF" },
-            { label: "Shorts", value: "UUSH" },
-            { label: "Live streams", value: "UULV" },
-          ],
-        },
-        {
-          legend: "Most popular",
-          options: [
-            { label: "All", value: "PU" },
-            { label: "Long form", value: "UULP" },
-            { label: "Shorts", value: "UUPS" },
-            { label: "Live streams", value: "UUPV" },
-          ],
-        },
-        {
-          legend: "Members only",
-          options: [
-            { label: "All", value: "UUMO" },
-            { label: "Long form", value: "UUMF" },
-            { label: "Shorts", value: "UUMS" },
-            { label: "Live streams", value: "UUMV" },
-          ],
-        },
+      const TYPES = [
+        { label: "Public", value: "public", checked: true },
+        { label: "Members only", value: "members" },
+        { label: "Popular", value: "popular" },
       ];
 
-      filtersEl.innerHTML = FILTERS.map(
-        ({ legend, options }) =>
-          `<fieldset><legend>${legend}</legend>${options
-            .map(
-              ({ label, value, checked }) =>
-                `<label><input type="radio" name="filter" value="${value}"${checked ? " checked" : ""} /> ${label}</label>`,
-            )
-            .join("")}</fieldset>`,
-      ).join("");
+      const FORMATS = [
+        { label: "None", value: "all", checked: true },
+        { label: "Long form", value: "longform" },
+        { label: "Shorts", value: "shorts" },
+        { label: "Live streams", value: "live" },
+      ];
+
+      const PREFIX = {
+        public: { all: null, longform: "UULF", shorts: "UUSH", live: "UULV" },
+        popular: { all: "PU", longform: "UULP", shorts: "UUPS", live: "UUPV" },
+        members: {
+          all: "UUMO",
+          longform: "UUMF",
+          shorts: "UUMS",
+          live: "UUMV",
+        },
+      };
+
+      function renderFieldset(legend, name, options) {
+        return `<fieldset><legend>${legend}</legend>${options
+          .map(
+            ({ label, value, checked }) =>
+              `<label><input type="radio" name="${name}" value="${value}"${checked ? " checked" : ""} /> ${label}</label>`,
+          )
+          .join("")}</fieldset>`;
+      }
+
+      filtersEl.innerHTML =
+        renderFieldset("Type", "type", TYPES) +
+        renderFieldset("Filter", "format", FORMATS);
 
       let state = { result: null, error: null };
 
@@ -270,12 +282,14 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         if (result.type === "playlist") {
           return `${base}?playlist_id=${result.id}`;
         }
-        const filter = document.querySelector(
-          'input[name="filter"]:checked',
+        const type = document.querySelector('input[name="type"]:checked').value;
+        const format = document.querySelector(
+          'input[name="format"]:checked',
         ).value;
-        return filter === "ALL"
-          ? `${base}?channel_id=${result.id}`
-          : `${base}?playlist_id=${filter + result.id.slice(2)}`;
+        const prefix = PREFIX[type][format];
+        return prefix
+          ? `${base}?playlist_id=${prefix + result.id.slice(2)}`
+          : `${base}?channel_id=${result.id}`;
       }
 
       function render() {
@@ -283,8 +297,12 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         errorEl.style.display = error ? "block" : "none";
         errorEl.innerText = error ?? "";
         outputSection.style.display = result ? "flex" : "none";
-        filtersEl.style.display =
-          result && result.type !== "playlist" ? "flex" : "none";
+        const showFilters = result && result.type !== "playlist";
+        filtersEl.style.display = showFilters ? "flex" : "none";
+        const type = showFilters
+          ? document.querySelector('input[name="type"]:checked').value
+          : null;
+        noticeEl.style.display = type === "popular" ? "block" : "none";
         if (result) {
           image.className = result.type === "playlist" ? "thumbnail" : "avatar";
           image.style.visibility = "hidden";
