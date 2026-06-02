@@ -106,9 +106,11 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         border-radius: var(--radius);
         background-color: var(--background);
         font-size: 1rem;
+        outline: 2px solid transparent;
+        transition: outline-color 0.2s ease;
       }
       input[type="text"]:focus {
-        outline: 2px solid var(--accent);
+        outline-color: var(--accent);
       }
 
       .flex-row {
@@ -140,6 +142,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         width: 240px;
         height: 135px;
         object-fit: cover;
+        border: 1px solid gray;
         border-radius: var(--radius);
       }
 
