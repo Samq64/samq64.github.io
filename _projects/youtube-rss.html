@@ -17,35 +17,44 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       }
 
       :root {
-        --background: white;
-        --red: #ff0033;
-        --text: #444;
+        --background: #fff;
+        --accent: #f03;
         --heading: #222;
+        --text: #444;
         --radius: 4px;
       }
 
+      @media (prefers-color-scheme: dark) {
+        :root {
+          color-scheme: dark;
+          --background: #111;
+          --heading: #ddd;
+          --text: #bbb;
+        }
+      }
+
       body {
-        font-family: Roboto, sans-serif;
-        line-height: 1.5;
-        accent-color: var(--red);
-        max-width: 880px;
-        margin: 0 auto;
-        padding: 1rem;
-        background-color: var(--background);
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
+        max-width: 880px;
+        margin: 0 auto;
+        padding: 1rem;
+        font-family: Roboto, sans-serif;
+        line-height: 1.5;
+        accent-color: var(--accent);
+        background-color: var(--background);
       }
 
       p {
-        color: var(--text);
         margin: 0;
+        color: var(--text);
       }
 
       h1,
       h2 {
-        color: var(--heading);
         margin: 0;
+        color: var(--heading);
       }
 
       a {
@@ -55,8 +64,8 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
 
       fieldset {
         flex: 1;
-        border: 1px solid grey;
         padding: 1rem;
+        border: 1px solid gray;
         border-radius: var(--radius);
       }
 
@@ -66,24 +75,24 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       }
 
       legend {
-        color: var(--heading);
         font-weight: bold;
+        color: var(--heading);
       }
 
       button {
-        padding: 0.5rem 1rem;
-        font-size: 1rem;
         min-width: 6rem;
+        padding: 0.5rem 1rem;
         border: none;
-        background: var(--red);
-        color: white;
         border-radius: var(--radius);
-        cursor: pointer;
+        background-color: var(--accent);
+        color: white;
+        font-size: 1rem;
         font-weight: bold;
+        cursor: pointer;
       }
 
       button:hover {
-        background: #e6002e;
+        background-color: #e6002e;
       }
 
       button:disabled {
@@ -93,13 +102,13 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
 
       input[type="text"] {
         padding: 0.5rem;
-        font-size: 1rem;
-        border: 1px solid grey;
+        border: 1px solid gray;
         border-radius: var(--radius);
         background-color: var(--background);
+        font-size: 1rem;
       }
       input[type="text"]:focus {
-        outline: 2px solid var(--red);
+        outline: 2px solid var(--accent);
       }
 
       .flex-row {
@@ -112,66 +121,57 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         flex: 1;
       }
 
-      .info,
-      .info a {
+      .info {
         display: flex;
         flex-direction: column;
         align-items: center;
+        text-align: center;
         gap: 0.5rem;
       }
 
-      .info h2 {
-        text-align: center;
-      }
-
       .avatar {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
+        width: 88px;
+        height: 88px;
         object-fit: cover;
+        border-radius: 50%;
       }
 
       .thumbnail {
-        width: 160px;
-        height: 90px;
-        border-radius: var(--radius);
+        width: 240px;
+        height: 135px;
         object-fit: cover;
+        border-radius: var(--radius);
+      }
+
+      #output {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
       }
 
       #filters {
         display: flex;
-        gap: 0.5rem;
         flex-wrap: wrap;
-        margin-top: -0.75rem;
+        gap: 0.5rem;
       }
 
       #error {
-        color: white;
-        background-color: #b93a57;
-        border: 1px solid #8b1e3f;
-        border-radius: var(--radius);
         padding: 0.5rem;
+        border-radius: var(--radius);
+        border: 1px solid #8b1e3f;
+        background-color: #b93a57;
+        color: white;
       }
 
       #error,
-      #info,
-      #filters,
-      #result {
+      #output,
+      #filters {
         display: none;
       }
 
       @media (max-width: 600px) {
         #filters {
           flex-direction: column;
-        }
-      }
-
-      @media (prefers-color-scheme: dark) {
-        :root {
-          color-scheme: dark;
-          --background: #111;
-          --heading: #ddd;
-          --text: #bbb;
         }
       }
     </style>
@@ -191,19 +191,19 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
 
     <p id="error"></p>
 
-    <div id="info" class="info">
-      <a target="_blank" id="link">
+    <div id="output">
+      <a class="info" target="_blank" rel="noopener noreferrer" id="link">
         <img id="resultImg" />
         <h2 id="linkText"></h2>
       </a>
-    </div>
 
-    <div id="filters"></div>
+      <div id="filters"></div>
 
-    <div id="result" class="flex-row">
-      <span>Feed URL:</span>
-      <input type="text" id="outputEl" readonly />
-      <button id="copyBtn">Copy</button>
+      <div class="flex-row">
+        <span>Feed URL:</span>
+        <input type="text" id="outputEl" readonly />
+        <button id="copyBtn">Copy</button>
+      </div>
     </div>
 
     <script>
@@ -211,10 +211,9 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       const outputEl = document.getElementById("outputEl");
       const errorEl = document.getElementById("error");
       const filtersEl = document.getElementById("filters");
-      const resultEl = document.getElementById("result");
+      const outputSection = document.getElementById("output");
       const copyBtn = document.getElementById("copyBtn");
       const submitBtn = document.getElementById("submitBtn");
-      const infoEl = document.getElementById("info");
       const link = document.getElementById("link");
       const linkText = document.getElementById("linkText");
       const image = document.getElementById("resultImg");
@@ -267,7 +266,9 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         if (result.type === "playlist") {
           return `${base}?playlist_id=${result.id}`;
         }
-        const filter = document.querySelector('input[name="filter"]:checked').value;
+        const filter = document.querySelector(
+          'input[name="filter"]:checked',
+        ).value;
         return filter === "ALL"
           ? `${base}?channel_id=${result.id}`
           : `${base}?playlist_id=${filter + result.id.slice(2)}`;
@@ -277,19 +278,22 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         const { result, error } = state;
         errorEl.style.display = error ? "block" : "none";
         errorEl.innerText = error ?? "";
-        infoEl.style.display = result ? "flex" : "none";
-        filtersEl.style.display = result && result.type !== "playlist" ? "flex" : "none";
-        resultEl.style.display = result ? "flex" : "none";
+        outputSection.style.display = result ? "flex" : "none";
+        filtersEl.style.display =
+          result && result.type !== "playlist" ? "flex" : "none";
         if (result) {
           image.className = result.type === "playlist" ? "thumbnail" : "avatar";
           image.style.visibility = "hidden";
-          image.onload = () => { image.style.visibility = ""; };
+          image.onload = () => {
+            image.style.visibility = "";
+          };
           image.src = result.thumbnail;
           if (image.complete) image.style.visibility = "";
           linkText.innerText = result.name;
-          link.href = result.type === "playlist"
-            ? `https://www.youtube.com/playlist?list=${result.id}`
-            : `https://www.youtube.com/channel/${result.id}`;
+          link.href =
+            result.type === "playlist"
+              ? `https://www.youtube.com/playlist?list=${result.id}`
+              : `https://www.youtube.com/channel/${result.id}`;
           outputEl.value = feedUrl();
           outputEl.scrollLeft = outputEl.scrollWidth;
         }
