@@ -355,6 +355,11 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
             render();
             return;
           }
+          if (state.result?.type !== result.type) {
+            outputSection.classList.remove("visible");
+            await new Promise(r => setTimeout(r, 250));
+            image.src = "";
+          }
           state = { result, error: null };
           history.replaceState(null, "", "?q=" + (result.handle ?? result.id));
           render();
