@@ -137,19 +137,28 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         gap: 0.5rem;
       }
 
-      .avatar {
+      #resultImgWrap {
+        overflow: hidden;
+      }
+
+      #resultImgWrap.avatar {
         width: 88px;
         height: 88px;
-        object-fit: cover;
         border-radius: 50%;
       }
 
-      .thumbnail {
+      #resultImgWrap.thumbnail {
         width: 240px;
         height: 135px;
-        object-fit: cover;
         border: var(--border);
         border-radius: var(--radius);
+      }
+
+      #resultImg {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
       #filters {
@@ -221,7 +230,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
 
     <div id="output">
       <a class="info" target="_blank" rel="noopener noreferrer" id="link">
-        <img id="resultImg" />
+        <span id="resultImgWrap"><img id="resultImg" /></span>
         <h2 id="linkText"></h2>
       </a>
 
@@ -250,6 +259,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       const submitBtn = document.getElementById("submitBtn");
       const link = document.getElementById("link");
       const linkText = document.getElementById("linkText");
+      const imageWrap = document.getElementById("resultImgWrap");
       const image = document.getElementById("resultImg");
 
       const TYPES = [
@@ -310,7 +320,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       function render() {
         const { result, error } = state;
         errorEl.classList.toggle("visible", !!error);
-        errorEl.innerText = error ?? "";
+        errorEl.textContent = error ?? "";
         outputSection.classList.toggle("visible", !!result);
         const showFilters = result && result.type !== "playlist";
         filtersEl.style.display = showFilters ? "flex" : "none";
@@ -319,14 +329,9 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
           : null;
         noticeEl.classList.toggle("visible", type === "popular");
         if (result) {
-          image.className = result.type === "playlist" ? "thumbnail" : "avatar";
-          image.style.visibility = "hidden";
-          image.onload = () => {
-            image.style.visibility = "";
-          };
+          imageWrap.className = result.type === "playlist" ? "thumbnail" : "avatar";
           image.src = result.thumbnail;
-          if (image.complete) image.style.visibility = "";
-          linkText.innerText = result.name;
+          linkText.textContent = result.name;
           link.href =
             result.type === "playlist"
               ? `https://www.youtube.com/playlist?list=${result.id}`
@@ -338,6 +343,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
 
       async function resolveChannel() {
         submitBtn.disabled = true;
+        submitBtn.textContent = "Loading";
         const raw = inputEl.value.trim();
         try {
           const res = await fetch(
@@ -357,6 +363,8 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
           render();
         } finally {
           submitBtn.disabled = false;
+          submitBtn.textContent = "Get Feed";
+
         }
       }
 
