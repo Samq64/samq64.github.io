@@ -139,6 +139,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
 
       #resultImgWrap {
         overflow: hidden;
+        background: linear-gradient(135deg, #ccc, #888);
       }
 
       #resultImgWrap.avatar {
@@ -222,6 +223,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         type="text"
         id="inputEl"
         placeholder="https://www.youtube.com/@mkbhd"
+        autofocus
       />
       <button id="submitBtn">Get Feed</button>
     </div>
@@ -329,7 +331,9 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
           : null;
         noticeEl.classList.toggle("visible", type === "popular");
         if (result) {
-          imageWrap.className = result.type === "playlist" ? "thumbnail" : "avatar";
+          imageWrap.className =
+            result.type === "playlist" ? "thumbnail" : "avatar";
+          image.src = "";
           image.src = result.thumbnail;
           linkText.textContent = result.name;
           link.href =
@@ -357,8 +361,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
           }
           if (state.result?.type !== result.type) {
             outputSection.classList.remove("visible");
-            await new Promise(r => setTimeout(r, 250));
-            image.src = "";
+            await new Promise((r) => setTimeout(r, 250));
           }
           state = { result, error: null };
           history.replaceState(null, "", "?q=" + (result.handle ?? result.id));
@@ -369,7 +372,6 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         } finally {
           submitBtn.disabled = false;
           submitBtn.textContent = "Get Feed";
-
         }
       }
 
