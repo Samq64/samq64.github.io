@@ -108,7 +108,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         background-color: var(--background);
         font-size: 1rem;
         outline: 2px solid transparent;
-        transition: outline-color 0.2s ease;
+        transition: outline-color 0.25s ease;
       }
       input[type="text"]:focus {
         outline-color: var(--accent);
@@ -152,22 +152,27 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         border-radius: var(--radius);
       }
 
-      #output {
-        display: flex;
-        flex-direction: column;
-        gap: 0.75rem;
-      }
-
       #filters {
-        display: flex;
+        display: none;
         flex-wrap: wrap;
         gap: 0.5rem;
       }
 
       .banner {
-        padding: 0.5rem;
         border-radius: var(--radius);
         color: white;
+        padding: 0;
+        height: 0;
+        overflow: hidden;
+        opacity: 0;
+        interpolate-size: allow-keywords;
+        transition: 0.25s ease;
+      }
+
+      .banner.visible {
+        padding: 0.5rem;
+        height: auto;
+        opacity: 1;
       }
 
       #error {
@@ -180,11 +185,16 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         background-color: #b45309;
       }
 
-      #error,
-      #output,
-      #filters,
-      #notice {
-        display: none;
+      #output {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }
+
+      #output.visible {
+        opacity: 1;
       }
 
       @media (max-width: 600px) {
@@ -299,15 +309,15 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
 
       function render() {
         const { result, error } = state;
-        errorEl.style.display = error ? "block" : "none";
+        errorEl.classList.toggle("visible", !!error);
         errorEl.innerText = error ?? "";
-        outputSection.style.display = result ? "flex" : "none";
+        outputSection.classList.toggle("visible", !!result);
         const showFilters = result && result.type !== "playlist";
         filtersEl.style.display = showFilters ? "flex" : "none";
         const type = showFilters
           ? document.querySelector('input[name="type"]:checked').value
           : null;
-        noticeEl.style.display = type === "popular" ? "block" : "none";
+        noticeEl.classList.toggle("visible", type === "popular");
         if (result) {
           image.className = result.type === "playlist" ? "thumbnail" : "avatar";
           image.style.visibility = "hidden";
