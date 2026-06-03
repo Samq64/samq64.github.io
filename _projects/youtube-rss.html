@@ -351,7 +351,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         const raw = inputEl.value.trim();
         try {
           const res = await fetch(
-            `https://handle2id.knotrocket12.workers.dev/?q=${encodeURIComponent(raw)}`,
+            `https://youtube-proxy.samq64.workers.dev/?q=${encodeURIComponent(raw)}`,
           );
           const result = await res.json();
           if (result.error) {
