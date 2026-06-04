@@ -290,7 +290,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       ];
 
       const FORMATS = [
-        { label: "None", value: "all", checked: true },
+        { label: "All", value: "all", checked: true },
         { label: "Long form", value: "longform" },
         { label: "Shorts", value: "shorts" },
         { label: "Live streams", value: "live" },
@@ -318,7 +318,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
 
       filtersEl.innerHTML =
         renderFieldset("Type", "type", TYPES) +
-        renderFieldset("Filter", "format", FORMATS);
+        renderFieldset("Format", "format", FORMATS);
 
       let state = { result: null, error: null };
 
