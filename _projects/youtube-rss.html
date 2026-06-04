@@ -63,7 +63,25 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         text-wrap: pretty;
       }
 
-      h1,
+      h1 {
+        display: flex;
+        align-items: center;
+        gap: 0.4em;
+        color: var(--heading);
+        text-wrap: balance;
+      }
+
+      h1 > img {
+        height: 1em;
+      }
+
+      @media (max-width: 500px) {
+        h1 {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+
       h2 {
         color: var(--heading);
         text-wrap: balance;
@@ -243,7 +261,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
     </style>
   </head>
   <body>
-    <h1>{{ page.title }}</h1>
+    <h1><img src="/assets/icons/rss-red.svg" alt="" aria-hidden="true" />{{ title }}</h1>
     <p>{{ page.description }}</p>
 
     <div class="flex-row">
