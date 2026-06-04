@@ -54,7 +54,6 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         font-family: Roboto, sans-serif;
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
-        accent-color: var(--accent);
         background-color: var(--background);
       }
 
@@ -71,6 +70,9 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
 
       a {
         color: inherit;
+      }
+
+      a:not(:hover) {
         text-decoration: none;
       }
 
@@ -111,6 +113,10 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       button:disabled {
         opacity: 0.5;
         cursor: wait;
+      }
+
+      input[type="radio"] {
+        accent-color: var(--accent);
       }
 
       input[type="text"] {
@@ -255,7 +261,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         <h2 id="linkText"></h2>
       </a>
 
-      <div id="filters"></div>
+      <form id="filters"></form>
 
       <p class="banner" id="notice">
         Popularity feeds are sorted correctly by YouTube, but most RSS readers
