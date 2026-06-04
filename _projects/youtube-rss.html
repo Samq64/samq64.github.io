@@ -38,7 +38,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
-        max-width: 880px;
+        max-width: 900px;
         margin: 0 auto;
         padding: 1rem;
         font-family: Roboto, sans-serif;
@@ -196,15 +196,22 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       }
 
       #output {
-        display: flex;
+        display: none;
         flex-direction: column;
         gap: 0.75rem;
         opacity: 0;
-        transition: opacity 0.25s ease;
+        transition: opacity 0.25s ease, display 0.25s allow-discrete;
       }
 
       #output.visible {
+        display: flex;
         opacity: 1;
+      }
+
+      @starting-style {
+        #output.visible {
+          opacity: 0;
+        }
       }
 
       @media (max-width: 600px) {
@@ -231,7 +238,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
     <p class="banner" id="error"></p>
 
     <div id="output">
-      <a class="info" target="_blank" rel="noopener noreferrer" id="link">
+      <a class="info" id="link">
         <span id="resultImgWrap"><img id="resultImg" /></span>
         <h2 id="linkText"></h2>
       </a>
@@ -364,7 +371,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
             await new Promise((r) => setTimeout(r, 250));
           }
           state = { result, error: null };
-          history.replaceState(null, "", "?q=" + (result.handle ?? result.id));
+          replaceUrl(result.handle ?? result.id);
           render();
         } catch (e) {
           state = { result: null, error: `Fetch error: ${e}` };
@@ -395,9 +402,26 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       inputEl.addEventListener("keyup", (e) => {
         if (e.key === "Enter") resolveChannel();
       });
-      filtersEl.addEventListener("change", render);
+      function replaceUrl(q) {
+        const params = new URLSearchParams({ q });
+        if (state.result?.type !== "playlist") {
+          params.set("type", document.querySelector('input[name="type"]:checked').value);
+          params.set("format", document.querySelector('input[name="format"]:checked').value);
+        }
+        history.replaceState(null, "", "?" + params.toString());
+      }
 
-      const initial = new URLSearchParams(location.search).get("q");
+      filtersEl.addEventListener("change", () => {
+        render();
+        if (state.result) replaceUrl(state.result.handle ?? state.result.id);
+      });
+
+      const searchParams = new URLSearchParams(location.search);
+      for (const name of ["type", "format"]) {
+        const r = document.querySelector(`input[name="${name}"][value="${searchParams.get(name)}"]`);
+        if (r) r.checked = true;
+      }
+      const initial = searchParams.get("q");
       if (initial) {
         const isId = initial.startsWith("UC") || initial.startsWith("PL");
         inputEl.value = isId ? initial : "@" + initial;
