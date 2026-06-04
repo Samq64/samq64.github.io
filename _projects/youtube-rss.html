@@ -374,8 +374,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
           );
           const result = await res.json();
           if (result.error) {
-            state = { result: null, error: result.error };
-            render();
+            setError(result.error);
             return;
           }
           if (state.result?.type !== result.type) {
@@ -386,8 +385,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
           replaceUrl(result.handle ?? result.id);
           render();
         } catch (e) {
-          state = { result: null, error: `Fetch error: ${e}` };
-          render();
+          setError(`Fetch error: ${e}`);
         } finally {
           submitBtn.disabled = false;
           submitBtn.textContent = "Get Feed";
@@ -414,9 +412,12 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       inputEl.addEventListener("keyup", (e) => {
         if (e.key === "Enter") resolveChannel();
       });
-      inputEl.addEventListener("input", () => {
-        if (!inputEl.value.trim()) history.replaceState(null, "", location.pathname);
-      });
+      function setError(msg) {
+        state = { result: null, error: msg };
+        history.replaceState(null, "", location.pathname);
+        render();
+      }
+
       function replaceUrl(q) {
         const params = new URLSearchParams({ q });
         if (state.result?.type !== "playlist") {
