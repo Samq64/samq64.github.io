@@ -16,6 +16,16 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         box-sizing: border-box;
       }
 
+      *:not(dialog) {
+        margin: 0;
+      }
+
+      input,
+      button,
+      textarea {
+        font: inherit;
+      }
+
       :root {
         --background: #fff;
         --accent: #f03;
@@ -39,23 +49,24 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         flex-direction: column;
         gap: 1.5rem;
         max-width: 900px;
-        margin: 0 auto;
+        margin-inline: auto;
         padding: 1rem;
         font-family: Roboto, sans-serif;
         line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
         accent-color: var(--accent);
         background-color: var(--background);
       }
 
       p {
-        margin: 0;
         color: var(--text);
+        text-wrap: pretty;
       }
 
       h1,
       h2 {
-        margin: 0;
         color: var(--heading);
+        text-wrap: balance;
       }
 
       a {
@@ -72,7 +83,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
 
       label {
         display: block;
-        margin: 0.5rem 0;
+        margin-block: 0.5rem;
       }
 
       legend {
@@ -87,7 +98,6 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         border-radius: var(--radius);
         background-color: var(--accent);
         color: white;
-        font-size: 1rem;
         font-weight: bold;
         cursor: pointer;
       }
@@ -106,7 +116,6 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         border: var(--border);
         border-radius: var(--radius);
         background-color: var(--background);
-        font-size: 1rem;
         outline: 2px solid transparent;
         transition: outline-color 0.25s ease;
       }
@@ -175,7 +184,6 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         height: 0;
         overflow: hidden;
         opacity: 0;
-        interpolate-size: allow-keywords;
         transition: 0.25s ease;
       }
 
@@ -217,6 +225,12 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       @media (max-width: 600px) {
         #filters {
           flex-direction: column;
+        }
+      }
+
+      @media (prefers-reduced-motion: no-preference) {
+        html {
+          interpolate-size: allow-keywords;
         }
       }
     </style>
