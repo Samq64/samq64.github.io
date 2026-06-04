@@ -265,12 +265,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
     <p>{{ page.description }}</p>
 
     <div class="flex-row">
-      <input
-        type="text"
-        id="inputEl"
-        placeholder="https://www.youtube.com/@mkbhd"
-        autofocus
-      />
+      <input type="text" id="inputEl" placeholder="https://www.youtube.com/@mkbhd" autofocus />
       <button id="submitBtn">Get Feed</button>
     </div>
 
@@ -285,8 +280,8 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       <form id="filters"></form>
 
       <p class="banner" id="notice">
-        Popularity feeds are sorted correctly by YouTube, but most RSS readers
-        will re-sort by publish date.
+        Popularity feeds are sorted correctly by YouTube, but most RSS readers will re-sort by
+        publish date.
       </p>
 
       <div class="flex-row">
@@ -338,14 +333,13 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         return `<fieldset><legend>${legend}</legend>${options
           .map(
             ({ label, value, checked }) =>
-              `<label><input type="radio" name="${name}" value="${value}"${checked ? " checked" : ""} />${label}</label>`,
+              `<label><input type="radio" name="${name}" value="${value}"${checked ? " checked" : ""} />${label}</label>`
           )
           .join("")}</fieldset>`;
       }
 
       filtersEl.innerHTML =
-        renderFieldset("Type", "type", TYPES) +
-        renderFieldset("Format", "format", FORMATS);
+        renderFieldset("Type", "type", TYPES) + renderFieldset("Format", "format", FORMATS);
 
       let state = { result: null, error: null };
 
@@ -356,9 +350,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
           return `${base}?playlist_id=${result.id}`;
         }
         const type = document.querySelector('input[name="type"]:checked').value;
-        const format = document.querySelector(
-          'input[name="format"]:checked',
-        ).value;
+        const format = document.querySelector('input[name="format"]:checked').value;
         const prefix = PREFIX[type][format];
         return prefix
           ? `${base}?playlist_id=${prefix + result.id.slice(2)}`
@@ -377,8 +369,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
           : null;
         noticeEl.classList.toggle("visible", type === "popular");
         if (result) {
-          imageWrap.className =
-            result.type === "playlist" ? "thumbnail" : "avatar";
+          imageWrap.className = result.type === "playlist" ? "thumbnail" : "avatar";
           image.src = "";
           image.src = result.thumbnail;
           linkText.textContent = result.name;
@@ -397,7 +388,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         const raw = inputEl.value.trim();
         try {
           const res = await fetch(
-            `https://youtube-proxy.samq64.workers.dev/?q=${encodeURIComponent(raw)}`,
+            `https://youtube-proxy.samq64.workers.dev/?q=${encodeURIComponent(raw)}`
           );
           const result = await res.json();
           if (result.error) {
@@ -448,14 +439,8 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       function replaceUrl(q) {
         const params = new URLSearchParams({ q });
         if (state.result?.type !== "playlist") {
-          params.set(
-            "type",
-            document.querySelector('input[name="type"]:checked').value,
-          );
-          params.set(
-            "format",
-            document.querySelector('input[name="format"]:checked').value,
-          );
+          params.set("type", document.querySelector('input[name="type"]:checked').value);
+          params.set("format", document.querySelector('input[name="format"]:checked').value);
         }
         history.replaceState(null, "", "?" + params.toString());
       }
@@ -468,7 +453,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       const searchParams = new URLSearchParams(location.search);
       for (const name of ["type", "format"]) {
         const r = document.querySelector(
-          `input[name="${name}"][value="${searchParams.get(name)}"]`,
+          `input[name="${name}"][value="${searchParams.get(name)}"]`
         );
         if (r) r.checked = true;
       }
