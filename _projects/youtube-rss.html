@@ -104,7 +104,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         border-radius: var(--radius);
       }
 
-      label {
+      fieldset > label {
         display: flex;
         align-items: center;
         gap: 0.5rem;
@@ -160,7 +160,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
         align-items: center;
       }
 
-      .flex-row > span {
+      .flex-row > label {
         flex-shrink: 0;
       }
 
@@ -287,8 +287,8 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       </p>
 
       <div class="flex-row">
-        <span id="outputLabel">Feed URL:</span>
-        <input type="text" for="outputLabel" id="outputEl" readonly />
+        <label for="outputEl">Feed URL:</label>
+        <input type="text" id="outputEl" readonly />
         <button id="copyBtn">Copy</button>
       </div>
     </div>
