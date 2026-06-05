@@ -411,18 +411,8 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       }
 
       copyBtn.addEventListener("click", async () => {
-        try {
-          await navigator.clipboard.writeText(outputEl.value);
-          copyBtn.textContent = "Copied!";
-        } catch {
-          const tmp = document.createElement("input");
-          tmp.value = outputEl.value;
-          document.body.appendChild(tmp);
-          tmp.select();
-          document.execCommand("copy");
-          document.body.removeChild(tmp);
-          copyBtn.textContent = "Copied!";
-        }
+        await navigator.clipboard.writeText(outputEl.value);
+        copyBtn.textContent = "Copied!";
         setTimeout(() => (copyBtn.textContent = "Copy"), 1000);
       });
 
