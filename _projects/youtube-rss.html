@@ -9,6 +9,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/assets/icons/rss-red.svg" />
+    <meta name="description" content="{{ page.description }}" />
     <title>{{ page.title }}</title>
     <style>
       *,
@@ -72,6 +73,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       }
 
       h1 > img {
+        width: 1em;
         height: 1em;
       }
 
@@ -285,8 +287,8 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
       </p>
 
       <div class="flex-row">
-        <span>Feed URL:</span>
-        <input type="text" id="outputEl" readonly />
+        <span id="outputLabel">Feed URL:</span>
+        <input type="text" for="outputLabel" id="outputEl" readonly />
         <button id="copyBtn">Copy</button>
       </div>
     </div>
@@ -369,14 +371,18 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
           : null;
         noticeEl.classList.toggle("visible", type === "popular");
         if (result) {
-          imageWrap.className = result.type === "playlist" ? "thumbnail" : "avatar";
           image.src = "";
+          if (result.type === "playlist") {
+            imageWrap.className = "thumbnail";
+            imageWrap.alt = "Playlist thumbnail";
+            link.href = `https://www.youtube.com/playlist?list=${result.id}`;
+          } else {
+            imageWrap.className = "avatar";
+            imageWrap.alt = "Channel avatar";
+            link.href = `https://www.youtube.com/channel/${result.id}`;
+          }
           image.src = result.thumbnail;
           linkText.textContent = result.name;
-          link.href =
-            result.type === "playlist"
-              ? `https://www.youtube.com/playlist?list=${result.id}`
-              : `https://www.youtube.com/channel/${result.id}`;
           outputEl.value = feedUrl();
           outputEl.scrollLeft = outputEl.scrollWidth;
         }
