@@ -263,7 +263,7 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
     </style>
   </head>
   <body>
-    <h1><img src="/assets/icons/rss-red.svg" alt="" aria-hidden="true" />{{ page.title }}</h1>
+    <h1><img src="/assets/icons/rss-red.svg" alt="Red RSS icon" />{{ page.title }}</h1>
     <p>{{ page.description }}</p>
 
     <div class="flex-row">
@@ -374,11 +374,11 @@ description: Generate a YouTube RSS feed from a channel, handle, video or playli
           image.src = "";
           if (result.type === "playlist") {
             imageWrap.className = "thumbnail";
-            imageWrap.alt = "Playlist thumbnail";
+            image.alt = "Playlist thumbnail";
             link.href = `https://www.youtube.com/playlist?list=${result.id}`;
           } else {
             imageWrap.className = "avatar";
-            imageWrap.alt = "Channel avatar";
+            image.alt = "Channel avatar";
             link.href = `https://www.youtube.com/channel/${result.id}`;
           }
           image.src = result.thumbnail;
