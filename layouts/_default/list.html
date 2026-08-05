@@ -5,12 +5,14 @@
   <ul class="cards">
     {{ range .Pages -}}
       <li>
-        <article class="card">
-          <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
-          {{ if .Date }}
-            <span>{{ .Date | time.Format ":date_medium" }}</span>
-          {{ end }}
-          <p>{{ .Description }}</p>
+        <article>
+          <a href="{{ .RelPermalink }}" class="card hover-lift">
+            <h2>{{ .LinkTitle }}</h2>
+            {{ if .Date }}
+              <span>{{ .Date | time.Format ":date_medium" }}</span>
+            {{ end }}
+            <p>{{ .Description }}</p>
+          </a>
         </article>
       </li>
     {{- end }}

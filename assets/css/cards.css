@@ -1,0 +1,27 @@
+.cards {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding: 1rem 0;
+  gap: 2rem;
+}
+
+.card {
+  display: block;
+  padding: 1rem;
+  background-color: var(--bg-secondary);
+  color: var(--text);
+  text-decoration: none;
+  border: 2px solid var(--border);
+  border-radius: 0.5rem;
+
+  &:hover {
+    border-color: var(--blue);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}

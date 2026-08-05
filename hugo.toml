@@ -1,7 +1,14 @@
 baseURL = 'https://samq64.github.io/'
 locale = 'en-CA'
-title = 'Sam Q'
+title = 'Samuel Q'
 copyright = '© 2026 Samuel Q.'
 
 pluralizelisttitles = false
 disableKinds = ["RSS"]
+
+[markup]
+  [markup.highlight]
+    style = "tokyonight-night"
+    codeFences = true
+    lineNos = true
+    lineNumbersInTables = true

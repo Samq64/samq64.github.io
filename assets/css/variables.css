@@ -1,10 +1,10 @@
 :root {
-  --tokyo-storm: #24283b;
-  --bg-primary: light-dark(#fff, #1a1b26);
-  --bg-secondary: light-dark(#e6e7ed, #16161e);
-  --bg-card: light-dark(#e6e7ed, #24283b);
-
-  --white-text: #a9b1d6;
-  --text: light-dark(#343b58, var(--white-text));
+  --tnight-bg: #1a1b26;
+  --tnight-fg: #a9b1d6;
+  --bg-primary: light-dark(#e1e2e7, #16161e);
+  --bg-secondary: light-dark(#e6e7ed, var(--tnight-bg));
+  --bg-tertiary: light-dark(var(--tnight-fg), #24283b);
+  --text: light-dark(#343b58, var(--tnight-fg));
   --blue: light-dark(#2959aa, #7aa2f7);
+  --border: light-dark(rgba(52, 59, 88, 0.15), rgba(169, 177, 214, 0.1)); /* --text as base color */
 }

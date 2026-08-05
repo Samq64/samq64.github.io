@@ -1,21 +1,24 @@
 <nav>
   <ul>
     <li>
-      <a href="{{ .Site.BaseURL }}">$ SamQ<span class="blink">_</span></a>
+      <a href="{{ .Site.BaseURL }}" class="hover-lift">$ Samuel Q<span class="blink">_</span></a>
     </li>
+    {{ $currentPage := . }}
     {{ range .Site.Menus.main }}
-      <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+      {{ $isActive := or ($currentPage.IsMenuCurrent .Menu .) ($currentPage.HasMenuCurrent .Menu .) }}
+      <li class="{{ if $isActive }}active{{ end }}">
+        <a href="{{ .URL }}" class="hover-lift">{{ .Name }}</a>
+      </li>
     {{ end }}
   </ul>
-  <button id="theme-switcher">
-    {{ partial "icon.html" (dict "icon" "sun-moon" "name" "Toggle theme") }}
+  <button id="theme-switcher" class="hover-lift">
+    {{ partial "icon" (dict "icon" "sun-moon" "name" "Toggle theme") }}
   </button>
 </nav>
 
 <script>
   document.getElementById("theme-switcher").addEventListener("click", () => {
-    const rootStyle = document.documentElement.style;
-    const currentScheme = rootStyle.colorScheme;
+    const currentScheme = document.documentElement.style.colorScheme;
     let nextTheme;
     if (currentScheme === "dark") {
       nextTheme = "light";
@@ -24,7 +27,6 @@
     } else {
       nextTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
     }
-    rootStyle.colorScheme = nextTheme;
-    localStorage.setItem("theme", nextTheme);
+    setTheme(nextTheme);
   });
 </script>

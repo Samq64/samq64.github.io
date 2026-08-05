@@ -13,19 +13,20 @@
         {{ if hugo.IsProduction }}integrity="{{ .Data.Integrity }}" crossorigin{{ end }}
       />
     {{ end }}
-    <title>{{ if eq .Kind "404" }}Page Not Found{{ else }}{{ .Title }}{{ end }} | {{ .Site.Title }}</title>
+    <title>
+      {{ if eq .Kind "404" }}Page Not Found{{ else }}{{ .Title }}{{ end }} | {{ .Site.Title }}
+    </title>
     <meta name="description" content="{{ .Description }}" />
+    {{ partial "theme-script" . }}
     <script>
       const theme = localStorage.getItem("theme");
-      if (theme) document.documentElement.style.colorScheme = theme;
+      if (theme) setTheme(theme);
     </script>
   </head>
   <body>
     {{ partial "nav" . }}
-    <div class="content">
-      {{- block "main" . -}}{{- end -}}
-      <hr />
-      {{ partial "footer" . }}
-    </div>
+    {{- block "main" . -}}{{- end -}}
+    <hr />
+    {{ partial "footer" . }}
   </body>
 </html>

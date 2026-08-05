@@ -1,4 +1,4 @@
 [[main]]
 name = 'Blog'
-url = '/blog/'
+pageRef = '/blog'
 weight = 10

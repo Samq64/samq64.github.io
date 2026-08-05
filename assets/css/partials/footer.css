@@ -1,0 +1,33 @@
+footer {
+    text-align: center;
+}
+
+.socials {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+
+  .svg-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border);
+
+    &:hover {
+      svg {
+        fill: var(--blue);
+      }
+    }
+
+    svg {
+      fill: var(--text);
+      width: 1.33rem;
+      height: 1.33rem;
+    }
+  }
+}

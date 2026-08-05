@@ -4,5 +4,7 @@
     <p class="center">{{ .Date | time.Format ":date_medium" }}</p>
   {{ end }}
   <hr />
-  {{- .Content -}}
+  <main>
+    {{- .Content -}}
+  </main>
 {{ end }}
