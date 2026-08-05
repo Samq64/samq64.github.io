@@ -1,0 +1,11 @@
+{{ $footer := hugo.Data.footer }}
+<footer>
+  <div class="socials">
+    {{ range $footer.links }}
+      <a href="{{ .url }}" rel="noopener noreferrer">
+        {{ partial "icon.html" (dict "icon" .icon "name" .name) }}
+      </a>
+    {{ end }}
+  </div>
+  <span>{{ .Site.Copyright }}</span>
+</footer>

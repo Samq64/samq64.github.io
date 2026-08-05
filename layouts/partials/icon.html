@@ -1,0 +1,10 @@
+{{- $label := .name -}}
+{{- $iconPath := printf "img/icons/%s.svg" .icon -}}
+
+{{- with resources.Get $iconPath -}}
+  <span class="svg-icon" title="{{ $label }}" aria-label="{{ $label }}">
+    {{- .Content | safeHTML -}}
+  </span>
+{{- else -}}
+  {{ errorf "Icon not found: %s" $iconPath }}
+{{- end -}}

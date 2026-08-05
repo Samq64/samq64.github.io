@@ -1,0 +1,7 @@
+baseURL = 'https://samq64.github.io/'
+locale = 'en-CA'
+title = 'Sam Q'
+copyright = '© 2026 Samuel Q.'
+
+pluralizelisttitles = false
+disableKinds = ["RSS"]

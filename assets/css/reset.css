@@ -1,0 +1,55 @@
+/*
+  Based on Josh's custom CSS reset
+  https://joshwcomeau.com/css/custom-css-reset
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+*:not(dialog) {
+  margin: 0;
+}
+
+:root {
+  interpolate-size: allow-keywords;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+canvas,
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+  text-wrap: balance;
+  line-height: 1.2;
+}
+
+p {
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}

@@ -1,0 +1,18 @@
+{{ define "main" }}
+  <h1>{{ .Title }}</h1>
+  {{ .Content -}}
+  <hr />
+  <ul class="cards">
+    {{ range .Pages -}}
+      <li>
+        <article class="card">
+          <h2><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></h2>
+          {{ if .Date }}
+            <span>{{ .Date | time.Format ":date_medium" }}</span>
+          {{ end }}
+          <p>{{ .Description }}</p>
+        </article>
+      </li>
+    {{- end }}
+  </ul>
+{{ end }}

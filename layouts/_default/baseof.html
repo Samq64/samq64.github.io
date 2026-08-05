@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="{{ .Site.Language.Locale }}">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#24283b" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="alternate" type="application/rss+xml" title="Blog" href="/blog/index.xml" />
+    {{ with resources.Get "css/main.css" | css.Build }}
+      <link
+        rel="stylesheet"
+        href="{{ .RelPermalink }}"
+        {{ if hugo.IsProduction }}integrity="{{ .Data.Integrity }}" crossorigin{{ end }}
+      />
+    {{ end }}
+    <title>{{ if eq .Kind "404" }}Page Not Found{{ else }}{{ .Title }}{{ end }} | {{ .Site.Title }}</title>
+    <meta name="description" content="{{ .Description }}" />
+    <script>
+      const theme = localStorage.getItem("theme");
+      if (theme) document.documentElement.style.colorScheme = theme;
+    </script>
+  </head>
+  <body>
+    {{ partial "nav" . }}
+    <div class="content">
+      {{- block "main" . -}}{{- end -}}
+      <hr />
+      {{ partial "footer" . }}
+    </div>
+  </body>
+</html>

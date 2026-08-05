@@ -1,0 +1,8 @@
+{{ define "main" }}
+  <h1>{{ .Title }}</h1>
+  {{ if .Date }}
+    <p class="center">{{ .Date | time.Format ":date_medium" }}</p>
+  {{ end }}
+  <hr />
+  {{- .Content -}}
+{{ end }}

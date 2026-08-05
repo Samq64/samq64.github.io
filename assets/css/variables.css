@@ -1,0 +1,10 @@
+:root {
+  --tokyo-storm: #24283b;
+  --bg-primary: light-dark(#fff, #1a1b26);
+  --bg-secondary: light-dark(#e6e7ed, #16161e);
+  --bg-card: light-dark(#e6e7ed, #24283b);
+
+  --white-text: #a9b1d6;
+  --text: light-dark(#343b58, var(--white-text));
+  --blue: light-dark(#2959aa, #7aa2f7);
+}

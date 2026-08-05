@@ -1,0 +1,9 @@
+[[links]]
+name = "GitHub"
+icon = "github"
+url = "https://github.com/Samq64"
+
+[[links]]
+name = "RSS"
+icon = "rss"
+url = "/blog/index.xml"

@@ -1,0 +1,30 @@
+<nav>
+  <ul>
+    <li>
+      <a href="{{ .Site.BaseURL }}">$ SamQ<span class="blink">_</span></a>
+    </li>
+    {{ range .Site.Menus.main }}
+      <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+    {{ end }}
+  </ul>
+  <button id="theme-switcher">
+    {{ partial "icon.html" (dict "icon" "sun-moon" "name" "Toggle theme") }}
+  </button>
+</nav>
+
+<script>
+  document.getElementById("theme-switcher").addEventListener("click", () => {
+    const rootStyle = document.documentElement.style;
+    const currentScheme = rootStyle.colorScheme;
+    let nextTheme;
+    if (currentScheme === "dark") {
+      nextTheme = "light";
+    } else if (currentScheme === "light") {
+      nextTheme = "dark";
+    } else {
+      nextTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
+    }
+    rootStyle.colorScheme = nextTheme;
+    localStorage.setItem("theme", nextTheme);
+  });
+</script>

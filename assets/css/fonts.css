@@ -1,0 +1,20 @@
+/*
+* https://fonts.google.com/specimen/JetBrains+Mono
+* Converted to woff2 with https://gwfh.mranftl.com
+*/
+
+@font-face {
+  font-display: swap;
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/jetbrains-mono-latin-regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 800;
+  src: url("/fonts/jetbrains-mono-latin-800.woff2") format("woff2");
+}
