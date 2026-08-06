@@ -3,7 +3,7 @@
 
 {{- with resources.Get $iconPath -}}
   <span
-    class="svg-icon{{ with $.class }}{{ . }}{{ end }}"
+    class="svg-icon{{ with $.class }} {{ . }}{{ end }}"
     title="{{ $label }}"
     aria-label="{{ $label }}"
   >

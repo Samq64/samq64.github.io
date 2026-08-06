@@ -1,6 +1,6 @@
 {{ define "main" }}
   <div class="centered-header">
-    <h1>{{ .Title }}{{ if eq .Kind "term" }}posts{{ end }}</h1>
+    <h1>{{ .Title }}{{ if eq .Kind "term" }} posts{{ end }}</h1>
   </div>
   {{ .Content -}}
   <hr />
