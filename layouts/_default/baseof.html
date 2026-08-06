@@ -14,7 +14,8 @@
       />
     {{ end }}
     <title>
-      {{ if eq .Kind "404" }}Page Not Found{{ else }}{{ .Title }}{{ end }} | {{ .Site.Title }}
+      {{ if eq .Kind "404" }}Page Not Found{{ else }}{{ .Title }}{{ end }} |
+      {{ .Site.Title }}
     </title>
     <meta name="description" content="{{ .Description }}" />
     {{ partial "theme-script" . }}

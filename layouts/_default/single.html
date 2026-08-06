@@ -1,10 +1,17 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
-  {{ if .Date }}
-    <p class="center">{{ .Date | time.Format ":date_medium" }}</p>
-  {{ end }}
+  <div class="centered-header">
+    <h1>{{ .Title }}</h1>
+    {{ if .Date }}
+      <p>{{ .Date | time.Format ":date_medium" }}</p>
+    {{ end }}
+    {{ partial "tags" (dict "page" . "class" "tags") }}
+  </div>
   <hr />
-  <main>
-    {{- .Content -}}
-  </main>
+  {{ if .Content }}
+    <main>
+      {{- .Content -}}
+    </main>
+  {{ else }}
+    <p class="no-content">(No content)</p>
+  {{ end }}
 {{ end }}

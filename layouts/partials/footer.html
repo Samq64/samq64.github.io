@@ -2,7 +2,7 @@
 <footer>
   <div class="socials">
     {{ range $footer.links }}
-      <a href="{{ .url }}" rel="noopener noreferrer">
+      <a href="{{ .url }}" target="_blank" rel="noopener noreferrer">
         {{ partial "icon" (dict "icon" .icon "name" .name "class" "hover-lift") }}
       </a>
     {{ end }}

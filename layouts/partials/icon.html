@@ -2,7 +2,11 @@
 {{- $iconPath := printf "img/icons/%s.svg" .icon -}}
 
 {{- with resources.Get $iconPath -}}
-  <span class="svg-icon{{ with $.class }} {{ . }}{{ end }}" title="{{ $label }}" aria-label="{{ $label }}">
+  <span
+    class="svg-icon{{ with $.class }}{{ . }}{{ end }}"
+    title="{{ $label }}"
+    aria-label="{{ $label }}"
+  >
     {{- .Content | safeHTML -}}
   </span>
 {{- else -}}

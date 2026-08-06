@@ -1,20 +1,27 @@
 {{ define "main" }}
-  <h1>{{ .Title }}</h1>
+  <div class="centered-header">
+    <h1>{{ .Title }}{{ if eq .Kind "term" }}posts{{ end }}</h1>
+  </div>
   {{ .Content -}}
   <hr />
-  <ul class="cards">
-    {{ range .Pages -}}
-      <li>
-        <article>
-          <a href="{{ .RelPermalink }}" class="card hover-lift">
-            <h2>{{ .LinkTitle }}</h2>
-            {{ if .Date }}
-              <span>{{ .Date | time.Format ":date_medium" }}</span>
-            {{ end }}
-            <p>{{ .Description }}</p>
-          </a>
-        </article>
-      </li>
-    {{- end }}
-  </ul>
+  {{ if .Pages }}
+    <ul class="cards">
+      {{ range .Pages -}}
+        <li>
+          <article class="card hover-lift">
+            <a href="{{ .RelPermalink }}" class="card-link">
+              <h2>{{ .LinkTitle }}</h2>
+              {{ if .Date }}
+                <span>{{ .Date | time.Format ":date_medium" }}</span>
+              {{ end }}
+              <p>{{ .Description }}</p>
+            </a>
+            {{ partial "tags" (dict "page" . "class" "tag-list") }}
+          </article>
+        </li>
+      {{- end }}
+    </ul>
+  {{ else }}
+    <p class="no-content">No items</p>
+  {{ end }}
 {{ end }}

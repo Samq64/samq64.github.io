@@ -6,9 +6,11 @@ copyright = '© 2026 Samuel Q.'
 pluralizelisttitles = false
 disableKinds = ["RSS"]
 
+[taxonomies]
+  tag = "tags"
+
 [markup]
   [markup.highlight]
     style = "tokyonight-night"
     codeFences = true
     lineNos = true
-    lineNumbersInTables = true

@@ -1,0 +1,7 @@
+{{ with .page.GetTerms "tags" }}
+  <p class="{{ $.class }}">
+    {{ range . }}
+      <a href="{{ .RelPermalink }}" class="badge hover-lift">{{ .LinkTitle }}</a>
+    {{ end }}
+  </p>
+{{ end }}

@@ -6,8 +6,8 @@
     {{ $currentPage := . }}
     {{ range .Site.Menus.main }}
       {{ $isActive := or ($currentPage.IsMenuCurrent .Menu .) ($currentPage.HasMenuCurrent .Menu .) }}
-      <li class="{{ if $isActive }}active{{ end }}">
-        <a href="{{ .URL }}" class="hover-lift">{{ .Name }}</a>
+      <li>
+        <a href="{{ .URL }}" class="hover-lift{{ if $isActive }}active{{ end }}">{{ .Name }}</a>
       </li>
     {{ end }}
   </ul>

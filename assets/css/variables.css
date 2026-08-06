@@ -7,4 +7,12 @@
   --text: light-dark(#343b58, var(--tnight-fg));
   --blue: light-dark(#2959aa, #7aa2f7);
   --border: light-dark(rgba(52, 59, 88, 0.15), rgba(169, 177, 214, 0.1)); /* --text as base color */
+
+  --space-0: 0.25rem;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+
+  --radius-sm: 0.25rem;
+  --radius-lg: 0.5rem;
 }

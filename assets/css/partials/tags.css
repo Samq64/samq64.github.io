@@ -1,0 +1,25 @@
+.tags,
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  margin-block: var(--space-1);
+}
+
+.tags {
+  justify-content: center;
+}
+
+.badge {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  padding-inline: var(--space-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.badge:hover {
+  color: var(--blue);
+}
