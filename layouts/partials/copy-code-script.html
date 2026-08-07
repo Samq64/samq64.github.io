@@ -1,0 +1,19 @@
+<script>
+  document.addEventListener("click", async (event) => {
+    const button = event.target.closest(".copy-code-button");
+    if (!button) return;
+
+    const codeBlocks = button.closest(".code-block").querySelectorAll("code");
+
+    try {
+      await navigator.clipboard.writeText(codeBlocks[codeBlocks.length - 1].textContent);
+    } catch (error) {
+      console.error("Failed to copy the code:", error);
+      return;
+    }
+
+    button.classList.add("copied");
+    clearTimeout(button.copiedTimer);
+    button.copiedTimer = setTimeout(() => button.classList.remove("copied"), 1500);
+  });
+</script>

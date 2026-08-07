@@ -1,10 +1,8 @@
 :root {
-  --tnight-bg: #1a1b26;
-  --tnight-fg: #a9b1d6;
   --bg-primary: light-dark(#e1e2e7, #16161e);
-  --bg-secondary: light-dark(#e6e7ed, var(--tnight-bg));
-  --bg-tertiary: light-dark(var(--tnight-fg), #24283b);
-  --text: light-dark(#343b58, var(--tnight-fg));
+  --bg-secondary: light-dark(#e6e7ed, #1a1b26);
+  --bg-tertiary: light-dark(#a9b1d6, #24283b);
+  --text: light-dark(#343b58, #a9b1d6);
   --blue: light-dark(#2959aa, #7aa2f7);
   --border: color-mix(in srgb, var(--text) 12%, transparent);
 

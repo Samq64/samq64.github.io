@@ -1,0 +1,9 @@
+{{- $result := transform.HighlightCodeBlock . -}}
+{{- .Page.Store.Set "hasCodeBlock" true -}}
+<div class="code-block">
+  <button class="copy-code-button">
+    {{ partial "icon" (dict "icon" "copy" "name" "Copy code" "class" "copy-icon") }}
+    {{ partial "icon" (dict "icon" "check" "name" "Copied" "class" "check-icon") }}
+  </button>
+  {{ $result.Wrapped }}
+</div>

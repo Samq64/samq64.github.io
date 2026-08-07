@@ -36,5 +36,8 @@
     </main>
     <hr />
     {{ partial "footer" . }}
+    {{ if .Store.Get "hasCodeBlock" }}
+      {{ partial "copy-code-script" . }}
+    {{ end }}
   </body>
 </html>
