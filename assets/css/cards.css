@@ -15,6 +15,7 @@ hr:has(+ .cards:empty) {
   padding: var(--space-2);
   background-color: var(--bg-secondary);
   border: 2px solid var(--border);
+  border-left-color: var(--blue);
   border-radius: var(--radius);
 }
 

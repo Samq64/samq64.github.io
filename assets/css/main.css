@@ -222,10 +222,16 @@ table:not(.highlight *) {
   }
 }
 
-.hover-lift {
-  transition: transform var(--motion) ease;
+/*
+  Touch browsers keep :hover on the last tapped element, which leaves the search icon and
+  other tapped controls stuck in their lifted state, so only lift where hover is real.
+*/
+@media (hover: hover) {
+  .hover-lift {
+    transition: transform var(--motion) ease;
 
-  &:hover {
-    transform: translateY(var(--lift));
+    &:hover {
+      transform: translateY(var(--lift));
+    }
   }
 }
