@@ -11,12 +11,17 @@ hr:has(+ .cards:empty) {
   display: none;
 }
 
+blockquote,
 .card {
-  padding: var(--space-2);
+  padding-inline: var(--space-2);
   background-color: var(--bg-secondary);
-  border: 2px solid var(--border);
-  border-left-color: var(--blue);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
   border-radius: var(--radius);
+}
+
+.card {
+  padding-block: var(--space-2);
 }
 
 .card-link {
