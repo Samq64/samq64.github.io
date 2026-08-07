@@ -1,7 +1,7 @@
 {{ define "header" }}
   <h1>{{ .Title }}</h1>
   {{ if .Date }}
-    <p data-pagefind-meta="date">{{ .Date | time.Format ":date_medium" }}</p>
+    <p data-pagefind-meta="date" data-pagefind-ignore>{{ .Date | time.Format ":date_medium" }}</p>
   {{ end }}
   {{ partial "tags" . }}
 {{ end }}

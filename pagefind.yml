@@ -1,0 +1,5 @@
+site: public
+
+exclude_selectors:
+  # Code block line numbers
+  - .code-block td:first-child

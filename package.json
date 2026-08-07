@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "hugo server --buildDrafts",
     "build": "hugo --cleanDestinationDir",
-    "index": "pagefind --site public",
+    "index": "pagefind",
     "format": "prettier --write ."
   },
   "devDependencies": {
