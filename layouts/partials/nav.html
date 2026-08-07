@@ -32,18 +32,3 @@
     {{ partial "icon" (dict "icon" "sun-moon" "name" "Toggle theme") }}
   </button>
 </nav>
-
-<script>
-  document.getElementById("theme-switcher").addEventListener("click", () => {
-    const currentScheme = document.documentElement.style.colorScheme;
-    let nextTheme;
-    if (currentScheme === "dark") {
-      nextTheme = "light";
-    } else if (currentScheme === "light") {
-      nextTheme = "dark";
-    } else {
-      nextTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark";
-    }
-    setTheme(nextTheme);
-  });
-</script>

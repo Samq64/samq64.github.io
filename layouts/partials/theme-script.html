@@ -6,4 +6,12 @@
 
   const storedTheme = localStorage.getItem("theme");
   if (storedTheme) setTheme(storedTheme);
+
+  addEventListener("click", (event) => {
+    if (!event.target.closest("#theme-switcher")) return;
+    const current =
+      document.documentElement.style.colorScheme ||
+      (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    setTheme(current === "dark" ? "light" : "dark");
+  });
 </script>

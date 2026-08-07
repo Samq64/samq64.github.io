@@ -16,4 +16,17 @@
   --space-3: 1.5rem;
 
   --radius: 0.25rem;
+
+  /* All reduced-motion policy lives here so components can just use the values. */
+  --motion: 0.25s;
+  --lift: -4px;
+  --blink-count: 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion: 0s;
+    --lift: 0px;
+    --blink-count: 0;
+  }
 }

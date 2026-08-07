@@ -63,6 +63,7 @@ p {
   margin-inline-end: var(--space-1);
   text-decoration: none;
   color: inherit;
+  transition: opacity var(--motion) ease;
 }
 
 .centered-header,
@@ -174,6 +175,11 @@ table:not(.highlight *) {
 
 .svg-icon {
   display: block;
+
+  > svg {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .code-block {
@@ -198,16 +204,12 @@ table:not(.highlight *) {
   color: var(--text);
   cursor: pointer;
   opacity: 0;
+  transition: opacity var(--motion) ease;
 
   .svg-icon {
     width: var(--font-size-sm);
     height: var(--font-size-sm);
     stroke: currentColor;
-
-    svg {
-      width: 100%;
-      height: 100%;
-    }
   }
 
   &:not(.copied) .check-icon,
@@ -220,17 +222,10 @@ table:not(.highlight *) {
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .header-link,
-  .copy-code-button {
-    transition: opacity 0.25s ease;
-  }
+.hover-lift {
+  transition: transform var(--motion) ease;
 
-  .hover-lift {
-    transition: transform 0.25s ease;
-
-    &:hover {
-      transform: translateY(-4px);
-    }
+  &:hover {
+    transform: translateY(var(--lift));
   }
 }
