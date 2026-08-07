@@ -1,13 +1,20 @@
+{{ define "header" }}
+  <h1>{{ .Title }}</h1>
+  <p id="search-status">Loading&hellip;</p>
+{{ end }}
+
 {{ define "main" }}
-  <div class="centered-header">
-    <h1>{{ .Title }}</h1>
-    <p id="search-status">Loading&hellip;</p>
-  </div>
   <hr />
   <ul class="cards" id="search-results"></ul>
+
+  <template id="card-template">
+    {{ partial "card" (dict "url" "" "title" "" "date" "" "description" "") }}
+  </template>
+
   <script type="module">
     const status = document.getElementById("search-status");
     const results = document.getElementById("search-results");
+    const template = document.getElementById("card-template");
     const input = document.getElementById("search-input");
 
     input.value = new URLSearchParams(location.search).get("q") ?? "";
@@ -22,18 +29,28 @@
       status.textContent = "Search is unavailable.";
     }
 
-    // Titles and excerpts come from the site's own pages, so they are safe as markup.
+    /*
+      Pagefind returns the excerpt as the page's own text, unescaped, with the matching
+      words wrapped in <mark>. Splitting on those tags gives alternating plain text and
+      match segments, so none of it is parsed as markup: text that looks like a tag
+      because the page shows it as code stays visible instead of being interpreted.
+    */
+    function excerptNodes(excerpt) {
+      return excerpt.split(/<mark>|<\/mark>/).map((part, index) => {
+        if (index % 2 === 0) return part;
+        const mark = document.createElement("mark");
+        mark.textContent = part;
+        return mark;
+      });
+    }
+
     function renderResult({ url, meta, excerpt }) {
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <article class="card hover-lift">
-          <a href="${url}" class="card-link">
-            <h2>${meta.title}</h2>
-            ${meta.date ? `<span>${meta.date}</span>` : ""}
-            <p>${excerpt}</p>
-          </a>
-        </article>`;
-      return li;
+      const card = template.content.cloneNode(true);
+      card.querySelector(".card-link").href = url;
+      card.querySelector("h2").textContent = meta.title;
+      card.querySelector("span").textContent = meta.date ?? "";
+      card.querySelector("p").replaceChildren(...excerptNodes(excerpt));
+      return card;
     }
 
     let latest = 0;

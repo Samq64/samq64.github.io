@@ -1,8 +1,9 @@
+{{ define "header" }}
+  <h1>404</h1>
+  <p><span id="notFoundPath"></span>No such file or directory</p>
+{{ end }}
+
 {{ define "main" }}
-  <div class="centered-header">
-    <h1>404</h1>
-    <p><span id="notFoundPath"></span>No such file or directory</p>
-  </div>
   <script>
     document.getElementById("notFoundPath").textContent = `${location.pathname}: `;
   </script>

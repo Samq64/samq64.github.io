@@ -22,15 +22,16 @@
       <meta name="robots" content="noindex" />
     {{ end }}
     {{ partial "theme-script" . }}
-    <script>
-      const theme = localStorage.getItem("theme");
-      if (theme) setTheme(theme);
-    </script>
   </head>
   <body>
     {{ partial "nav" . }}
-    {{ $excludeFromSearch := or (eq .Type "search") (in (slice "404" "section" "taxonomy" "term") .Kind) }}
+    {{ $excludeFromSearch := in (slice "404" "section" "taxonomy" "term") .Kind }}
     <main{{ if not $excludeFromSearch }} data-pagefind-body{{ end }}>
+      <div class="centered-header">
+        {{- block "header" . }}
+          <h1>{{ .Title }}</h1>
+        {{ end -}}
+      </div>
       {{- block "main" . -}}{{- end -}}
     </main>
     <hr />

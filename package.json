@@ -3,16 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "hugo server --buildDrafts --cleanDestinationDir",
-    "preview": "hugo --buildDrafts --cleanDestinationDir && pagefind --site public --serve",
+    "dev": "hugo server --buildDrafts",
+    "build": "hugo --cleanDestinationDir",
+    "index": "pagefind --site public",
     "format": "prettier --write ."
   },
   "devDependencies": {
-    "hugo-bin": "^0.161.0",
     "pagefind": "^1.5.2",
     "prettier": "^3.9.6"
-  },
-  "allowScripts": {
-    "hugo-bin@0.161.0": true
   }
 }

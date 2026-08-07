@@ -1,0 +1,12 @@
+<li>
+  <article class="card hover-lift">
+    <a href="{{ .url }}" class="card-link">
+      <h2>{{ .title }}</h2>
+      <span>{{ .date }}</span>
+      <p>{{ .description }}</p>
+    </a>
+    {{ with .page }}
+      {{ partial "tags" . }}
+    {{ end }}
+  </article>
+</li>

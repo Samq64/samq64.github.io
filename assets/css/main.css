@@ -27,7 +27,7 @@ body {
   padding: clamp(var(--space-2), 5vw, var(--space-3));
   background-color: var(--bg-primary);
   color: var(--text);
-  font-family: Inter, Arial, sans-serif;
+  font-family: var(--font-sans);
 }
 
 a {
@@ -47,7 +47,7 @@ h4,
 h5,
 h6 {
   margin-block: var(--space-1);
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
 
   &:hover .header-link {
     opacity: 1;
@@ -62,13 +62,12 @@ p {
   opacity: 0;
   margin-inline-end: var(--space-1);
   text-decoration: none;
-  transition: opacity 0.25s ease;
   color: inherit;
 }
 
 .centered-header,
 .no-content {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
   text-align: center;
 }
 
@@ -89,42 +88,83 @@ main {
 
 code,
 pre {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
 }
 
 :not(pre) > code {
   background-color: var(--bg-tertiary);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   padding-inline: var(--space-0);
 }
 
 pre {
-  border: 1px solid var(--border);
   padding: var(--space-0);
+}
+
+/*
+  Chroma styles highlighted blocks inline, but splits the line numbers and the code
+  into separate <pre> elements inside a table. The box therefore belongs on the
+  wrapper: on the <pre> it would draw one around each column instead of the block.
+  Fences with no language are not highlighted and get a plain, unwrapped <pre>.
+*/
+.highlight,
+pre:not(.highlight *) {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   background-color: var(--tnight-bg);
   color: var(--tnight-fg);
+  overflow-x: auto;
 }
 
-table {
+/* The :not() keeps content-table styling off Chroma's line number table. */
+table:not(.highlight *) {
   width: 100%;
   margin-block: var(--space-2);
-  border-collapse: collapse;
-}
+  /* Collapsed borders cannot be rounded, so the cells draw the grid themselves. */
+  border-collapse: separate;
+  border-spacing: 0;
 
-thead tr {
-  background-color: var(--bg-tertiary);
-  text-align: left;
-}
+  thead tr {
+    background-color: var(--bg-tertiary);
+    text-align: left;
+  }
 
-tbody tr:nth-of-type(odd) {
-  background-color: var(--bg-secondary);
-}
+  tbody tr:nth-of-type(odd) {
+    background-color: var(--bg-secondary);
+  }
 
-th,
-td {
-  padding: var(--space-2);
-  border: 1px solid var(--border);
+  th,
+  td {
+    padding: var(--space-1);
+    /* Leading edges only, so neighbouring cells do not draw the same line twice. */
+    border: 1px solid var(--border);
+    border-width: 1px 0 0 1px;
+
+    &:last-child {
+      border-right-width: 1px;
+    }
+  }
+
+  tbody tr:last-child :is(th, td) {
+    border-bottom-width: 1px;
+  }
+
+  thead th:first-child {
+    border-start-start-radius: var(--radius);
+  }
+
+  thead th:last-child {
+    border-start-end-radius: var(--radius);
+  }
+
+  tbody tr:last-child td:first-child {
+    border-end-start-radius: var(--radius);
+  }
+
+  tbody tr:last-child td:last-child {
+    border-end-end-radius: var(--radius);
+  }
 }
 
 .svg-icon {
@@ -132,6 +172,10 @@ td {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .header-link {
+    transition: opacity 0.25s ease;
+  }
+
   .hover-lift {
     transition: transform 0.25s ease;
 

@@ -3,4 +3,7 @@
     document.documentElement.style.colorScheme = theme;
     localStorage.setItem("theme", theme);
   }
+
+  const storedTheme = localStorage.getItem("theme");
+  if (storedTheme) setTheme(storedTheme);
 </script>

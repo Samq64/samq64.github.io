@@ -1,11 +1,12 @@
+{{ define "header" }}
+  <h1>{{ .Title }}</h1>
+  {{ if .Date }}
+    <p data-pagefind-meta="date">{{ .Date | time.Format ":date_medium" }}</p>
+  {{ end }}
+  {{ partial "tags" . }}
+{{ end }}
+
 {{ define "main" }}
-  <div class="centered-header">
-    <h1>{{ .Title }}</h1>
-    {{ if .Date }}
-      <p data-pagefind-meta="date">{{ .Date | time.Format ":date_medium" }}</p>
-    {{ end }}
-    {{ partial "tags" (dict "page" . "class" "tags") }}
-  </div>
   <hr />
   {{ if .Content }}
     <article>

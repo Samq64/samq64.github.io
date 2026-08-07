@@ -1,4 +1,3 @@
-.tags,
 .tag-list {
   display: flex;
   flex-wrap: wrap;
@@ -6,16 +5,16 @@
   margin-block: var(--space-1);
 }
 
-.tags {
+.centered-header .tag-list {
   justify-content: center;
 }
 
 .badge {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: var(--font-size-sm);
   padding-inline: var(--space-1);
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
   color: var(--text);
   text-decoration: none;
 }
