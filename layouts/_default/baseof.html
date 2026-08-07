@@ -18,6 +18,9 @@
       {{ .Site.Title }}
     </title>
     <meta name="description" content="{{ .Description }}" />
+    {{ if eq .Type "search" }}
+      <meta name="robots" content="noindex" />
+    {{ end }}
     {{ partial "theme-script" . }}
     <script>
       const theme = localStorage.getItem("theme");
@@ -26,7 +29,10 @@
   </head>
   <body>
     {{ partial "nav" . }}
-    {{- block "main" . -}}{{- end -}}
+    {{ $excludeFromSearch := or (eq .Type "search") (in (slice "404" "section" "taxonomy" "term") .Kind) }}
+    <main{{ if not $excludeFromSearch }} data-pagefind-body{{ end }}>
+      {{- block "main" . -}}{{- end -}}
+    </main>
     <hr />
     {{ partial "footer" . }}
   </body>

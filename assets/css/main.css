@@ -15,6 +15,12 @@
   color: light-dark(white, #343b58);
 }
 
+mark {
+  background-color: transparent;
+  color: var(--blue);
+  font-weight: bold;
+}
+
 body {
   max-width: 760px;
   margin-inline: auto;

@@ -1,5 +1,7 @@
 nav {
   display: flex;
+  align-items: center;
+  gap: var(--space-2);
   font-family: "JetBrains Mono", monospace;
 
   ul {
@@ -19,6 +21,7 @@ nav {
     text-decoration: none;
     color: var(--text);
     user-select: none;
+    white-space: nowrap;
 
     &:hover {
       color: var(--blue);
@@ -32,7 +35,7 @@ nav {
   }
 }
 
-#theme-switcher {
+.icon-button {
   padding: 0;
   border: none;
   background: transparent;
@@ -42,6 +45,54 @@ nav {
     svg {
       stroke: var(--blue);
     }
+  }
+}
+
+.nav-search {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: var(--space-1);
+
+  &:focus-within .svg-icon {
+    stroke: var(--blue);
+  }
+
+  input {
+    width: 0;
+    min-width: 0;
+    padding-block: var(--space-0);
+    padding-inline: 0;
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    background-color: transparent;
+    outline: none;
+    color: var(--text);
+    font-size: 0.8rem;
+    opacity: 0;
+    transition:
+      width 0.25s ease,
+      padding-inline 0.25s ease,
+      opacity 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  &:is(:focus-within, [data-expanded]) input {
+    width: 14rem;
+    padding-inline: var(--space-1);
+    border-color: var(--border);
+    background-color: var(--bg-secondary);
+    opacity: 1;
+  }
+
+  input:focus {
+    border-color: var(--blue);
+  }
+}
+
+@media (width < 34rem) {
+  nav:has(.nav-search:is(:focus-within, [data-expanded])) ul li:not(:first-child) {
+    display: none;
   }
 }
 

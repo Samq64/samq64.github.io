@@ -1,0 +1,73 @@
+{{ define "main" }}
+  <div class="centered-header">
+    <h1>{{ .Title }}</h1>
+    <p id="search-status">Loading&hellip;</p>
+  </div>
+  <hr />
+  <ul class="cards" id="search-results"></ul>
+  <script type="module">
+    const status = document.getElementById("search-status");
+    const results = document.getElementById("search-results");
+    const input = document.getElementById("search-input");
+
+    input.value = new URLSearchParams(location.search).get("q") ?? "";
+    input.focus();
+
+    let pagefind;
+    try {
+      pagefind = await import("{{ "pagefind/pagefind.js" | relURL }}");
+      await pagefind.init();
+    } catch (error) {
+      console.error("Failed to load the search index:", error);
+      status.textContent = "Search is unavailable.";
+    }
+
+    // Titles and excerpts come from the site's own pages, so they are safe as markup.
+    function renderResult({ url, meta, excerpt }) {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <article class="card hover-lift">
+          <a href="${url}" class="card-link">
+            <h2>${meta.title}</h2>
+            ${meta.date ? `<span>${meta.date}</span>` : ""}
+            <p>${excerpt}</p>
+          </a>
+        </article>`;
+      return li;
+    }
+
+    let latest = 0;
+
+    async function runSearch(query) {
+      const id = ++latest;
+      history.replaceState(null, "", query ? `?q=${encodeURIComponent(query)}` : location.pathname);
+
+      if (!query) {
+        results.replaceChildren();
+        status.textContent = "Type to search.";
+        return;
+      }
+
+      const search = await pagefind.debouncedSearch(query, {}, 200);
+      if (search === null) return;
+
+      const data = await Promise.all(search.results.map((result) => result.data()));
+      if (id !== latest) return;
+
+      results.replaceChildren(...data.map(renderResult));
+      const count = data.length;
+      status.textContent = count
+        ? `${count} result${count === 1 ? "" : "s"} for "${query}"`
+        : `No results for "${query}"`;
+    }
+
+    if (pagefind) {
+      input.addEventListener("input", () => runSearch(input.value.trim()));
+      input.form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        runSearch(input.value.trim());
+      });
+      runSearch(input.value.trim());
+    }
+  </script>
+{{ end }}
