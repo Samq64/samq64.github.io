@@ -4,6 +4,11 @@ icon = "github-logo"
 url = "https://github.com/Samq64"
 
 [[links]]
+name = "Email"
+icon = "envelope"
+email = "Y29udGFjdC5zYW11ZWxxQGdtYWlsLmNvbQ=="
+
+[[links]]
 name = "RSS"
 icon = "rss"
 url = "/blog/index.xml"

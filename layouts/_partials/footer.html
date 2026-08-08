@@ -2,10 +2,21 @@
 <footer>
   <div class="socials">
     {{ range $footer.links }}
-      <a href="{{ .url }}" target="_blank" rel="noopener noreferrer">
-        {{ partial "icon" (dict "icon" .icon "name" .name "class" "hover-lift") }}
-      </a>
+      {{ if .email }}
+        <a href="#" class="obfuscated-email" data-email="{{ .email }}" rel="noopener noreferrer">
+          {{ partial "icon" (dict "icon" .icon "name" .name "class" "hover-lift") }}
+        </a>
+      {{ else }}
+        <a href="{{ .url }}" target="_blank" rel="noopener noreferrer">
+          {{ partial "icon" (dict "icon" .icon "name" .name "class" "hover-lift") }}
+        </a>
+      {{ end }}
     {{ end }}
   </div>
   <span>{{ site.Copyright }}</span>
+  <script>
+    document.querySelectorAll(".obfuscated-email").forEach((link) => {
+      link.href = `mailto:${atob(link.dataset.email)}`;
+    });
+  </script>
 </footer>
