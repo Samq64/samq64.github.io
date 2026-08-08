@@ -106,16 +106,16 @@ nav {
   text-decoration-thickness: 2px;
 }
 
-.theme-icon-moon {
+.svg-icon.theme-icon-moon {
   display: none;
 }
 
 @media (prefers-color-scheme: dark) {
-  .theme-icon-sun {
+  .svg-icon.theme-icon-sun {
     display: none;
   }
 
-  .theme-icon-moon {
+  .svg-icon.theme-icon-moon {
     display: block;
   }
 }
