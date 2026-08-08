@@ -11,7 +11,7 @@
         {{ partial "card" (dict
           "url" .RelPermalink
           "title" .LinkTitle
-          "date" (.Date | time.Format ":date_medium")
+          "date" (cond .Date.IsZero "" (.Date | time.Format ":date_medium"))
           "description" .Description
           "page" .)
         }}

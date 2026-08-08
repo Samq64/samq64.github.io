@@ -9,6 +9,9 @@ disableKinds = ["RSS"]
 [taxonomies]
   tag = "tags"
 
+[security]
+  allowContent = ['.*']
+
 [markup]
   [markup.highlight]
     style = "tokyonight-night"
