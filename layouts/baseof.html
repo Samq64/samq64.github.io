@@ -1,25 +1,20 @@
 <!doctype html>
 <html lang="{{ site.Language.Locale }}">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {{ partial "head" . }}
     <meta name="theme-color" content="#24283b" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="alternate" type="application/rss+xml" title="Blog" href="/blog/index.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Blog"
+      href="{{ "blog/index.xml" | relURL }}"
+    />
     {{ with resources.Get "css/main.css" | css.Build | minify | fingerprint }}
       <link
         rel="stylesheet"
         href="{{ .RelPermalink }}"
         {{ if hugo.IsProduction }}integrity="{{ .Data.Integrity }}" crossorigin{{ end }}
       />
-    {{ end }}
-    <title>
-      {{ if eq .Kind "404" }}Page Not Found{{ else }}{{ .Title }}{{ end }} |
-      {{ site.Title }}
-    </title>
-    <meta name="description" content="{{ .Description }}" />
-    {{ if eq .Type "search" }}
-      <meta name="robots" content="noindex" />
     {{ end }}
     {{ partial "theme-script" . }}
   </head>
@@ -31,7 +26,16 @@
           <h1>{{ .Title }}</h1>
         {{ end -}}
       </div>
-      {{- block "main" . -}}{{- end -}}
+      {{- block "main" . -}}
+        <hr />
+        {{ if .Content }}
+          <article>
+            {{- .Content -}}
+          </article>
+        {{ else }}
+          <p class="no-content">(No content)</p>
+        {{ end }}
+      {{- end -}}
     </main>
     <hr />
     {{ partial "footer" . }}

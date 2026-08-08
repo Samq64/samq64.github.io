@@ -33,15 +33,15 @@
   button {
     min-width: 6.5rem;
     padding: var(--space-1) var(--space-2);
-    border: none;
+    border: 1px solid var(--border);
     border-radius: var(--radius);
-    background-color: var(--blue);
-    color: var(--accent-fg);
+    background-color: var(--bg-tertiary);
+    color: var(--text);
     font-weight: bold;
     cursor: pointer;
 
     &:hover {
-      background-color: color-mix(in srgb, var(--blue) 85%, black);
+      color: var(--blue);
     }
 
     &:disabled {

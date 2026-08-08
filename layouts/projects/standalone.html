@@ -1,13 +1,22 @@
 <!doctype html>
 <html lang="{{ site.Language.Locale }}">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="/favicon.ico" />
-    <title>{{ .Title }}</title>
-    <meta name="description" content="{{ .Description }}" />
+    {{ partial "head" . }}
   </head>
   <body>
+    {{/*
+      Pagefind only indexes pages carrying data-pagefind-body, so without this block a
+      standalone project is absent from search entirely. Keeping it clipped rather than
+      tagging the demo itself keeps the project's own text out of the index, and gives
+      the page the heading it would otherwise lack.
+    */}}
+    <div
+      data-pagefind-body
+      style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%)"
+    >
+      <h1>{{ .Title }}</h1>
+      <p>{{ .Description }}</p>
+    </div>
     {{ .Content }}
   </body>
 </html>

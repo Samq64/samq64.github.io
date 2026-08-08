@@ -11,6 +11,12 @@ const linkText = document.getElementById("linkText");
 const imageWrap = document.getElementById("resultImgWrap");
 const image = document.getElementById("resultImg");
 
+const RESOLVER_URL = "https://youtube-proxy.samq64.workers.dev/";
+const FEED_URL = "https://www.youtube.com/feeds/videos.xml";
+
+// Matches --motion, so the old result is gone before the new one fades in.
+const SWAP_DELAY = 250;
+
 const TYPES = [
   { label: "Public", value: "public", checked: true },
   { label: "Members only", value: "members" },
@@ -24,16 +30,15 @@ const FORMATS = [
   { label: "Live streams", value: "live" },
 ];
 
+// Uploads playlist IDs are the channel ID with UC swapped for one of these. A null
+// prefix means the plain channel feed already covers it.
 const PREFIX = {
   public: { all: null, longform: "UULF", shorts: "UUSH", live: "UULV" },
   popular: { all: "PU", longform: "UULP", shorts: "UUPS", live: "UUPV" },
-  members: {
-    all: "UUMO",
-    longform: "UUMF",
-    shorts: "UUMS",
-    live: "UUMV",
-  },
+  members: { all: "UUMO", longform: "UUMF", shorts: "UUMS", live: "UUMV" },
 };
+
+let state = { result: null, error: null };
 
 function renderFieldset(legend, name, options) {
   return `<fieldset><legend>${legend}</legend>${options
@@ -44,23 +49,34 @@ function renderFieldset(legend, name, options) {
     .join("")}</fieldset>`;
 }
 
-filtersEl.innerHTML =
-  renderFieldset("Type", "type", TYPES) + renderFieldset("Format", "format", FORMATS);
-
-let state = { result: null, error: null };
+function selected(name) {
+  return document.querySelector(`input[name="${name}"]:checked`).value;
+}
 
 function feedUrl() {
   const { result } = state;
-  const base = "https://www.youtube.com/feeds/videos.xml";
   if (result.type === "playlist") {
-    return `${base}?playlist_id=${result.id}`;
+    return `${FEED_URL}?playlist_id=${result.id}`;
   }
-  const type = document.querySelector('input[name="type"]:checked').value;
-  const format = document.querySelector('input[name="format"]:checked').value;
-  const prefix = PREFIX[type][format];
+  const prefix = PREFIX[selected("type")][selected("format")];
   return prefix
-    ? `${base}?playlist_id=${prefix + result.id.slice(2)}`
-    : `${base}?channel_id=${result.id}`;
+    ? `${FEED_URL}?playlist_id=${prefix + result.id.slice(2)}`
+    : `${FEED_URL}?channel_id=${result.id}`;
+}
+
+function replaceUrl(q) {
+  const params = new URLSearchParams({ q });
+  if (state.result?.type !== "playlist") {
+    params.set("type", selected("type"));
+    params.set("format", selected("format"));
+  }
+  history.replaceState(null, "", "?" + params.toString());
+}
+
+function setError(msg) {
+  state = { result: null, error: msg };
+  history.replaceState(null, "", location.pathname);
+  render();
 }
 
 function render() {
@@ -68,26 +84,25 @@ function render() {
   errorEl.classList.toggle("visible", !!error);
   errorEl.textContent = error ?? "";
   outputSection.classList.toggle("visible", !!result);
-  const showFilters = result && result.type !== "playlist";
+  const showFilters = !!result && result.type !== "playlist";
   filtersEl.style.display = showFilters ? "flex" : "none";
-  const type = showFilters ? document.querySelector('input[name="type"]:checked').value : null;
-  noticeEl.classList.toggle("visible", type === "popular");
-  if (result) {
-    image.src = "";
-    if (result.type === "playlist") {
-      imageWrap.className = "thumbnail";
-      image.alt = "Playlist thumbnail";
-      link.href = `https://www.youtube.com/playlist?list=${result.id}`;
-    } else {
-      imageWrap.className = "avatar";
-      image.alt = "Channel avatar";
-      link.href = `https://www.youtube.com/channel/${result.id}`;
-    }
-    image.src = result.thumbnail;
-    linkText.textContent = result.name;
-    outputEl.value = feedUrl();
-    outputEl.scrollLeft = outputEl.scrollWidth;
+  noticeEl.classList.toggle("visible", showFilters && selected("type") === "popular");
+  if (!result) return;
+
+  image.src = "";
+  if (result.type === "playlist") {
+    imageWrap.className = "thumbnail";
+    image.alt = "Playlist thumbnail";
+    link.href = `https://www.youtube.com/playlist?list=${result.id}`;
+  } else {
+    imageWrap.className = "avatar";
+    image.alt = "Channel avatar";
+    link.href = `https://www.youtube.com/channel/${result.id}`;
   }
+  image.src = result.thumbnail;
+  linkText.textContent = result.name;
+  outputEl.value = feedUrl();
+  outputEl.scrollLeft = outputEl.scrollWidth;
 }
 
 async function resolveChannel() {
@@ -95,9 +110,7 @@ async function resolveChannel() {
   submitBtn.textContent = "Loading";
   const raw = inputEl.value.trim();
   try {
-    const res = await fetch(
-      `https://youtube-proxy.samq64.workers.dev/?q=${encodeURIComponent(raw)}`,
-    );
+    const res = await fetch(`${RESOLVER_URL}?q=${encodeURIComponent(raw)}`);
     const result = await res.json();
     if (result.error) {
       setError(result.error);
@@ -105,7 +118,7 @@ async function resolveChannel() {
     }
     if (state.result?.type !== result.type) {
       outputSection.classList.remove("visible");
-      await new Promise((r) => setTimeout(r, 250));
+      await new Promise((resolve) => setTimeout(resolve, SWAP_DELAY));
     }
     state = { result, error: null };
     replaceUrl(result.handle ?? result.id);
@@ -118,41 +131,32 @@ async function resolveChannel() {
   }
 }
 
-copyBtn.addEventListener("click", async () => {
-  await navigator.clipboard.writeText(outputEl.value);
-  copyBtn.textContent = "Copied!";
-  setTimeout(() => (copyBtn.textContent = "Copy"), 1000);
-});
+filtersEl.innerHTML =
+  renderFieldset("Type", "type", TYPES) + renderFieldset("Format", "format", FORMATS);
 
 submitBtn.addEventListener("click", resolveChannel);
+
 inputEl.addEventListener("keyup", (e) => {
   if (e.key === "Enter") resolveChannel();
 });
-function setError(msg) {
-  state = { result: null, error: msg };
-  history.replaceState(null, "", location.pathname);
-  render();
-}
-
-function replaceUrl(q) {
-  const params = new URLSearchParams({ q });
-  if (state.result?.type !== "playlist") {
-    params.set("type", document.querySelector('input[name="type"]:checked').value);
-    params.set("format", document.querySelector('input[name="format"]:checked').value);
-  }
-  history.replaceState(null, "", "?" + params.toString());
-}
 
 filtersEl.addEventListener("change", () => {
   render();
   if (state.result) replaceUrl(state.result.handle ?? state.result.id);
 });
 
+copyBtn.addEventListener("click", async () => {
+  await navigator.clipboard.writeText(outputEl.value);
+  copyBtn.textContent = "Copied!";
+  setTimeout(() => (copyBtn.textContent = "Copy"), 1000);
+});
+
 const searchParams = new URLSearchParams(location.search);
 for (const name of ["type", "format"]) {
-  const r = document.querySelector(`input[name="${name}"][value="${searchParams.get(name)}"]`);
-  if (r) r.checked = true;
+  const radio = document.querySelector(`input[name="${name}"][value="${searchParams.get(name)}"]`);
+  if (radio) radio.checked = true;
 }
+
 const initial = searchParams.get("q");
 if (initial) {
   const isId = initial.startsWith("UC") || initial.startsWith("PL");

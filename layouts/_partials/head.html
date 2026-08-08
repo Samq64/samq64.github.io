@@ -1,0 +1,25 @@
+{{- $title := cond (eq .Kind "404") "Page Not Found" .Title -}}
+{{- $description := or .Description site.Params.description -}}
+{{- $robots := cond (eq .Type "search") "noindex, noarchive" "noarchive" -}}
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="any" />
+<link rel="icon" href="{{ "favicon.svg" | relURL }}" type="image/svg+xml" />
+<title>{{ $title }} | {{ site.Title }}</title>
+<meta name="description" content="{{ $description }}" />
+<meta name="robots" content="{{ $robots }}" />
+
+{{- if ne .Kind "404" }}
+  <link rel="canonical" href="{{ .Permalink }}" />
+  <meta property="og:type" content="{{ cond (eq .Kind "page") "article" "website" }}" />
+  <meta property="og:title" content="{{ $title }}" />
+  <meta property="og:description" content="{{ $description }}" />
+  <meta property="og:url" content="{{ .Permalink }}" />
+  <meta property="og:site_name" content="{{ site.Title }}" />
+  <meta property="og:image" content="{{ "og-image.png" | absURL }}" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Samuel Q" />
+  <meta name="twitter:card" content="summary_large_image" />
+{{- end }}

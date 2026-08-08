@@ -2,7 +2,6 @@
 * Converted with https://gwfh.mranftl.com
 */
 
-/* inter-regular - latin */
 @font-face {
   font-display: swap;
   font-family: "Inter";
@@ -10,13 +9,21 @@
   font-weight: 400;
   src: url("../fonts/inter-latin-regular.woff2") format("woff2");
 }
-/* inter-700 - latin */
+
 @font-face {
   font-display: swap;
   font-family: "Inter";
   font-style: normal;
   font-weight: 700;
   src: url("../fonts/inter-latin-700.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 400;
+  src: url("../fonts/inter-latin-italic.woff2") format("woff2");
 }
 
 @font-face {

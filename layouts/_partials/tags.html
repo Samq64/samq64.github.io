@@ -1,5 +1,6 @@
-{{ range slice "tags" "categories" }}
-  {{ with $.GetTerms . }}
+{{ $page := .page }}
+{{ range .taxonomies }}
+  {{ with $page.GetTerms . }}
     <p class="tag-list">
       {{ range . }}
         <a href="{{ .RelPermalink }}" class="badge hover-lift">{{ .LinkTitle }}</a>

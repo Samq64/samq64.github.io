@@ -1,5 +1,5 @@
 ---
-date: "2026-08-04T12:50:08-04:00"
+date: "2026-08-08"
 title: "Example"
 description: "This is an example blog post."
 draft: true
@@ -68,6 +68,8 @@ function greet(name) {
 
 // Call the function
 greet("Markdown");
+consol.log("const reallyLongVariableName = someFunction(argumentOne, argumentTwo, argumentThree, argumentFour, argumentFive");
+);
 ```
 
 ### Python Example
@@ -84,14 +86,14 @@ print(f"The sum is: {result}")
 ### Raw pre example
 
 ```
-This is a pre code block
+This is a long <pre> code block with a lot of text that overflows horizontally off the edge of the page.
 ```
 
 ## Tables
 
-| Feature     | Supported |
-| ----------- | --------- |
-| Bold/Italic | ✅ Yes    |
+| Feature     | Supported | Column 3                             | column 4           |
+| ----------- | --------- | ------------------------------------ | ------------------ |
+| Bold/Italic | ✅ Yes    | This is a cell with a string of text | And some more text |
 | Lists       | ✅ Yes    |
 | Code Blocks | ✅ Yes    |
 | Tables      | ✅ Yes    |

@@ -48,7 +48,7 @@
       const card = template.content.cloneNode(true);
       card.querySelector(".card-link").href = url;
       card.querySelector("h2").textContent = meta.title;
-      card.querySelector("span").textContent = meta.date ?? "";
+      card.querySelector(".card-date").textContent = meta.date ?? "";
       card.querySelector("p").replaceChildren(...excerptNodes(excerpt));
       return card;
     }

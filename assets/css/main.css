@@ -58,6 +58,23 @@ p {
   margin-block: var(--space-2);
 }
 
+blockquote,
+.card {
+  padding-inline: var(--space-2);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--blue);
+  border-radius: var(--radius);
+
+  &.red {
+    border-color: var(--red);
+  }
+
+  &.yellow {
+    border-color: var(--yellow);
+  }
+}
+
 .header-link {
   opacity: 0;
   margin-inline-end: var(--space-1);
@@ -119,8 +136,36 @@ pre:not(.highlight *) {
   overflow-x: auto;
 }
 
+pre:not(.highlight *) {
+  padding: 0;
+}
+
+pre:not(.highlight *) > code {
+  display: block;
+  padding: var(--space-0);
+  width: max-content;
+  min-width: 100%;
+}
+
+.highlight::-webkit-scrollbar,
+pre:not(.highlight *)::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+.highlight::-webkit-scrollbar-thumb,
+pre:not(.highlight *)::-webkit-scrollbar-thumb {
+  border-radius: var(--radius);
+  background-color: color-mix(in srgb, var(--text) 30%, transparent);
+}
+
 .highlight td:first-child span {
   margin-right: 0 !important;
+}
+
+.highlight td:first-child {
+  position: sticky;
+  left: 0;
+  background-color: var(--bg-secondary);
 }
 
 /* The :not() keeps content-table styling off Chroma's line number table. */

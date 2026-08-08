@@ -1,18 +1,7 @@
 {{ define "header" }}
   <h1>{{ .Title }}</h1>
-  {{ if .Date }}
+  {{ if not .Date.IsZero }}
     <p data-pagefind-meta="date" data-pagefind-ignore>{{ .Date | time.Format ":date_medium" }}</p>
   {{ end }}
-  {{ partial "tags" . }}
-{{ end }}
-
-{{ define "main" }}
-  <hr />
-  {{ if .Content }}
-    <article>
-      {{- .Content -}}
-    </article>
-  {{ else }}
-    <p class="no-content">(No content)</p>
-  {{ end }}
+  {{ partial "tags" (dict "page" . "taxonomies" (slice "tags")) }}
 {{ end }}

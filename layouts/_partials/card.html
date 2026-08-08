@@ -2,13 +2,11 @@
   <article class="card hover-lift">
     <a href="{{ .url }}" class="card-link">
       <h2>{{ .title }}</h2>
-      {{ with .date }}
-        <span>{{ . }}</span>
-      {{ end }}
+      <span class="card-date">{{ .date }}</span>
       <p>{{ .description }}</p>
     </a>
     {{ with .page }}
-      {{ partial "tags" . }}
+      {{ partial "tags" (dict "page" . "taxonomies" (slice "tags" "categories")) }}
     {{ end }}
   </article>
 </li>

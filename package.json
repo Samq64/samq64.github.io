@@ -6,7 +6,8 @@
     "dev": "hugo server --buildDrafts",
     "build": "hugo --cleanDestinationDir",
     "index": "pagefind",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "check": "prettier --check ."
   },
   "devDependencies": {
     "pagefind": "^1.5.2",

@@ -1,0 +1,41 @@
+{{- /*
+  The goal is to discourage AI summaries and training while still allowing
+  traditional search engines and explicitly asking a chatbot to read the page.
+*/ -}}
+{{- $aiCrawlers := slice
+  "AI2Bot"
+  "Amazonbot"
+  "Applebot-Extended"
+  "Bytespider"
+  "CCBot"
+  "Claude-SearchBot"
+  "ClaudeBot"
+  "cohere-ai"
+  "cohere-training-data-crawler"
+  "Diffbot"
+  "DuckAssistBot"
+  "FacebookBot"
+  "Google-Extended"
+  "GPTBot"
+  "ImagesiftBot"
+  "Meta-ExternalAgent"
+  "Meta-ExternalFetcher"
+  "OAI-SearchBot"
+  "omgili"
+  "PanguBot"
+  "PerplexityBot"
+  "Timpibot"
+  "YouBot"
+-}}
+
+# Search engines are welcome.
+User-agent: *
+Disallow: /search/
+
+# AI training and answer-engine crawlers are not.
+{{ range $aiCrawlers -}}
+User-agent: {{ . }}
+{{ end -}}
+Disallow: /
+
+Sitemap: {{ "sitemap.xml" | absURL }}

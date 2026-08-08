@@ -23,6 +23,7 @@ npm run dev
 | `build`  | Build the site into `public/`                            |
 | `index`  | Build the search index from `public/`                    |
 | `format` | Run Prettier                                             |
+| `check`  | Verify Prettier formatting without writing. CI runs this |
 
 Pagefind indexes the built HTML rather than the Markdown, so `index` has to run after
 `build`, and has to run again whenever the output changes. To preview the finished site
