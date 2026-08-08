@@ -12,7 +12,7 @@
 
 ::selection {
   background-color: var(--blue);
-  color: light-dark(white, #343b58);
+  color: var(--accent-fg);
 }
 
 mark {

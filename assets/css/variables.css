@@ -4,6 +4,9 @@
   --bg-tertiary: light-dark(#a9b1d6, #24283b);
   --text: light-dark(#343b58, #a9b1d6);
   --blue: light-dark(#2959aa, #7aa2f7);
+  --red: light-dark(#8c4351, #f7768e);
+  --yellow: light-dark(#8f5e15, #e0af68);
+  --accent-fg: light-dark(#e1e2e7, #343b58);
   --border: color-mix(in srgb, var(--text) 12%, transparent);
 
   --font-sans: Inter, Arial, sans-serif;

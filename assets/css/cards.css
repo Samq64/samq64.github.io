@@ -18,6 +18,14 @@ blockquote,
   border: 1px solid var(--border);
   border-left: 3px solid var(--blue);
   border-radius: var(--radius);
+
+  &.red {
+    border-color: var(--red);
+  }
+
+  &.yellow {
+    border-color: var(--yellow);
+  }
 }
 
 .card {

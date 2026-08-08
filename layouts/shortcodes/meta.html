@@ -1,0 +1,8 @@
+{{- $key := .Get 0 -}}
+{{- if eq $key "title" -}}
+  {{ .Page.Title }}
+{{- else if eq $key "description" -}}
+  {{ .Page.Description }}
+{{- else -}}
+  {{ .Page.Param $key }}
+{{- end -}}

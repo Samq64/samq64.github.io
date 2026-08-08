@@ -1,0 +1,45 @@
+---
+title: YouTube RSS Feed Generator
+description: Generate a YouTube RSS feed URL given channel, handle, video or playlist. Supports filtering channel uploads by type and sorting by popularity.
+---
+
+<link rel="stylesheet" href="style.css" />
+
+<div class="yt-rss">
+  <p>{{< meta "description" >}} Feeds are limited to 15 videos by YouTube.</p>
+
+  <div class="flex-row">
+    <input
+      type="text"
+      id="inputEl"
+      aria-label="YouTube channel or playlist"
+      placeholder="https://www.youtube.com/@mkbhd"
+      autofocus
+    />
+    <button id="submitBtn">Get Feed</button>
+  </div>
+
+  <blockquote class="red" id="error"></blockquote>
+
+  <div id="output">
+    <a class="info" id="link">
+      <span id="resultImgWrap"><img id="resultImg" /></span>
+      <h2 id="linkText"></h2>
+    </a>
+
+    <form id="filters"></form>
+
+    <blockquote class="yellow" id="notice">
+      Popularity feeds are sorted correctly by YouTube, but most RSS readers will re-sort by publish
+      date.
+    </blockquote>
+
+    <div class="flex-row">
+      <label for="outputEl">Feed URL:</label>
+      <input type="text" id="outputEl" readonly />
+      <button id="copyBtn">Copy</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>

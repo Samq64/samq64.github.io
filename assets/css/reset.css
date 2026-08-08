@@ -49,3 +49,9 @@ p {
   overflow-wrap: break-word;
   text-wrap: pretty;
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
