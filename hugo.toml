@@ -17,3 +17,13 @@ disableKinds = ["RSS"]
     style = "tokyonight-night"
     codeFences = true
     lineNos = true
+
+[[menu.main]]
+  name = 'Projects'
+  pageRef = '/projects'
+  weight = 10
+
+[[menu.main]]
+  name = 'Blog'
+  pageRef = '/blog'
+  weight = 20
