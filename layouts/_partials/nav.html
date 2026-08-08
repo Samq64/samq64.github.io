@@ -17,7 +17,7 @@
     {{ if eq .Type "search" }}data-expanded{{ end }}
   >
     <label for="search-input" class="icon-button hover-lift">
-      {{ partial "icon" (dict "icon" "search" "name" "Search") }}
+      {{ partial "icon" (dict "icon" "magnifying-glass" "name" "Search") }}
     </label>
     <input
       type="search"
@@ -29,6 +29,7 @@
     />
   </form>
   <button id="theme-switcher" class="icon-button hover-lift">
-    {{ partial "icon" (dict "icon" "sun-moon" "name" "Toggle theme") }}
+    {{ partial "icon" (dict "icon" "sun" "name" "Switch to dark theme" "class" "theme-icon-sun") }}
+    {{ partial "icon" (dict "icon" "moon" "name" "Switch to light theme" "class" "theme-icon-moon") }}
   </button>
 </nav>

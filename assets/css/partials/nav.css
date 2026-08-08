@@ -31,7 +31,6 @@ nav {
   .svg-icon {
     width: 1.5rem;
     height: 1.5rem;
-    stroke: var(--text);
   }
 }
 
@@ -43,7 +42,7 @@ nav {
 
   &:hover {
     svg {
-      stroke: var(--blue);
+      fill: var(--blue);
     }
   }
 }
@@ -55,7 +54,7 @@ nav {
   gap: var(--space-1);
 
   &:focus-within .svg-icon {
-    stroke: var(--blue);
+    fill: var(--blue);
   }
 
   input {
@@ -105,6 +104,36 @@ nav {
 .active {
   text-decoration: underline;
   text-decoration-thickness: 2px;
+}
+
+.theme-icon-moon {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  .theme-icon-sun {
+    display: none;
+  }
+
+  .theme-icon-moon {
+    display: block;
+  }
+}
+
+:root[data-theme="light"] .theme-icon-sun {
+  display: block;
+}
+
+:root[data-theme="light"] .theme-icon-moon {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-icon-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .theme-icon-moon {
+  display: block;
 }
 
 .blink {

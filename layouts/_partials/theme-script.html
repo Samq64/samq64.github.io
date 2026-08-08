@@ -1,6 +1,7 @@
 <script>
   function setTheme(theme) {
     document.documentElement.style.colorScheme = theme;
+    document.documentElement.dataset.theme = theme;
     localStorage.setItem("theme", theme);
   }
 

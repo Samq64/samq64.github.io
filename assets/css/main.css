@@ -175,6 +175,7 @@ table:not(.highlight *) {
 
 .svg-icon {
   display: block;
+  fill: var(--text);
 
   > svg {
     width: 100%;
@@ -197,7 +198,7 @@ table:not(.highlight *) {
   top: var(--space-0);
   right: var(--space-0);
   display: flex;
-  padding: var(--space-0);
+  padding: 0.1rem;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background-color: var(--bg-secondary);
@@ -207,9 +208,9 @@ table:not(.highlight *) {
   transition: opacity var(--motion) ease;
 
   .svg-icon {
-    width: var(--font-size-sm);
-    height: var(--font-size-sm);
-    stroke: currentColor;
+    width: 1rem;
+    height: 1rem;
+    fill: currentColor;
   }
 
   &:not(.copied) .check-icon,
