@@ -1,5 +1,5 @@
 {{ define "header" }}
-  <h1>{{ .Title }}{{ if eq .Kind "term" }} posts{{ end }}</h1>
+  <h1>{{ .Title }}{{ if and (eq .Kind "term") (eq .Type "tags") }} posts{{ end }}</h1>
 {{ end }}
 
 {{ define "main" }}

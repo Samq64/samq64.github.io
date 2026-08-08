@@ -1,7 +1,9 @@
-{{ with .GetTerms "tags" }}
-  <p class="tag-list">
-    {{ range . }}
-      <a href="{{ .RelPermalink }}" class="badge hover-lift">{{ .LinkTitle }}</a>
-    {{ end }}
-  </p>
+{{ range slice "tags" "categories" }}
+  {{ with $.GetTerms . }}
+    <p class="tag-list">
+      {{ range . }}
+        <a href="{{ .RelPermalink }}" class="badge hover-lift">{{ .LinkTitle }}</a>
+      {{ end }}
+    </p>
+  {{ end }}
 {{ end }}

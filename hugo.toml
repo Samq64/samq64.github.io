@@ -8,6 +8,7 @@ disableKinds = ["RSS"]
 
 [taxonomies]
   tag = "tags"
+  category = "categories"
 
 [security]
   allowContent = ['.*']
