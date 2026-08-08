@@ -1,0 +1,14 @@
+{{ define "header" }}
+  <h1>{{ .Title }}</h1>
+{{ end }}
+
+{{ define "main" }}
+  <hr />
+  {{ if .Content }}
+    <article>
+      {{- .Content -}}
+    </article>
+  {{ else }}
+    <p class="no-content">(No content)</p>
+  {{ end }}
+{{ end }}
