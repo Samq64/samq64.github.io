@@ -35,13 +35,13 @@
     padding: var(--space-1) var(--space-2);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    background-color: var(--bg-tertiary);
-    color: var(--text);
+    background-color: var(--blue);
+    color: var(--accent-fg);
     font-weight: bold;
     cursor: pointer;
 
     &:hover {
-      color: var(--blue);
+      background-color: color-mix(in srgb, var(--blue), black 10%);
     }
 
     &:disabled {

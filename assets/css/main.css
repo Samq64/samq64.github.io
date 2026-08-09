@@ -63,8 +63,12 @@ blockquote,
   padding-inline: var(--space-2);
   background-color: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-left: 3px solid var(--blue);
+  border-left: 4px solid var(--bg-tertiary);
   border-radius: var(--radius);
+
+  &.blue {
+    border-left-color: var(--blue);
+  }
 
   &.red {
     border-color: var(--red);
