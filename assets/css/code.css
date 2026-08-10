@@ -30,6 +30,12 @@ pre:not(.highlight *) {
   background-color: var(--bg-secondary);
   color: var(--text);
   overflow-x: auto;
+
+  &:focus-visible {
+    /* Light mode legibility since it's color-scheme: dark */
+    outline-color: var(--blue);
+    outline-offset: -2px;
+  }
 }
 
 pre:not(.highlight *) {

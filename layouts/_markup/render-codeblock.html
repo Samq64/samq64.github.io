@@ -1,9 +1,11 @@
 {{- $result := transform.HighlightCodeBlock . -}}
 {{- .Page.Store.Set "hasCodeBlock" true -}}
+{{- /* The wrapper is what scrolls so remove the tabindex Chroma puts on every pre it writes. */ -}}
+{{- $code := replace $result.Wrapped `<pre tabindex="0"` `<pre` -}}
 <div class="code-block">
+  {{ $code | safeHTML }}
   <button class="copy-code-button">
     {{ partial "icon" (dict "icon" "copy" "name" "Copy code" "class" "copy-icon") }}
     {{ partial "icon" (dict "icon" "check" "name" "Copied" "class" "check-icon") }}
   </button>
-  {{ $result.Wrapped }}
 </div>

@@ -133,7 +133,7 @@
 
 /* Stands in for the ring while the pad is driving and no box is focused, so it matches one. */
 .digits:not(:focus-within) .digit.next {
-  outline-color: var(--focus);
+  outline-color: var(--blue);
 }
 
 .digits.error .digit {

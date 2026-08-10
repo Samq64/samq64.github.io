@@ -12,8 +12,8 @@
   color-scheme: light dark;
 }
 
-:focus-visible {
-  outline: 2px solid var(--focus);
+:focus-visible:not(input) {
+  outline: 2px solid var(--text);
   outline-offset: 2px;
 }
 
@@ -82,11 +82,10 @@ h6 {
 */
 input {
   outline: 2px solid transparent;
-  outline-offset: 2px;
   transition: outline-color var(--motion) ease;
 
   &:focus {
-    outline-color: var(--focus);
+    outline-color: var(--blue);
   }
 }
 
@@ -148,6 +147,10 @@ blockquote,
   text-decoration: none;
   color: inherit;
   transition: opacity var(--motion) ease;
+
+  &:focus-visible {
+    opacity: 1;
+  }
 }
 
 .centered-header,
