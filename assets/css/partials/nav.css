@@ -106,11 +106,32 @@ nav {
   text-decoration-thickness: 2px;
 }
 
+/*
+  The switcher carries both icons and shows whichever offers the theme the page is not in. The
+  system preference decides until the script stores a choice and sets data-theme, so the media
+  query stands down for a page explicitly asking for light rather than being overridden again
+  further on.
+
+  Compounded with .svg-icon deliberately: that sets display and main.css imports this file
+  before declaring it, so a lone class here would lose the cascade to it.
+*/
 .svg-icon.theme-icon-moon {
   display: none;
 }
 
 @media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    .svg-icon.theme-icon-sun {
+      display: none;
+    }
+
+    .svg-icon.theme-icon-moon {
+      display: block;
+    }
+  }
+}
+
+:root[data-theme="dark"] {
   .svg-icon.theme-icon-sun {
     display: none;
   }
@@ -118,22 +139,6 @@ nav {
   .svg-icon.theme-icon-moon {
     display: block;
   }
-}
-
-:root[data-theme="light"] .theme-icon-sun {
-  display: block;
-}
-
-:root[data-theme="light"] .theme-icon-moon {
-  display: none;
-}
-
-:root[data-theme="dark"] .theme-icon-sun {
-  display: none;
-}
-
-:root[data-theme="dark"] .theme-icon-moon {
-  display: block;
 }
 
 .blink {

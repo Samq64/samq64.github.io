@@ -8,13 +8,11 @@
   The page, the stylesheets and scripts it names, and the images it renders. A script's imports
   are bundled into it, so they need no entry of their own.
 
-  The fonts are read back out of the built stylesheet, since esbuild is what named them and
-  they are reachable no other way. Without them an app installed and taken offline before it
-  had drawn any text would fall back to the system's.
+  Every face is precached, not just the three preloaded: without them an app installed and
+  taken offline before it had drawn any text would fall back to the system's.
 */ -}}
-{{- $css := partial "main-css" $page -}}
-{{- $urls := slice $page.RelPermalink $css.RelPermalink -}}
-{{- range findRE `/[^)"']+\.woff2` $css.Content | uniq -}}
+{{- $urls := slice $page.RelPermalink (partial "main-css" $page).RelPermalink -}}
+{{- range partial "font-urls" $page -}}
   {{- $urls = $urls | append . -}}
 {{- end -}}
 {{- $built := partial "built-assets" $page -}}

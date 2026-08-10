@@ -1,0 +1,9 @@
+{{- /*
+  Every woff2 URL in the built stylesheet, in the order the faces are declared.
+
+  esbuild is what copies and names the font files, so the built CSS is the only place their
+  URLs exist: nothing else in the build knows what it called them. Two things need that list —
+  the preload hints and the service worker's precache — and both used to recover it with a
+  regex of their own, which is one fragile thing to keep in step rather than two.
+*/ -}}
+{{- return uniq (findRE `/[^)"']+\.woff2` (partial "main-css" .).Content) -}}

@@ -1,7 +1,9 @@
 @import "variables.css";
 @import "reset.css";
 @import "fonts.css";
-@import "cards.css";
+@import "code.css";
+@import "tables.css";
+@import "partials/card.css";
 @import "partials/nav.css";
 @import "partials/footer.css";
 @import "partials/tags.css";
@@ -151,120 +153,6 @@ main {
   }
 }
 
-code,
-pre {
-  font-family: var(--font-mono);
-  font-size: var(--font-size-sm);
-}
-
-:not(pre) > code {
-  background-color: var(--bg-tertiary);
-  border-radius: var(--radius);
-  padding-inline: var(--space-0);
-}
-
-pre {
-  padding: var(--space-0);
-}
-
-/*
-  Chroma styles highlighted blocks inline, but splits the line numbers and the code
-  into separate <pre> elements inside a table. The box therefore belongs on the
-  wrapper: on the <pre> it would draw one around each column instead of the block.
-  Fences with no language are not highlighted and get a plain, unwrapped <pre>.
-*/
-.highlight,
-pre:not(.highlight *) {
-  color-scheme: dark;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background-color: var(--bg-secondary);
-  color: var(--text);
-  overflow-x: auto;
-}
-
-pre:not(.highlight *) {
-  padding: 0;
-}
-
-pre:not(.highlight *) > code {
-  display: block;
-  padding: var(--space-0);
-  width: max-content;
-  min-width: 100%;
-}
-
-.highlight::-webkit-scrollbar,
-pre:not(.highlight *)::-webkit-scrollbar {
-  height: 0.5rem;
-}
-
-.highlight::-webkit-scrollbar-thumb,
-pre:not(.highlight *)::-webkit-scrollbar-thumb {
-  border-radius: var(--radius);
-  background-color: color-mix(in srgb, var(--text) 30%, transparent);
-}
-
-.highlight td:first-child span {
-  margin-right: 0 !important;
-}
-
-.highlight td:first-child {
-  position: sticky;
-  left: 0;
-  background-color: var(--bg-secondary);
-}
-
-/* The :not() keeps content-table styling off Chroma's line number table. */
-table:not(.highlight *) {
-  width: 100%;
-  margin-block: var(--space-2);
-  /* Collapsed borders cannot be rounded, so the cells draw the grid themselves. */
-  border-collapse: separate;
-  border-spacing: 0;
-
-  thead tr {
-    background-color: var(--bg-tertiary);
-    text-align: left;
-  }
-
-  tbody tr:nth-of-type(odd) {
-    background-color: var(--bg-secondary);
-  }
-
-  th,
-  td {
-    padding: var(--space-1);
-    /* Leading edges only, so neighbouring cells do not draw the same line twice. */
-    border: 1px solid var(--border);
-    border-width: 1px 0 0 1px;
-
-    &:last-child {
-      border-right-width: 1px;
-    }
-  }
-
-  tbody tr:last-child :is(th, td) {
-    border-bottom-width: 1px;
-  }
-
-  thead th:first-child {
-    border-start-start-radius: var(--radius);
-  }
-
-  thead th:last-child {
-    border-start-end-radius: var(--radius);
-  }
-
-  tbody tr:last-child td:first-child {
-    border-end-start-radius: var(--radius);
-  }
-
-  tbody tr:last-child td:last-child {
-    border-end-end-radius: var(--radius);
-  }
-}
-
 .svg-icon {
   display: block;
   fill: var(--text);
@@ -272,46 +160,6 @@ table:not(.highlight *) {
   > svg {
     width: 100%;
     height: 100%;
-  }
-}
-
-.code-block {
-  position: relative;
-  color-scheme: dark;
-
-  &:hover .copy-code-button,
-  .copy-code-button:focus-visible {
-    opacity: 1;
-  }
-}
-
-.copy-code-button {
-  position: absolute;
-  top: var(--space-0);
-  right: var(--space-0);
-  display: flex;
-  padding: 0.1rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background-color: var(--bg-secondary);
-  color: var(--text);
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity var(--motion) ease;
-
-  .svg-icon {
-    width: 1rem;
-    height: 1rem;
-    fill: currentColor;
-  }
-
-  &:not(.copied) .check-icon,
-  &.copied .copy-icon {
-    display: none;
-  }
-
-  &:is(:hover, .copied) {
-    color: var(--blue);
   }
 }
 
