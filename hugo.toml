@@ -1,7 +1,8 @@
 baseURL = 'https://samuelq.dev/'
 locale = 'en-CA'
 title = 'Samuel Q'
-copyright = '© 2026 Samuel Q.'
+# No year: a notice is valid without one, and a literal here goes stale in January.
+copyright = '© Samuel Q.'
 
 pluralizelisttitles = false
 disableKinds = ["RSS"]

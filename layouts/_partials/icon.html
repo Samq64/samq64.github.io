@@ -1,11 +1,15 @@
+{{- /*
+  A name turns the icon into a labelled one. The label is real text rather than an aria
+  attribute, kept inside the same span as the artwork so that a rule hiding one icon of a
+  pair hides its label with it. A browser that draws no SVG and reads no ARIA — a terminal
+  one — is then still left with something to read, which an icon-only link otherwise is not.
+*/ -}}
 {{- $iconPath := printf "img/icons/%s.svg" .icon -}}
 
 {{- with resources.Get $iconPath -}}
-  <span class="svg-icon{{ with $.class }} {{ . }}{{ end }}"
-    {{- with $.name }} role="img" title="{{ . }}" aria-label="{{ . }}"
-    {{- else }} aria-hidden="true"
-    {{- end }}>
+  <span class="svg-icon{{ with $.class }} {{ . }}{{ end }}">
     {{- .Content | safeHTML -}}
+    {{- with $.name }}<span class="visually-hidden">{{ . }}</span>{{ end -}}
   </span>
 {{- else -}}
   {{ errorf "Icon not found: %s" $iconPath }}

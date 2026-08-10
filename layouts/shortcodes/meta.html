@@ -1,8 +1,6 @@
-{{- $key := .Get 0 -}}
-{{- if eq $key "title" -}}
-  {{ .Page.Title }}
-{{- else if eq $key "description" -}}
-  {{ .Page.Description }}
-{{- else -}}
-  {{ .Page.Param $key }}
-{{- end -}}
+{{- /*
+  Repeats a page's own front matter in its body, so a description written once for the head
+  can also be the paragraph the page opens with. Param reaches title and description as
+  readily as anything else, and falls back to the site's params for a key the page lacks.
+*/ -}}
+{{- .Page.Param (.Get 0) -}}

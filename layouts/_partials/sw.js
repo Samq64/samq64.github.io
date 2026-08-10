@@ -17,10 +17,11 @@
 {{- range findRE `/[^)"']+\.woff2` $css.Content | uniq -}}
   {{- $urls = $urls | append . -}}
 {{- end -}}
-{{- range partial "page-styles" $page -}}
+{{- $built := partial "built-assets" $page -}}
+{{- range $built.styles -}}
   {{- $urls = $urls | append .RelPermalink -}}
 {{- end -}}
-{{- range partial "page-scripts" $page -}}
+{{- range $built.scripts -}}
   {{- $urls = $urls | append .RelPermalink -}}
 {{- end -}}
 {{- with $page.Resources.Get "character.svg" -}}

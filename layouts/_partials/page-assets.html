@@ -3,9 +3,10 @@
   than from the head partial, since the stylesheets have to land after the site's own to
   override it, and a standalone page is deliberately given no site stylesheet to override.
 */ -}}
-{{- range partial "page-styles" . }}
+{{- $built := partial "built-assets" . -}}
+{{- range $built.styles }}
   <link rel="stylesheet" href="{{ .RelPermalink }}" />
 {{- end }}
-{{- range partial "page-scripts" . }}
+{{- range $built.scripts }}
   <script defer src="{{ .RelPermalink }}"></script>
 {{- end }}

@@ -1,22 +1,13 @@
-{{ $footer := hugo.Data.footer }}
 <footer>
   <div class="socials">
-    {{ range $footer.links }}
-      {{ if .email }}
-        <a href="#" class="obfuscated-email" data-email="{{ .email }}" rel="noopener noreferrer">
-          {{ partial "icon" (dict "icon" .icon "name" .name "class" "hover-lift") }}
-        </a>
-      {{ else }}
-        <a href="{{ .url }}" target="_blank" rel="noopener noreferrer">
-          {{ partial "icon" (dict "icon" .icon "name" .name "class" "hover-lift") }}
-        </a>
-      {{ end }}
+    {{ range hugo.Data.footer.links }}
+      <a
+        href="{{ .url }}"
+        {{ if not (strings.HasPrefix .url "mailto:") }}target="_blank" rel="noopener noreferrer"{{ end }}
+      >
+        {{ partial "icon" (dict "icon" .icon "name" .name "class" "hover-lift") }}
+      </a>
     {{ end }}
   </div>
   <span>{{ site.Copyright }}</span>
-  <script>
-    document.querySelectorAll(".obfuscated-email").forEach((link) => {
-      link.href = `mailto:${atob(link.dataset.email)}`;
-    });
-  </script>
 </footer>

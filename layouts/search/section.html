@@ -1,9 +1,19 @@
 {{ define "header" }}
   <h1>{{ .Title }}</h1>
-  <p id="search-status">Loading&hellip;</p>
+  {{/* Filled by the script below, so that with no script it is the noscript block that speaks. */}}
+  <p id="search-status"></p>
 {{ end }}
 
 {{ define "main" }}
+  <noscript>
+    <blockquote class="red">
+      This page needs JavaScript to search. The
+      <a href="{{ "blog/" | relURL }}">blog</a> and
+      <a href="{{ "projects/" | relURL }}">projects</a> can be browsed without it.
+    </blockquote>
+  </noscript>
+
+  {{/* Kept adjacent to the list, which is what lets cards.css drop it while there are none. */}}
   <hr />
   <ul class="cards" id="search-results"></ul>
 
@@ -17,6 +27,7 @@
     const template = document.getElementById("card-template");
     const input = document.getElementById("search-input");
 
+    status.textContent = "Loading…";
     input.value = new URLSearchParams(location.search).get("q") ?? "";
     input.focus();
 

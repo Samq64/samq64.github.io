@@ -6,7 +6,7 @@ url = "https://github.com/Samq64"
 [[links]]
 name = "Email"
 icon = "envelope"
-email = "Y29udGFjdC5zYW11ZWxxQGdtYWlsLmNvbQ=="
+url = "mailto:contact.samuelq@gmail.com"
 
 [[links]]
 name = "RSS"
