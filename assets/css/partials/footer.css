@@ -8,6 +8,15 @@ footer {
   gap: var(--space-2);
   margin-bottom: var(--space-1);
 
+  /* Not the link blue the rest of the site uses: these read as buttons and tint on hover. */
+  a {
+    color: var(--text);
+
+    &:hover {
+      color: var(--blue);
+    }
+  }
+
   .svg-icon {
     display: flex;
     justify-content: center;
@@ -18,14 +27,7 @@ footer {
     background-color: var(--bg-secondary);
     border: 1px solid var(--border);
 
-    &:hover {
-      svg {
-        fill: var(--blue);
-      }
-    }
-
     svg {
-      fill: var(--text);
       width: 1.75rem;
       height: 1.75rem;
     }

@@ -1,6 +1,6 @@
 <h{{ .Level }} id="{{ .Anchor }}">
   {{- .Text }}
   {{- if gt .Level 1 }}
-    <a class="header-link" href="#{{ .Anchor }}" aria-label="Link to this section" data-pagefind-ignore>#</a>
+    <a class="header-link" href="#{{ .Anchor }}" aria-label="Link to {{ .Text }}" data-pagefind-ignore>#</a>
   {{- end }}
 </h{{ .Level }}>

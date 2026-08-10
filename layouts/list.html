@@ -12,6 +12,7 @@
           "url" .RelPermalink
           "title" .LinkTitle
           "date" (cond .Date.IsZero "" (.Date | time.Format ":date_medium"))
+          "datetime" (cond .Date.IsZero "" (.Date.Format "2006-01-02"))
           "description" .Description
           "page" .)
         }}

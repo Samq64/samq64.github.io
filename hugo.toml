@@ -22,7 +22,6 @@ enableRobotsTXT = true
 [markup]
   [markup.highlight]
     style = "tokyonight-night"
-    codeFences = true
     lineNos = true
 
 [[menu.main]]

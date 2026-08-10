@@ -12,10 +12,11 @@ scripts:
   <p>{{< meta "description" >}} Feeds are limited to 15 videos by YouTube.</p>
 
   <noscript>
-    <blockquote class="red">This page needs JavaScript to build a feed URL.</blockquote>
+    <p class="callout red">This page needs JavaScript to build a feed URL.</p>
   </noscript>
 
-  <div class="flex-row">
+  <!-- A real form, so Enter submits and phone keyboards offer a Go key, without a listener. -->
+  <form class="flex-row" id="lookup">
     <input
       type="text"
       id="source-input"
@@ -23,23 +24,23 @@ scripts:
       placeholder="https://www.youtube.com/@mkbhd"
       autofocus
     />
-    <button id="submit-button" class="button">Get Feed</button>
-  </div>
+    <button type="submit" id="submit-button" class="button">Get Feed</button>
+  </form>
 
-  <blockquote class="red" id="error"></blockquote>
+  <p class="callout red" id="error" role="alert"></p>
 
   <div id="result">
     <a class="info" id="result-link">
-      <span id="result-image-wrap"><img id="result-image" /></span>
+      <span id="result-image-wrap"><img id="result-image" alt="" /></span>
       <h2 id="result-title"></h2>
     </a>
 
     <form id="filters"></form>
 
-    <blockquote class="yellow" id="notice">
+    <p class="callout yellow" id="notice">
       Popularity feeds are sorted correctly by YouTube, but most RSS readers will re-sort by publish
       date.
-    </blockquote>
+    </p>
 
     <div class="flex-row">
       <label for="feed-url">Feed URL:</label>

@@ -1,3 +1,4 @@
+const lookupForm = document.getElementById("lookup");
 const sourceInput = document.getElementById("source-input");
 const feedUrlInput = document.getElementById("feed-url");
 const errorEl = document.getElementById("error");
@@ -40,13 +41,26 @@ const PREFIX = {
 
 let state = { result: null, error: null };
 
-function renderFieldset(legend, name, options) {
-  return `<fieldset><legend>${legend}</legend>${options
-    .map(
-      ({ label, value, checked }) =>
-        `<label><input type="radio" name="${name}" value="${value}"${checked ? " checked" : ""} />${label}</label>`,
-    )
-    .join("")}</fieldset>`;
+function renderFieldset(legendText, name, options) {
+  const legend = document.createElement("legend");
+  legend.textContent = legendText;
+
+  const fieldset = document.createElement("fieldset");
+  fieldset.append(legend);
+
+  for (const { label, value, checked } of options) {
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = name;
+    radio.value = value;
+    radio.checked = Boolean(checked);
+
+    const wrapper = document.createElement("label");
+    wrapper.append(radio, label);
+    fieldset.append(wrapper);
+  }
+
+  return fieldset;
 }
 
 function selected(name) {
@@ -131,13 +145,14 @@ async function resolveChannel() {
   }
 }
 
-filtersEl.innerHTML =
-  renderFieldset("Type", "type", TYPES) + renderFieldset("Format", "format", FORMATS);
+filtersEl.append(
+  renderFieldset("Type", "type", TYPES),
+  renderFieldset("Format", "format", FORMATS),
+);
 
-submitButton.addEventListener("click", resolveChannel);
-
-sourceInput.addEventListener("keyup", (e) => {
-  if (e.key === "Enter") resolveChannel();
+lookupForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  resolveChannel();
 });
 
 filtersEl.addEventListener("change", () => {

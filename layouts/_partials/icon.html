@@ -12,5 +12,5 @@
     {{- with $.name }}<span class="visually-hidden">{{ . }}</span>{{ end -}}
   </span>
 {{- else -}}
-  {{ errorf "Icon not found: %s" $iconPath }}
+  {{ errorf "Icon not found in assets: %s" $iconPath }}
 {{- end -}}

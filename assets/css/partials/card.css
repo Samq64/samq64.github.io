@@ -12,16 +12,33 @@ hr:has(+ .cards:empty) {
 }
 
 .card {
+  position: relative;
   padding-block: var(--space-2);
 }
 
 .card-link {
-  display: block;
   color: var(--text);
   text-decoration: none;
 
-  &:hover h2 {
+  /*
+    Stretched over the card, so the whole of it stays clickable while the link itself wraps
+    only the title. Positioned children later in the card paint over this; the tags are the
+    ones that have to.
+  */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  &:hover {
     text-decoration: underline;
     text-decoration-thickness: 2px;
   }
+}
+
+.card .tag-list {
+  position: relative;
+  /* Only the badges themselves, leaving the rest of the row clicking through to the card. */
+  width: fit-content;
 }

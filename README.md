@@ -52,6 +52,36 @@ Code has to be there regardless, since that is the only place esbuild can resolv
 A drawing in `design` records the command that regenerates whatever it produces, because
 nothing in the build checks the two still match.
 
+## Stylesheets
+
+`main.css` imports every other sheet and then holds the site's own chrome. The rest divide by
+what they style, and two of them by a rule worth stating outright:
+
+| File             | Holds                                            |
+| ---------------- | ------------------------------------------------ |
+| `variables.css`  | Custom properties and nothing else, never a rule |
+| `reset.css`      | Rules only, the reduced-motion ones included     |
+| `fonts.css`      | The `@font-face` declarations                    |
+| `code.css`       | Inline code, fenced blocks, the copy button      |
+| `tables.css`     | Content tables                                   |
+| `partials/*.css` | One file per partial of the same name            |
+
+Reduced motion is answered in one place: `variables.css` collapses `--motion`, `--lift` and
+`--blink-count` under the query, so a component transitions a duration rather than asking
+whether it should transition at all. `reset.css` carries the one rule the query needs.
+
+Page-specific stylesheets live beside the script they belong to, under `assets/projects`.
+
+## Templates
+
+Prettier cannot parse Go templates and mangles them, so `layouts/` is in `.prettierignore` and
+formatted by hand. Two conventions stand in for it:
+
+- A partial that ends in `return` trims every action, since anything it emits is output it was
+  not asked for. A partial that emits markup leaves its actions untrimmed, the build minifying
+  the result anyway, and trims only where a stray space would show — inside a link, say.
+- Comment blocks are always trimmed, and explain why rather than what.
+
 ## Page-specific assets
 
 A page names its own stylesheets and scripts, by their path within `assets`:

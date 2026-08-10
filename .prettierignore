@@ -1,1 +1,4 @@
+# Prettier has no Go template parser, and the HTML one mangles them: it reflows the actions
+# themselves and folds the whitespace-control markers. The community plugin fares no better.
+# Templates are therefore formatted by hand, to the conventions in the README.
 layouts/

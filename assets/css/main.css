@@ -78,12 +78,31 @@ h6 {
   }
 }
 
+/*
+  One focus ring for every field on the site. Transparent to begin with rather than absent, so
+  that taking focus is a colour transition and never a ring appearing and nudging the layout.
+*/
+input {
+  outline: 2px solid transparent;
+  transition: outline-color var(--motion) ease;
+
+  &:focus {
+    outline-color: var(--blue);
+  }
+}
+
 p {
   margin-block: var(--space-2);
 }
 
+/*
+  One boxed surface, worn by three things: a real quotation from Markdown, a card in a list,
+  and a callout the page raises itself. The callout is a class rather than more blockquotes
+  because an error or a "this needs JavaScript" notice is not a quotation of anything.
+*/
 blockquote,
-.card {
+.card,
+.callout {
   padding-inline: var(--space-2);
   background-color: var(--bg-secondary);
   border: 1px solid var(--border);
@@ -153,9 +172,14 @@ main {
   }
 }
 
+/*
+  Icons take the colour of the text around them, so a control tints its icon by setting its own
+  colour rather than reaching past it for the fill. Buttons do not inherit colour, so the ones
+  carrying an icon set it; see .icon-button and .button.
+*/
 .svg-icon {
   display: block;
-  fill: var(--text);
+  fill: currentColor;
 
   > svg {
     width: 100%;

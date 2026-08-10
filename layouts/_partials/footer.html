@@ -3,7 +3,7 @@
     {{ range hugo.Data.footer.links }}
       <a
         href="{{ .url }}"
-        {{ if not (strings.HasPrefix .url "mailto:") }}target="_blank" rel="noopener noreferrer"{{ end }}
+        {{ if not (strings.HasPrefix .url "mailto:") }}target="_blank" rel="noreferrer"{{ end }}
       >
         {{ partial "icon" (dict "icon" .icon "name" .name "class" "hover-lift") }}
       </a>

@@ -6,19 +6,23 @@
 
 {{ define "main" }}
   <noscript>
-    <blockquote class="red">
+    <p class="callout red">
       This page needs JavaScript to search. The
       <a href="{{ "blog/" | relURL }}">blog</a> and
       <a href="{{ "projects/" | relURL }}">projects</a> can be browsed without it.
-    </blockquote>
+    </p>
   </noscript>
 
-  {{/* Kept adjacent to the list, which is what lets cards.css drop it while there are none. */}}
+  {{/* Kept adjacent to the list, which is what lets card.css drop it while there are none. */}}
   <hr />
   <ul class="cards" id="search-results"></ul>
 
+  {{/*
+    The date is a placeholder rather than empty so the element is there for the script to fill
+    or drop; nothing in the template is ever displayed as it stands.
+  */}}
   <template id="card-template">
-    {{ partial "card" (dict "url" "" "title" "" "date" "" "description" "") }}
+    {{ partial "card" (dict "url" "" "title" "" "date" "-" "datetime" "" "description" "") }}
   </template>
 
   <script type="module">
@@ -57,9 +61,18 @@
 
     function renderResult({ url, meta, excerpt }) {
       const card = template.content.cloneNode(true);
-      card.querySelector(".card-link").href = url;
-      card.querySelector("h2").textContent = meta.title;
-      card.querySelector(".card-date").textContent = meta.date ?? "";
+      const link = card.querySelector(".card-link");
+      link.href = url;
+      link.textContent = meta.title;
+
+      const date = card.querySelector(".card-date");
+      if (meta.date) {
+        date.textContent = meta.date;
+        date.dateTime = meta.datetime ?? "";
+      } else {
+        date.remove();
+      }
+
       card.querySelector("p").replaceChildren(...excerptNodes(excerpt));
       return card;
     }

@@ -1,7 +1,16 @@
 {{ define "header" }}
   <h1>{{ .Title }}</h1>
   {{ if not .Date.IsZero }}
-    <p data-pagefind-meta="date" data-pagefind-ignore>{{ .Date | time.Format ":date_medium" }}</p>
+    <p>
+      {{/* The machine-readable form is captured too, so search results can carry it as well. */}}
+      <time
+        datetime="{{ .Date.Format "2006-01-02" }}"
+        data-pagefind-meta="date, datetime[datetime]"
+        data-pagefind-ignore
+      >
+        {{- .Date | time.Format ":date_medium" -}}
+      </time>
+    </p>
   {{ end }}
   {{ partial "tags" (dict "page" . "taxonomies" (slice "tags")) }}
 {{ end }}

@@ -9,6 +9,7 @@
       title="Blog"
       href="{{ "blog/index.xml" | relURL }}"
     />
+    {{ partial "font-preload" . }}
     {{ with partial "main-css" . }}
       <link
         rel="stylesheet"
@@ -22,11 +23,11 @@
   <body>
     {{ partial "nav" . }}
     <main{{ if in (slice "home" "page") .Kind }} data-pagefind-body{{ end }}>
-      <div class="centered-header">
+      <header class="centered-header">
         {{- block "header" . }}
           <h1>{{ .Title }}</h1>
         {{ end -}}
-      </div>
+      </header>
       {{- block "main" . -}}
         <hr />
         {{ if .Content }}

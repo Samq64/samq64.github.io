@@ -90,7 +90,6 @@
   .svg-icon {
     width: 1.5rem;
     height: 1.5rem;
-    fill: currentColor;
   }
 }
 
@@ -127,14 +126,12 @@
   color: var(--text);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  outline: 2px solid transparent;
   font-family: var(--font-mono);
   font-size: 1.25rem;
   text-align: center;
-  transition: outline-color var(--motion) ease;
 }
 
-.digit:focus,
+/* Stands in for the ring while the pad is driving and no box is focused. */
 .digits:not(:focus-within) .digit.next {
   outline-color: var(--blue);
 }
@@ -192,7 +189,7 @@
   The pad only moves alongside once the speech column can still hold a readable bubble and
   four boxes beside it, which needs most of the body's 760px.
 */
-@media (min-width: 48rem) {
+@media (width >= 48rem) {
   .workspace {
     flex-direction: row;
     align-items: flex-start;

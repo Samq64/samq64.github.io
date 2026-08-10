@@ -38,12 +38,12 @@ nav {
   padding: 0;
   border: none;
   background: transparent;
+  /* Buttons inherit no colour of their own, and the icon inside takes its fill from this. */
+  color: var(--text);
   cursor: pointer;
 
   &:hover {
-    svg {
-      fill: var(--blue);
-    }
+    color: var(--blue);
   }
 }
 
@@ -54,7 +54,7 @@ nav {
   gap: var(--space-1);
 
   &:focus-within .svg-icon {
-    fill: var(--blue);
+    color: var(--blue);
   }
 
   input {
@@ -64,7 +64,6 @@ nav {
     padding-inline: 0;
     border: none;
     border-radius: var(--radius);
-    outline: 2px solid transparent;
     background-color: transparent;
     color: var(--text);
     font-size: var(--font-size-sm);

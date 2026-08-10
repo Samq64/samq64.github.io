@@ -1,10 +1,15 @@
+{{- /*
+  The link wraps the title alone and is stretched over the card by CSS, so that what a screen
+  reader reads out as the link is the title rather than the title, the date and the summary run
+  together. The tag links are lifted back above it in the same rule, being links of their own.
+*/ -}}
 <li>
   <article class="card blue hover-lift">
-    <a href="{{ .url }}" class="card-link">
-      <h2>{{ .title }}</h2>
-      <span class="card-date">{{ .date }}</span>
-      <p>{{ .description }}</p>
-    </a>
+    <h2><a href="{{ .url }}" class="card-link">{{ .title }}</a></h2>
+    {{ with .date }}
+      <time class="card-date" datetime="{{ $.datetime }}">{{ . }}</time>
+    {{ end }}
+    <p>{{ .description }}</p>
     {{ with .page }}
       {{ partial "tags" (dict "page" . "taxonomies" (slice "tags" "categories")) }}
     {{ end }}
