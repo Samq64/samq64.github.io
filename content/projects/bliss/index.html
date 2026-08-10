@@ -5,11 +5,14 @@ categories: tools
 aliases:
   - /blissboard/
   - /blissboard/scratch/
+styles:
+  - projects/bliss/style.css
+scripts:
+  - projects/bliss/script.js
 pwa:
   short_name: Bliss Board
+  icon: projects/bliss/icon.png
 ---
-
-<link rel="stylesheet" href="{{< asset `style.css` >}}" />
 
 <div class="bliss">
   <p>
@@ -42,7 +45,6 @@ pwa:
               aria-label="Digit 1 of 4"
               placeholder="-"
               autocomplete="off"
-              autofocus
             />
             <input
               type="text"
@@ -121,5 +123,3 @@ pwa:
     The character is from <a href="https://scratch.mit.edu">Scratch</a>'s asset library.
   </p>
 </div>
-
-<script type="module" src="{{< asset `script.js` >}}"></script>

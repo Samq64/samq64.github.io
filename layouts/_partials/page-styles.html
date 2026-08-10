@@ -1,0 +1,14 @@
+{{- /*
+  A page's own stylesheets, named by a styles list in front matter and returned built. The
+  service worker precaches them by the same hashed URLs the page loads, so this is the only
+  place the pipeline is spelled out.
+*/ -}}
+{{- $styles := slice -}}
+{{- range .Params.styles -}}
+  {{- $file := resources.Get . -}}
+  {{- if not $file -}}
+    {{- errorf "Stylesheet not found in assets: %s" . -}}
+  {{- end -}}
+  {{- $styles = $styles | append ($file | minify | fingerprint) -}}
+{{- end -}}
+{{- return $styles -}}

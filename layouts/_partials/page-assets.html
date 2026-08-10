@@ -1,0 +1,11 @@
+{{- /*
+  Emits whatever a page named in its styles and scripts lists. Called from both layouts rather
+  than from the head partial, since the stylesheets have to land after the site's own to
+  override it, and a standalone page is deliberately given no site stylesheet to override.
+*/ -}}
+{{- range partial "page-styles" . }}
+  <link rel="stylesheet" href="{{ .RelPermalink }}" />
+{{- end }}
+{{- range partial "page-scripts" . }}
+  <script defer src="{{ .RelPermalink }}"></script>
+{{- end }}

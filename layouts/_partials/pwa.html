@@ -2,8 +2,20 @@
   Makes a page installable: a manifest and a service worker written into the page's own
   directory, so the app's scope is that directory and nothing above it.
 
-  Switched on by a pwa map in front matter, whose short_name names the installed app. The
-  icon comes from icon.png beside the page, full bleed so it survives a maskable crop.
+  Switched on by a pwa map in front matter, whose short_name names the installed app.
+
+  The pwa map's icon names a 512 square in assets, framed to be shown whole. It lives there
+  rather than beside the page because nothing renders it: only the manifest and the operating
+  system ever read it, and assets publishes what is asked for instead of everything present.
+
+  Android crops a maskable icon to the middle two thirds, so the padded variant is grown from
+  that same file here: 64px a side takes the eyes from 195 of the 256 out to a safe 156 once it
+  is scaled back down, and the padding takes the theme colour the icon is already drawn on.
+
+  Every URL is content-hashed, the manifest's own included, because an installed app holds on
+  to an icon by its URL: a name that outlives a redraw is an icon that never changes. Each one
+  is copied to a name that says what it is on the way, since a hash alone leaves four
+  identically named icons that only the manifest can tell apart.
 */ -}}
 {{- $page := . -}}
 {{- $pwa := $page.Params.pwa -}}
@@ -11,9 +23,34 @@
 {{- $color := site.Params.themeColor -}}
 {{- $dir := strings.TrimPrefix "/" $page.Path -}}
 
-{{- $source := $page.Resources.Get "icon.png" -}}
-{{- $small := $source.Resize "192x192" -}}
-{{- $apple := $source.Resize "180x180" -}}
+{{- $icon := resources.Get $pwa.icon -}}
+{{- if not $icon -}}
+  {{- errorf "Icon not found in assets: %s" $pwa.icon -}}
+{{- end -}}
+{{- $padded := $icon.Filter (images.Padding 64 $color) -}}
+
+{{- $icons := slice -}}
+{{- range slice (dict "image" $icon "purpose" "any") (dict "image" $padded "purpose" "maskable") -}}
+  {{- $image := .image -}}
+  {{- $purpose := .purpose -}}
+  {{- range slice 512 192 -}}
+    {{- $size := printf "%dx%d" . . -}}
+    {{- $target := printf "%s/icon-%s-%d.png" $dir $purpose . -}}
+    {{- /* Resampled only when the size actually differs, so the 512 the icon is already
+           drawn at is copied rather than re-encoded into the same dimensions. */ -}}
+    {{- $source := $image -}}
+    {{- if ne $image.Width . -}}
+      {{- $source = $image.Resize $size -}}
+    {{- end -}}
+    {{- $sized := resources.Copy $target $source | fingerprint -}}
+    {{- $icons = $icons | append (dict
+      "src" $sized.RelPermalink
+      "sizes" $size
+      "type" "image/png"
+      "purpose" $purpose
+    ) -}}
+  {{- end -}}
+{{- end -}}
 
 {{- $manifest := dict
   "id" $page.RelPermalink
@@ -25,22 +62,29 @@
   "display" "standalone"
   "background_color" $color
   "theme_color" $color
-  "icons" (slice
-    (dict "src" $source.RelPermalink "sizes" "512x512" "type" "image/png" "purpose" "any maskable")
-    (dict "src" $small.RelPermalink "sizes" "192x192" "type" "image/png" "purpose" "any maskable")
-  )
+  "icons" $icons
 -}}
 
 {{- $file := resources.FromString
   (printf "%s/manifest.webmanifest" $dir)
   (jsonify (dict "indent" "  ") $manifest)
+  | fingerprint
 -}}
 {{- $worker := resources.FromString (printf "%s/sw.js" $dir) (partial "sw.js" $page) -}}
+{{- /*
+  iOS wants an apple-touch-icon of its own and scales whatever it is handed, so it shares the
+  unpadded 192 rather than carrying a 180 that is the same picture again. It crops to a rounded
+  square, not a circle, so the unpadded framing is the one it wants.
+*/ -}}
+{{- $apple := index (where (where $icons "purpose" "any") "sizes" "192x192") 0 -}}
 
 <link rel="manifest" href="{{ $file.RelPermalink }}" />
-<link rel="apple-touch-icon" href="{{ $apple.RelPermalink }}" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-title" content="{{ $short }}" />
+<link rel="apple-touch-icon" href="{{ $apple.src }}" />
+{{- /*
+  No apple-mobile-web-app-capable or -title: iOS has taken display and short_name from the
+  manifest since 16.4, well below the Safari this site's CSS already needs. The icon stays,
+  Safari using it for bookmarks and a docked app rather than only a home screen.
+*/}}
 <script>
   if ("serviceWorker" in navigator) {
     addEventListener("load", () => navigator.serviceWorker.register("{{ $worker.RelPermalink }}"));

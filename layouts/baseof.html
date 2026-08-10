@@ -16,6 +16,7 @@
         {{ if hugo.IsProduction }}integrity="{{ .Data.Integrity }}" crossorigin{{ end }}
       />
     {{ end }}
+    {{ partial "page-assets" . }}
     {{ partial "theme-script" . }}
   </head>
   <body>

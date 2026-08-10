@@ -49,9 +49,14 @@ function focusIfTyping(input) {
   if (digits.includes(document.activeElement)) input.focus();
 }
 
-/* Stands in for the caret while the pad is driving and no box is focused. */
+/*
+  Stands in for the caret while the pad is driving and no box is focused. Nothing is marked
+  until a digit has actually been entered: on an untouched board the mark sits on the first box
+  with no caret anywhere near it, which only reads as a focus the page hasn't got.
+*/
 function markNext() {
-  const next = digits.findIndex((input) => !input.value);
+  const started = digits.some((input) => input.value);
+  const next = started ? digits.findIndex((input) => !input.value) : -1;
   digits.forEach((input, index) => input.classList.toggle("next", index === next));
 }
 
