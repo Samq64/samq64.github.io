@@ -31,7 +31,10 @@ scripts:
 
   <div id="result">
     <a class="info" id="result-link">
-      <span id="result-image-wrap"><img id="result-image" alt="" /></span>
+      <!-- no-referrer keeps the page URL from Google. -->
+      <span id="result-image-wrap">
+        <img id="result-image" alt="" referrerpolicy="no-referrer" />
+      </span>
       <h2 id="result-title"></h2>
     </a>
 

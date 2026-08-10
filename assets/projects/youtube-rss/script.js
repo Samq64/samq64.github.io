@@ -106,11 +106,9 @@ function render() {
   image.src = "";
   if (result.type === "playlist") {
     imageWrap.className = "thumbnail";
-    image.alt = "Playlist thumbnail";
     resultLink.href = `https://www.youtube.com/playlist?list=${result.id}`;
   } else {
     imageWrap.className = "avatar";
-    image.alt = "Channel avatar";
     resultLink.href = `https://www.youtube.com/channel/${result.id}`;
   }
   image.src = result.thumbnail;
