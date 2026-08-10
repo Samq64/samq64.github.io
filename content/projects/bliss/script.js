@@ -27,6 +27,7 @@ const output = document.getElementById("output");
 const digits = Array.from(document.querySelectorAll(".digit"));
 const digitGroup = document.querySelector(".digits");
 const pad = document.querySelector(".pad");
+const backspace = document.getElementById("backspace");
 const eyes = document.querySelector(".eyes");
 const historyEl = document.getElementById("history");
 const list = document.getElementById("list");
@@ -122,18 +123,18 @@ function enter(digit, index) {
   if (digits.every((input) => input.value)) submit();
 }
 
-function deleteBack(input, index, event) {
+/* Always clears the last digit entered, whichever box happens to hold the caret. */
+function deleteLast() {
   clearTimeout(clearTimer);
   clearTimer = null;
   digitGroup.classList.remove("error");
 
-  /* The browser empties a box that still holds a digit; only an empty one steps back. */
-  if (input.value) return;
+  const next = digits.findIndex((input) => !input.value);
+  const last = (next === -1 ? digits.length : next) - 1;
+  if (last < 0) return;
 
-  event.preventDefault();
-  if (index === 0) return;
-  digits[index - 1].value = "";
-  digits[index - 1].focus();
+  digits[last].value = "";
+  focusIfTyping(digits[last]);
   markNext();
 }
 
@@ -148,13 +149,13 @@ digits.forEach((input, index) => {
   });
 
   input.addEventListener("keydown", (event) => {
-    if (event.key === "Backspace") deleteBack(input, index, event);
-  });
-
-  input.addEventListener("beforeinput", (event) => {
-    if (event.inputType === "deleteContentBackward") deleteBack(input, index, event);
+    if (event.key !== "Backspace") return;
+    event.preventDefault();
+    deleteLast();
   });
 });
+
+backspace.addEventListener("click", deleteLast);
 
 pad.addEventListener("click", (event) => {
   const key = event.target.closest(".key");

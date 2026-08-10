@@ -65,10 +65,33 @@
   transform: rotate(45deg);
 }
 
-.digits {
+.entry {
   display: flex;
   gap: var(--space-1);
   margin-block-start: var(--space-2);
+}
+
+.digits {
+  display: flex;
+  flex: 1;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.backspace {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Matches the boxes it sits beside. */
+  height: 2.75rem;
+  padding-inline: var(--space-2);
+
+  .svg-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: currentColor;
+  }
 }
 
 .digits.shake {
