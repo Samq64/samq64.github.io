@@ -1,4 +1,7 @@
 .bliss {
+  /* The comfortable touch target the boxes, the pad keys and the backspace all match. */
+  --touch: 2.75rem;
+
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -81,7 +84,7 @@
   align-items: center;
   justify-content: center;
   /* Matches the boxes it sits beside. */
-  height: 2.75rem;
+  height: var(--touch);
   padding-inline: var(--space-2);
 
   .svg-icon {
@@ -117,7 +120,7 @@
 .digit {
   flex: 1;
   min-width: 0;
-  height: 2.75rem;
+  height: var(--touch);
   padding: 0;
   background-color: var(--bg-secondary);
   color: var(--text);
@@ -128,9 +131,9 @@
   text-align: center;
 }
 
-/* Stands in for the ring while the pad is driving and no box is focused. */
+/* Stands in for the ring while the pad is driving and no box is focused, so it matches one. */
 .digits:not(:focus-within) .digit.next {
-  outline-color: var(--blue);
+  outline-color: var(--focus);
 }
 
 .digits.error .digit {
@@ -153,7 +156,7 @@
 
 .key {
   padding: var(--space-1);
-  min-height: 2.75rem;
+  min-height: var(--touch);
   font-size: 1.25rem;
 }
 

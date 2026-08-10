@@ -8,6 +8,8 @@
   --yellow: light-dark(#8f5e15, #e0af68);
   --accent-fg: light-dark(#e1e2e7, #343b58);
   --border: color-mix(in srgb, var(--text) 15%, transparent);
+  /* Not the blue: a ring on the blue buttons has to read against the fill as well as the page. */
+  --focus: var(--text);
 
   --font-sans: Inter, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;

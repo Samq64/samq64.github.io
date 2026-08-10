@@ -12,6 +12,11 @@
   color-scheme: light dark;
 }
 
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
 /* A theme switch repaints everything at once; without this the page fades instead of flips. */
 :root[data-switching] * {
   transition: none !important;
@@ -71,13 +76,17 @@ h6 {
   }
 }
 
-/* Transparent rather than absent, so focus is a colour change and never a shift in layout. */
+/*
+  A field shows the ring on any focus, not only a keyboard one, and fades it in. Transparent
+  rather than absent so that is a colour change and never a ring appearing and shifting layout.
+*/
 input {
   outline: 2px solid transparent;
+  outline-offset: 2px;
   transition: outline-color var(--motion) ease;
 
   &:focus {
-    outline-color: var(--blue);
+    outline-color: var(--focus);
   }
 }
 
@@ -92,20 +101,24 @@ blockquote,
   padding-inline: var(--space-2);
   background-color: var(--bg-secondary);
   border: 1px solid var(--border);
-  border-left: 4px solid var(--bg-tertiary);
+  border-left: 4px solid var(--accent, var(--bg-tertiary));
   border-radius: var(--radius);
 
   &.blue {
-    border-left-color: var(--blue);
+    --accent: var(--blue);
   }
 
   &.red {
-    border-color: var(--red);
+    --accent: var(--red);
   }
 
   &.yellow {
-    border-color: var(--yellow);
+    --accent: var(--yellow);
   }
+}
+
+.callout {
+  padding-block: var(--space-1);
 }
 
 .button {
