@@ -9,6 +9,7 @@ enableRobotsTXT = true
 
 [params]
   description = 'Personal site of Samuel Q.'
+  themeColor = '#24283b'
 
 [taxonomies]
   tag = "tags"

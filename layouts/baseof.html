@@ -2,14 +2,14 @@
 <html lang="{{ site.Language.Locale }}">
   <head>
     {{ partial "head" . }}
-    <meta name="theme-color" content="#24283b" />
+    <meta name="theme-color" content="{{ site.Params.themeColor }}" />
     <link
       rel="alternate"
       type="application/rss+xml"
       title="Blog"
       href="{{ "blog/index.xml" | relURL }}"
     />
-    {{ with resources.Get "css/main.css" | css.Build | minify | fingerprint }}
+    {{ with partial "main-css" . }}
       <link
         rel="stylesheet"
         href="{{ .RelPermalink }}"

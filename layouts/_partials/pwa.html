@@ -1,0 +1,48 @@
+{{- /*
+  Makes a page installable: a manifest and a service worker written into the page's own
+  directory, so the app's scope is that directory and nothing above it.
+
+  Switched on by a pwa map in front matter, whose short_name names the installed app. The
+  icon comes from icon.png beside the page, full bleed so it survives a maskable crop.
+*/ -}}
+{{- $page := . -}}
+{{- $pwa := $page.Params.pwa -}}
+{{- $short := or $pwa.short_name $page.Title -}}
+{{- $color := site.Params.themeColor -}}
+{{- $dir := strings.TrimPrefix "/" $page.Path -}}
+
+{{- $source := $page.Resources.Get "icon.png" -}}
+{{- $small := $source.Resize "192x192" -}}
+{{- $apple := $source.Resize "180x180" -}}
+
+{{- $manifest := dict
+  "id" $page.RelPermalink
+  "name" $page.Title
+  "short_name" $short
+  "description" $page.Description
+  "start_url" $page.RelPermalink
+  "scope" $page.RelPermalink
+  "display" "standalone"
+  "background_color" $color
+  "theme_color" $color
+  "icons" (slice
+    (dict "src" $source.RelPermalink "sizes" "512x512" "type" "image/png" "purpose" "any maskable")
+    (dict "src" $small.RelPermalink "sizes" "192x192" "type" "image/png" "purpose" "any maskable")
+  )
+-}}
+
+{{- $file := resources.FromString
+  (printf "%s/manifest.webmanifest" $dir)
+  (jsonify (dict "indent" "  ") $manifest)
+-}}
+{{- $worker := resources.FromString (printf "%s/sw.js" $dir) (partial "sw.js" $page) -}}
+
+<link rel="manifest" href="{{ $file.RelPermalink }}" />
+<link rel="apple-touch-icon" href="{{ $apple.RelPermalink }}" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="{{ $short }}" />
+<script>
+  if ("serviceWorker" in navigator) {
+    addEventListener("load", () => navigator.serviceWorker.register("{{ $worker.RelPermalink }}"));
+  }
+</script>

@@ -1,0 +1,13 @@
+<!--
+  The app icon: one of the board's eyes on the Tokyo Night Storm background the site's
+  theme-color already uses. The eye keeps the 26:19 proportions and the pupil-to-eye ratio
+  it has on the pad, and its widest point sits well inside the 80% circle a maskable icon
+  may be cropped to.
+
+  icon.png is rasterised from this and committed, since the build has no rasteriser.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" fill="#24283b" />
+  <ellipse cx="256" cy="256" rx="150" ry="110" fill="#e1e2e7" />
+  <circle cx="256" cy="256" r="46" fill="#343b58" />
+</svg>

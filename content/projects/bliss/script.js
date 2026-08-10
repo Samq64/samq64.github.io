@@ -155,7 +155,7 @@ digits.forEach((input, index) => {
   });
 });
 
-backspace.addEventListener("click", deleteLast);
+backspace?.addEventListener("click", deleteLast);
 
 pad.addEventListener("click", (event) => {
   const key = event.target.closest(".key");
