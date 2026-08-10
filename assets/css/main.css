@@ -96,6 +96,7 @@ blockquote,
   font-family: var(--font-mono);
   cursor: pointer;
   transition: background-color var(--motion) ease;
+  touch-action: manipulation;
 
   /* The only press feedback a touch device gets, since it never hovers. */
   &:active {
