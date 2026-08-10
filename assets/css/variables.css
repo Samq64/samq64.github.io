@@ -8,6 +8,7 @@
   --yellow: light-dark(#8f5e15, #e0af68);
   --accent-fg: light-dark(#e1e2e7, #343b58);
   --border: color-mix(in srgb, var(--text) 15%, transparent);
+  --pressed: color-mix(in srgb, var(--blue), black 10%);
 
   --font-sans: Inter, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;

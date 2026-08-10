@@ -1,0 +1,114 @@
+---
+title: C.A.R.E. Bliss Board
+description: The unofficial webpage for C.A.R.E. to speed up bliss board conversations.
+categories: tools
+---
+
+<link rel="stylesheet" href="style.css" />
+
+<div class="bliss">
+  <p>
+    {{< meta "description" >}} Every digit is an eye direction: tap them on the pad, or type the
+    code.
+  </p>
+
+  <noscript>
+    <blockquote class="red">This page needs JavaScript to look words up.</blockquote>
+  </noscript>
+
+  <div class="workspace">
+    <div class="stage">
+      <img
+        class="character"
+        src="character.svg"
+        alt="Person in a wheelchair"
+        width="155"
+        height="229"
+      />
+      <div class="speech">
+        <p class="bubble" id="output" aria-live="polite">Enter a code.</p>
+
+        <div class="digits" role="group" aria-label="Four digit code">
+          <input
+            type="text"
+            inputmode="numeric"
+            class="digit"
+            aria-label="Digit 1 of 4"
+            placeholder="-"
+            autocomplete="off"
+            autofocus
+          />
+          <input
+            type="text"
+            inputmode="numeric"
+            class="digit"
+            aria-label="Digit 2 of 4"
+            placeholder="-"
+            autocomplete="off"
+          />
+          <input
+            type="text"
+            inputmode="numeric"
+            class="digit"
+            aria-label="Digit 3 of 4"
+            placeholder="-"
+            autocomplete="off"
+          />
+          <input
+            type="text"
+            inputmode="numeric"
+            class="digit"
+            aria-label="Digit 4 of 4"
+            placeholder="-"
+            autocomplete="off"
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Ordered by where each digit sits around the eyes, not by value. -->
+    <div class="pad" role="group" aria-label="Eye directions">
+      <button type="button" class="button key" data-digit="3" aria-label="3, up and left">3</button>
+      <button type="button" class="button key" data-digit="2" aria-label="2, up, left of centre">
+        2
+      </button>
+      <button type="button" class="button key" data-digit="1" aria-label="1, up, right of centre">
+        1
+      </button>
+      <button type="button" class="button key" data-digit="0" aria-label="0, up and right">
+        0
+      </button>
+      <button type="button" class="button key" data-digit="5" aria-label="5, left">5</button>
+      <svg class="eyes" viewBox="0 0 116 46" aria-hidden="true">
+        <ellipse class="eye" cx="30" cy="23" rx="26" ry="19" />
+        <ellipse class="eye" cx="86" cy="23" rx="26" ry="19" />
+        <circle class="pupil" cx="30" cy="23" r="8" />
+        <circle class="pupil" cx="86" cy="23" r="8" />
+      </svg>
+      <button type="button" class="button key" data-digit="4" aria-label="4, right">4</button>
+      <button type="button" class="button key" data-digit="8" aria-label="8, down and left">
+        8
+      </button>
+      <button type="button" class="button key wide" data-digit="7" aria-label="7, down">7</button>
+      <button type="button" class="button key" data-digit="6" aria-label="6, down and right">
+        6
+      </button>
+    </div>
+  </div>
+
+  <table id="history" hidden>
+    <thead>
+      <tr>
+        <th scope="col">Code</th>
+        <th scope="col">Word</th>
+      </tr>
+    </thead>
+    <tbody id="list"></tbody>
+  </table>
+
+  <p class="credit">
+    The character is from <a href="https://scratch.mit.edu">Scratch</a>'s asset library.
+  </p>
+</div>
+
+<script type="module" src="script.js"></script>

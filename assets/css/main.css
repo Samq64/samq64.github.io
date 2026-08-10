@@ -10,6 +10,14 @@
   color-scheme: light dark;
 }
 
+/*
+  A theme switch repaints every colour at once. Without this the buttons and anything else
+  transitioning a colour would all animate across, so the page would fade instead of flip.
+*/
+:root[data-switching] * {
+  transition: none !important;
+}
+
 ::selection {
   background-color: var(--blue);
   color: var(--accent-fg);
@@ -76,6 +84,26 @@ blockquote,
 
   &.yellow {
     border-color: var(--yellow);
+  }
+}
+
+.button {
+  padding: var(--space-1) var(--space-2);
+  background-color: var(--bg-secondary);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  transition: background-color var(--motion) ease;
+
+  /* The only press feedback a touch device gets, since it never hovers. */
+  &:active {
+    background-color: var(--bg-tertiary);
+  }
+
+  &:disabled {
+    opacity: 0.5;
   }
 }
 
@@ -274,7 +302,8 @@ table:not(.highlight *) {
 
 /*
   Touch browsers keep :hover on the last tapped element, which leaves the search icon and
-  other tapped controls stuck in their lifted state, so only lift where hover is real.
+  other tapped controls stuck in their lifted or pressed state, so only style hover where
+  hover is real.
 */
 @media (hover: hover) {
   .hover-lift {
@@ -283,5 +312,9 @@ table:not(.highlight *) {
     &:hover {
       transform: translateY(var(--lift));
     }
+  }
+
+  .button:hover {
+    background-color: var(--bg-tertiary);
   }
 }

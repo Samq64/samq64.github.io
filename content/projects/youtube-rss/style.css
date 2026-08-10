@@ -30,23 +30,25 @@
     font-weight: bold;
   }
 
+  /* Shape and spacing come from the shared .button; these two are the page's main actions. */
   button {
     min-width: 6.5rem;
-    padding: var(--space-1) var(--space-2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
     background-color: var(--blue);
     color: var(--accent-fg);
     font-weight: bold;
-    cursor: pointer;
-
-    &:hover {
-      background-color: color-mix(in srgb, var(--blue), black 10%);
-    }
 
     &:disabled {
-      opacity: 0.5;
       cursor: wait;
+    }
+
+    &:active {
+      background-color: var(--pressed);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: var(--pressed);
+      }
     }
   }
 

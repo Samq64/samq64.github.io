@@ -1,8 +1,13 @@
 <script>
   function setTheme(theme) {
-    document.documentElement.style.colorScheme = theme;
-    document.documentElement.dataset.theme = theme;
+    const root = document.documentElement;
+    root.dataset.switching = "";
+    root.style.colorScheme = theme;
+    root.dataset.theme = theme;
     localStorage.setItem("theme", theme);
+    /* Settles the new colours while transitions are still off, so none of them run. */
+    void root.offsetHeight;
+    delete root.dataset.switching;
   }
 
   const storedTheme = localStorage.getItem("theme");
