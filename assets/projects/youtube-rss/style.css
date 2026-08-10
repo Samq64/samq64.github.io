@@ -126,10 +126,7 @@
     gap: var(--space-1);
   }
 
-  /*
-    The two notices the script raises and lowers, named rather than matched as blockquotes so
-    that a blockquote the page just prints — the noscript one — is not collapsed shut as well.
-  */
+  /* Named, not matched on .callout, so the noscript one is not collapsed shut as well. */
   :is(#error, #notice) {
     padding-block: 0;
     height: 0;

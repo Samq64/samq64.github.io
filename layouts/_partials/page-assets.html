@@ -1,8 +1,4 @@
-{{- /*
-  Emits whatever a page named in its styles and scripts lists. Called from both layouts rather
-  than from the head partial, since the stylesheets have to land after the site's own to
-  override it, and a standalone page is deliberately given no site stylesheet to override.
-*/ -}}
+{{- /* In the layouts, not head: these have to land after the site stylesheet to override it. */ -}}
 {{- $built := partial "built-assets" . -}}
 {{- range $built.styles }}
   <link rel="stylesheet" href="{{ .RelPermalink }}" />

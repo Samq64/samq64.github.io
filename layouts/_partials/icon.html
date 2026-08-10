@@ -1,8 +1,6 @@
 {{- /*
-  A name turns the icon into a labelled one. The label is real text rather than an aria
-  attribute, kept inside the same span as the artwork so that a rule hiding one icon of a
-  pair hides its label with it. A browser that draws no SVG and reads no ARIA — a terminal
-  one — is then still left with something to read, which an icon-only link otherwise is not.
+  A name labels the icon with real text, not ARIA, so a browser that draws no SVG still has
+  something to read. It sits inside the icon span so that hiding one of a pair hides its label.
 */ -}}
 {{- $iconPath := printf "img/icons/%s.svg" .icon -}}
 

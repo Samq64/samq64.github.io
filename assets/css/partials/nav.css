@@ -106,13 +106,9 @@ nav {
 }
 
 /*
-  The switcher carries both icons and shows whichever offers the theme the page is not in. The
-  system preference decides until the script stores a choice and sets data-theme, so the media
-  query stands down for a page explicitly asking for light rather than being overridden again
-  further on.
-
-  Compounded with .svg-icon deliberately: that sets display and main.css imports this file
-  before declaring it, so a lone class here would lose the cascade to it.
+  Both icons ship; the one shown offers the theme the page is not in. The system preference
+  decides until the script sets data-theme, so the query stands down for an explicit light.
+  Compounded with .svg-icon on purpose — that sets display and is declared after this file.
 */
 .svg-icon.theme-icon-moon {
   display: none;

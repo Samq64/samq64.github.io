@@ -1,15 +1,9 @@
 <!--
-  The app icon: the board's pair of eyes on the Tokyo Night Storm background the site's
-  theme-color already uses. Scaled straight off the pad, whose eyes are 26 by 19 with a
-  pupil radius of 8, and gazing level the way they rest before a key is pressed.
+  The app icon: the board's eyes, gazing level, on the site's theme colour. Scaled off the pad,
+  whose eyes are 26 by 19 with a pupil radius of 8, and framed to be shown whole, so they run
+  out to 195 of the 256 available. The maskable variant is grown from this — see the pwa partial.
 
-  Framed for being shown whole, by a title bar, a task switcher or an iOS home screen, so the
-  eyes run out to 195 of the 256 available and only keep enough margin to breathe. Android
-  crops a maskable icon to the middle two thirds, and the padded version it needs is grown
-  from this one at build time rather than drawn again — see the pwa partial.
-
-  Hugo never reads this file: it is the drawing the shipped icon is rasterised from, which has
-  to be committed because the build has no rasteriser. After editing, regenerate it with
+  Hugo never reads this; the build has no rasteriser, so the PNG is committed. After editing:
 
     rsvg-convert -w 512 -h 512 design/bliss-icon.svg -o assets/projects/bliss/icon.png
 -->

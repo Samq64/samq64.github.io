@@ -28,11 +28,7 @@
       autocomplete="off"
     />
   </form>
-  {{/*
-    One label on the button rather than one per icon: both icons are always in the markup and
-    only CSS picks between them, so a label on each is a button announcing two contradictory
-    names at once, and a browser applying no CSS shows both.
-  */}}
+  {{/* One label on the button: both icons are always present, only CSS picks between them. */}}
   <button id="theme-switcher" class="icon-button hover-lift">
     <span class="visually-hidden">Toggle theme</span>
     {{ partial "icon" (dict "icon" "sun" "class" "theme-icon-sun") }}

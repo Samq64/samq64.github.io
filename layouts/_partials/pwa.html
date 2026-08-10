@@ -1,21 +1,13 @@
 {{- /*
-  Makes a page installable: a manifest and a service worker written into the page's own
-  directory, so the app's scope is that directory and nothing above it.
+  Switched on by a pwa map in front matter. The manifest and worker are written into the page's
+  own directory, so the app's scope is that directory alone.
 
-  Switched on by a pwa map in front matter, whose short_name names the installed app.
+  pwa.icon is a 512 square in assets, framed to be shown whole. Android crops a maskable icon
+  to the middle two thirds, so the padded variant is grown from it: 64px a side pulls the eyes
+  in from 195 of 256 to a safe 156, padded in the theme colour the icon is drawn on.
 
-  The pwa map's icon names a 512 square in assets, framed to be shown whole. It lives there
-  rather than beside the page because nothing renders it: only the manifest and the operating
-  system ever read it, and assets publishes what is asked for instead of everything present.
-
-  Android crops a maskable icon to the middle two thirds, so the padded variant is grown from
-  that same file here: 64px a side takes the eyes from 195 of the 256 out to a safe 156 once it
-  is scaled back down, and the padding takes the theme colour the icon is already drawn on.
-
-  Every URL is content-hashed, the manifest's own included, because an installed app holds on
-  to an icon by its URL: a name that outlives a redraw is an icon that never changes. Each one
-  is copied to a name that says what it is on the way, since a hash alone leaves four
-  identically named icons that only the manifest can tell apart.
+  Every URL is hashed, the manifest's included, since an installed app holds an icon by its URL.
+  Each is copied to a name saying what it is first, a hash alone leaving four indistinguishable.
 */ -}}
 {{- $page := . -}}
 {{- $pwa := $page.Params.pwa -}}
@@ -36,8 +28,7 @@
   {{- range slice 512 192 -}}
     {{- $size := printf "%dx%d" . . -}}
     {{- $target := printf "%s/icon-%s-%d.png" $dir $purpose . -}}
-    {{- /* Resampled only when the size actually differs, so the 512 the icon is already
-           drawn at is copied rather than re-encoded into the same dimensions. */ -}}
+    {{- /* Copied rather than re-encoded when the icon is already drawn at this size. */ -}}
     {{- $source := $image -}}
     {{- if ne $image.Width . -}}
       {{- $source = $image.Resize $size -}}
@@ -71,20 +62,12 @@
   | fingerprint
 -}}
 {{- $worker := resources.FromString (printf "%s/sw.js" $dir) (partial "sw.js" $page) -}}
-{{- /*
-  iOS wants an apple-touch-icon of its own and scales whatever it is handed, so it shares the
-  unpadded 192 rather than carrying a 180 that is the same picture again. It crops to a rounded
-  square, not a circle, so the unpadded framing is the one it wants.
-*/ -}}
+{{- /* iOS scales whatever it is handed and crops to a rounded square, so it shares the 192. */ -}}
 {{- $apple := index (where (where $icons "purpose" "any") "sizes" "192x192") 0 -}}
 
 <link rel="manifest" href="{{ $file.RelPermalink }}" />
 <link rel="apple-touch-icon" href="{{ $apple.src }}" />
-{{- /*
-  No apple-mobile-web-app-capable or -title: iOS has taken display and short_name from the
-  manifest since 16.4, well below the Safari this site's CSS already needs. The icon stays,
-  Safari using it for bookmarks and a docked app rather than only a home screen.
-*/}}
+{{- /* No apple-mobile-web-app-*: iOS reads display and short_name from the manifest since 16.4. */}}
 <script>
   if ("serviceWorker" in navigator) {
     addEventListener("load", () => navigator.serviceWorker.register("{{ $worker.RelPermalink }}"));

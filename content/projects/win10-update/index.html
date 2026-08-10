@@ -6,13 +6,9 @@ layout: standalone
 ---
 
 <!--
-  The boot font is hotlinked rather than vendored into assets. It is Microsoft's, redistributing
-  it is not ours to do, and a copy in this repository would be exactly that; linking the copy
-  someone else already published is not. The trade is a render that depends on a third party and
-  cannot be precached, which for a demo of a loading screen is a cost worth paying.
-
-  font-display: block, so the spinner waits for the real face instead of flashing the Unicode
-  private-use codepoints as tofu in a fallback that has no glyphs for them.
+  Hotlinked, not vendored: the font is Microsoft's and a copy here would be redistributing it.
+  The cost is a render depending on a third party, which for a demo of a loading screen is fine.
+  font-display: block, or the spinner flashes its private-use codepoints as tofu.
 -->
 <link
   rel="preload"

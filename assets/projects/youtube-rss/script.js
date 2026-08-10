@@ -31,8 +31,8 @@ const FORMATS = [
   { label: "Live streams", value: "live" },
 ];
 
-// Uploads playlist IDs are the channel ID with UC swapped for one of these. A null
-// prefix means the plain channel feed already covers it.
+// Uploads playlist IDs are the channel ID with UC swapped for one of these; null means the
+// plain channel feed already covers it.
 const PREFIX = {
   public: { all: null, longform: "UULF", shorts: "UUSH", live: "UULV" },
   popular: { all: "PU", longform: "UULP", shorts: "UUPS", live: "UUPV" },

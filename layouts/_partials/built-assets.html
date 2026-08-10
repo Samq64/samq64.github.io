@@ -1,14 +1,7 @@
 {{- /*
-  A page's own stylesheets and scripts, named by styles and scripts lists in front matter and
-  returned built, as a dict of two slices. Both callers want both lists: page-assets emits
-  them, and the service worker precaches them by the same hashed URLs the page loads, so this
-  is the only place either pipeline is spelled out.
-
-  Scripts are bundled, which is what folds a script's imports into it, so what a page loads is
-  one file whose hash covers everything it pulls in — only possible from assets, where esbuild
-  can resolve them. The bundles are iife, so they need deferring rather than a module type,
-  and nothing they declare reaches the page. Neither project relies on that, having no inline
-  handlers.
+  A page's own stylesheets and scripts, built. Both callers want both lists, so the pipelines
+  are spelled out only here. Bundling folds a script's imports under its hash; the bundles are
+  iife, so page-assets defers them rather than marking them modules.
 */ -}}
 {{- $styles := slice -}}
 {{- range .Params.styles -}}

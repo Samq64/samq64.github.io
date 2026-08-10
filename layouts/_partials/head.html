@@ -2,11 +2,7 @@
 {{- $description := or .Description site.Params.description -}}
 {{- $robots := cond (eq .Type "search") "noindex, noarchive" "noarchive" -}}
 
-{{- /*
-  Shared by both layouts, so nothing here may assume the site stylesheet: a standalone page
-  is given none. The font preloads therefore live in baseof, beside the stylesheet declaring
-  the faces they are for.
-*/ -}}
+{{- /* Shared by both layouts, so nothing here may assume the site stylesheet: standalone has none. */ -}}
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" href="{{ "favicon.ico" | relURL }}" sizes="any" />

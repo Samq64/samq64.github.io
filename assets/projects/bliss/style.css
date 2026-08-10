@@ -48,10 +48,7 @@
   font-size: 1.125rem;
 }
 
-/*
-  A square rotated onto its corner: only the two outer edges take a border. Half the side
-  is subtracted from the halfway mark to sit it centred whatever height the bubble is.
-*/
+/* A square on its corner, two edges bordered, offset half its side to centre at any height. */
 .bubble::before {
   content: "";
   position: absolute;
@@ -185,10 +182,7 @@
   transition: transform var(--motion) ease;
 }
 
-/*
-  The pad only moves alongside once the speech column can still hold a readable bubble and
-  four boxes beside it, which needs most of the body's 760px.
-*/
+/* The pad moves alongside only once the speech column can still hold a bubble and four boxes. */
 @media (width >= 48rem) {
   .workspace {
     flex-direction: row;

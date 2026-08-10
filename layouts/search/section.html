@@ -17,10 +17,7 @@
   <hr />
   <ul class="cards" id="search-results"></ul>
 
-  {{/*
-    The date is a placeholder rather than empty so the element is there for the script to fill
-    or drop; nothing in the template is ever displayed as it stands.
-  */}}
+  {{/* A placeholder date, so the element is there for the script to fill or drop. */}}
   <template id="card-template">
     {{ partial "card" (dict "url" "" "title" "" "date" "-" "datetime" "" "description" "") }}
   </template>
@@ -45,10 +42,9 @@
     }
 
     /*
-      Pagefind returns the excerpt as the page's own text, unescaped, with the matching
-      words wrapped in <mark>. Splitting on those tags gives alternating plain text and
-      match segments, so none of it is parsed as markup: text that looks like a tag
-      because the page shows it as code stays visible instead of being interpreted.
+      Pagefind returns the excerpt as unescaped page text with matches in <mark>. Splitting on
+      those gives alternating plain and matched segments, so nothing is parsed as markup and a
+      page that shows a tag as code still displays it.
     */
     function excerptNodes(excerpt) {
       return excerpt.split(/<mark>|<\/mark>/).map((part, index) => {

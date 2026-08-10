@@ -2,15 +2,11 @@ import words from "./words.js";
 
 const SETTLE_MS = 500;
 
-/*
-  How far a pupil travels inside its eye, in the SVG's own units. The eyes are 26 by 19
-  with a pupil radius of 8, so this stops a little short of the rim.
-*/
+/* How far a pupil travels, in SVG units. Eyes are 26 by 19, pupil radius 8, so it stops short. */
 const REACH_X = 15;
 const REACH_Y = 8;
 
-/*
-  The direction each digit stands for, as seen by whoever is watching the eyes. */
+/* The direction each digit stands for, as seen by whoever is watching the eyes. */
 const DIRECTIONS = {
   0: [1, -1],
   1: [0.35, -1],
@@ -32,27 +28,18 @@ const eyes = document.querySelector(".eyes");
 const historyEl = document.getElementById("history");
 const list = document.getElementById("list");
 
-/*
-  Non-null only while a finished code is still on screen waiting to wipe itself. The miss
-  styling is only ever set alongside it and cleared alongside it, so anything that clears
-  this has already cleared that.
-*/
+/* Non-null only while a finished code waits to wipe. Miss styling is set and cleared with it. */
 let clearTimer = null;
 let lingerTimer;
 
-/*
-  Chasing the caret is only wanted when the user is already typing. Focusing a box that
-  nothing was focused in raises the on-screen keyboard, which on a phone covers the pad
-  that was just tapped.
-*/
+/* Only chase the caret if already typing: focusing otherwise raises a keyboard over the pad. */
 function focusIfTyping(input) {
   if (digits.includes(document.activeElement)) input.focus();
 }
 
 /*
-  Stands in for the caret while the pad is driving and no box is focused. Nothing is marked
-  until a digit has actually been entered: on an untouched board the mark sits on the first box
-  with no caret anywhere near it, which only reads as a focus the page hasn't got.
+  Stands in for the caret while the pad is driving. Nothing is marked until a digit is entered,
+  a mark on an untouched board reading as a focus the page has not got.
 */
 function markNext() {
   const started = digits.some((input) => input.value);
@@ -185,9 +172,8 @@ function recentre() {
 pad.addEventListener("pointerover", preview);
 
 /*
-  Tapping a key focuses it on some phones, and that focus lands after the pointer has
-  already left. Previewing on it would cancel the pending recentre and strand the pupils
-  off to one side, so only a focus the browser treats as keyboard driven counts.
+  On some phones a tap focuses the key after the pointer has left, and previewing on that would
+  cancel the pending recentre and strand the pupils, so only keyboard focus counts.
 */
 pad.addEventListener("focusin", (event) => {
   if (event.target.matches(":focus-visible")) preview(event);

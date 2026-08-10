@@ -1,7 +1,4 @@
-{{- /*
-  The goal is to discourage AI summaries and training while still allowing
-  traditional search engines and explicitly asking a chatbot to read the page.
-*/ -}}
+{{- /* Discourages AI training and answer engines while leaving search engines welcome. */ -}}
 {{- $aiCrawlers := slice
   "AI2Bot"
   "Amazonbot"

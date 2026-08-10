@@ -12,10 +12,7 @@
   color-scheme: light dark;
 }
 
-/*
-  A theme switch repaints every colour at once. Without this the buttons and anything else
-  transitioning a colour would all animate across, so the page would fade instead of flip.
-*/
+/* A theme switch repaints everything at once; without this the page fades instead of flips. */
 :root[data-switching] * {
   transition: none !important;
 }
@@ -25,11 +22,7 @@
   color: var(--accent-fg);
 }
 
-/*
-  Text that carries a control's name for anything not reading the picture beside it: a screen
-  reader, or a browser that draws no SVG. Clipped rather than hidden, since display: none and
-  visibility: hidden would take it out of the accessibility tree along with the layout.
-*/
+/* Clipped, not hidden: display: none would take it out of the accessibility tree as well. */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -78,10 +71,7 @@ h6 {
   }
 }
 
-/*
-  One focus ring for every field on the site. Transparent to begin with rather than absent, so
-  that taking focus is a colour transition and never a ring appearing and nudging the layout.
-*/
+/* Transparent rather than absent, so focus is a colour change and never a shift in layout. */
 input {
   outline: 2px solid transparent;
   transition: outline-color var(--motion) ease;
@@ -95,11 +85,7 @@ p {
   margin-block: var(--space-2);
 }
 
-/*
-  One boxed surface, worn by three things: a real quotation from Markdown, a card in a list,
-  and a callout the page raises itself. The callout is a class rather than more blockquotes
-  because an error or a "this needs JavaScript" notice is not a quotation of anything.
-*/
+/* One boxed surface. .callout is a class, an error or a noscript notice being no quotation. */
 blockquote,
 .card,
 .callout {
@@ -172,11 +158,8 @@ main {
   }
 }
 
-/*
-  Icons take the colour of the text around them, so a control tints its icon by setting its own
-  colour rather than reaching past it for the fill. Buttons do not inherit colour, so the ones
-  carrying an icon set it; see .icon-button and .button.
-*/
+/* Icons follow the surrounding colour, so a control tints one by setting its own. Buttons
+   inherit no colour, so .icon-button and .button set theirs. */
 .svg-icon {
   display: block;
   fill: currentColor;
@@ -187,11 +170,7 @@ main {
   }
 }
 
-/*
-  Touch browsers keep :hover on the last tapped element, which leaves the search icon and
-  other tapped controls stuck in their lifted or pressed state, so only style hover where
-  hover is real.
-*/
+/* Touch browsers keep :hover on the last tap, stranding controls lifted or pressed. */
 @media (hover: hover) {
   .hover-lift {
     transition: transform var(--motion) ease;

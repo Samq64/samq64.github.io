@@ -20,11 +20,7 @@ hr:has(+ .cards:empty) {
   color: var(--text);
   text-decoration: none;
 
-  /*
-    Stretched over the card, so the whole of it stays clickable while the link itself wraps
-    only the title. Positioned children later in the card paint over this; the tags are the
-    ones that have to.
-  */
+  /* Stretched over the card. Positioned children later in it paint above; the tags must. */
   &::after {
     content: "";
     position: absolute;

@@ -1,13 +1,7 @@
 {{- /*
-  Asks for the faces every page paints before the stylesheet that would otherwise reveal them.
-  A font is only fetched once the CSS has been parsed and something needing it laid out, and
-  font-display: swap blocks for nothing at all, so the fallback always paints first and always
-  swaps when the real face lands. Caching shortens that gap; only asking earlier closes it.
-
-  Headings and the nav are mono, headings and the wordmark at bold, which is the 800 face since
-  that and 400 are the only two declared. Body text is Inter. All three appear on every page,
-  so none of this is fetched for nothing. Inter's bold and italic faces do not, and are left
-  to the pages that use them to fetch.
+  Requests the faces before the stylesheet reveals them, which is otherwise the earliest a font
+  is fetched. Only the three every page paints: body Inter, and mono at 400 and 800 for headings
+  and the nav. Inter bold and italic are left to the pages that use them.
 */ -}}
 {{- $urls := partial "font-urls" . -}}
 {{- range slice "inter-latin-regular" "jetbrains-mono-latin-regular" "jetbrains-mono-latin-800" -}}
