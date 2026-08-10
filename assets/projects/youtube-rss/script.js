@@ -1,15 +1,15 @@
-const inputEl = document.getElementById("inputEl");
-const outputEl = document.getElementById("outputEl");
+const sourceInput = document.getElementById("source-input");
+const feedUrlInput = document.getElementById("feed-url");
 const errorEl = document.getElementById("error");
 const filtersEl = document.getElementById("filters");
-const outputSection = document.getElementById("output");
+const resultSection = document.getElementById("result");
 const noticeEl = document.getElementById("notice");
-const copyBtn = document.getElementById("copyBtn");
-const submitBtn = document.getElementById("submitBtn");
-const link = document.getElementById("link");
-const linkText = document.getElementById("linkText");
-const imageWrap = document.getElementById("resultImgWrap");
-const image = document.getElementById("resultImg");
+const copyButton = document.getElementById("copy-button");
+const submitButton = document.getElementById("submit-button");
+const resultLink = document.getElementById("result-link");
+const resultTitle = document.getElementById("result-title");
+const imageWrap = document.getElementById("result-image-wrap");
+const image = document.getElementById("result-image");
 
 const RESOLVER_URL = "https://youtube-proxy.samq64.workers.dev/";
 const FEED_URL = "https://www.youtube.com/feeds/videos.xml";
@@ -83,7 +83,7 @@ function render() {
   const { result, error } = state;
   errorEl.classList.toggle("visible", !!error);
   errorEl.textContent = error ?? "";
-  outputSection.classList.toggle("visible", !!result);
+  resultSection.classList.toggle("visible", !!result);
   const showFilters = !!result && result.type !== "playlist";
   filtersEl.style.display = showFilters ? "flex" : "none";
   noticeEl.classList.toggle("visible", showFilters && selected("type") === "popular");
@@ -93,22 +93,22 @@ function render() {
   if (result.type === "playlist") {
     imageWrap.className = "thumbnail";
     image.alt = "Playlist thumbnail";
-    link.href = `https://www.youtube.com/playlist?list=${result.id}`;
+    resultLink.href = `https://www.youtube.com/playlist?list=${result.id}`;
   } else {
     imageWrap.className = "avatar";
     image.alt = "Channel avatar";
-    link.href = `https://www.youtube.com/channel/${result.id}`;
+    resultLink.href = `https://www.youtube.com/channel/${result.id}`;
   }
   image.src = result.thumbnail;
-  linkText.textContent = result.name;
-  outputEl.value = feedUrl();
-  outputEl.scrollLeft = outputEl.scrollWidth;
+  resultTitle.textContent = result.name;
+  feedUrlInput.value = feedUrl();
+  feedUrlInput.scrollLeft = feedUrlInput.scrollWidth;
 }
 
 async function resolveChannel() {
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Loading";
-  const raw = inputEl.value.trim();
+  submitButton.disabled = true;
+  submitButton.textContent = "Loading";
+  const raw = sourceInput.value.trim();
   try {
     const res = await fetch(`${RESOLVER_URL}?q=${encodeURIComponent(raw)}`);
     const result = await res.json();
@@ -117,7 +117,7 @@ async function resolveChannel() {
       return;
     }
     if (state.result?.type !== result.type) {
-      outputSection.classList.remove("visible");
+      resultSection.classList.remove("visible");
       await new Promise((resolve) => setTimeout(resolve, SWAP_DELAY));
     }
     state = { result, error: null };
@@ -126,17 +126,17 @@ async function resolveChannel() {
   } catch (e) {
     setError(`Fetch error: ${e}`);
   } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Get Feed";
+    submitButton.disabled = false;
+    submitButton.textContent = "Get Feed";
   }
 }
 
 filtersEl.innerHTML =
   renderFieldset("Type", "type", TYPES) + renderFieldset("Format", "format", FORMATS);
 
-submitBtn.addEventListener("click", resolveChannel);
+submitButton.addEventListener("click", resolveChannel);
 
-inputEl.addEventListener("keyup", (e) => {
+sourceInput.addEventListener("keyup", (e) => {
   if (e.key === "Enter") resolveChannel();
 });
 
@@ -145,10 +145,10 @@ filtersEl.addEventListener("change", () => {
   if (state.result) replaceUrl(state.result.handle ?? state.result.id);
 });
 
-copyBtn.addEventListener("click", async () => {
-  await navigator.clipboard.writeText(outputEl.value);
-  copyBtn.textContent = "Copied!";
-  setTimeout(() => (copyBtn.textContent = "Copy"), 1000);
+copyButton.addEventListener("click", async () => {
+  await navigator.clipboard.writeText(feedUrlInput.value);
+  copyButton.textContent = "Copied!";
+  setTimeout(() => (copyButton.textContent = "Copy"), 1000);
 });
 
 const searchParams = new URLSearchParams(location.search);
@@ -160,6 +160,6 @@ for (const name of ["type", "format"]) {
 const initial = searchParams.get("q");
 if (initial) {
   const isId = initial.startsWith("UC") || initial.startsWith("PL");
-  inputEl.value = isId ? initial : "@" + initial;
+  sourceInput.value = isId ? initial : "@" + initial;
   resolveChannel();
 }

@@ -18,20 +18,20 @@ scripts:
   <div class="flex-row">
     <input
       type="text"
-      id="inputEl"
+      id="source-input"
       aria-label="YouTube channel or playlist"
       placeholder="https://www.youtube.com/@mkbhd"
       autofocus
     />
-    <button id="submitBtn" class="button">Get Feed</button>
+    <button id="submit-button" class="button">Get Feed</button>
   </div>
 
   <blockquote class="red" id="error"></blockquote>
 
-  <div id="output">
-    <a class="info" id="link">
-      <span id="resultImgWrap"><img id="resultImg" /></span>
-      <h2 id="linkText"></h2>
+  <div id="result">
+    <a class="info" id="result-link">
+      <span id="result-image-wrap"><img id="result-image" /></span>
+      <h2 id="result-title"></h2>
     </a>
 
     <form id="filters"></form>
@@ -42,9 +42,9 @@ scripts:
     </blockquote>
 
     <div class="flex-row">
-      <label for="outputEl">Feed URL:</label>
-      <input type="text" id="outputEl" readonly />
-      <button id="copyBtn" class="button">Copy</button>
+      <label for="feed-url">Feed URL:</label>
+      <input type="text" id="feed-url" readonly />
+      <button id="copy-button" class="button">Copy</button>
     </div>
   </div>
 </div>
