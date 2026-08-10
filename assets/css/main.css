@@ -159,6 +159,10 @@ blockquote,
   text-align: center;
 }
 
+.centered-header p {
+  font-family: var(--font-sans);
+}
+
 .centered-header {
   margin-top: var(--space-3);
 }

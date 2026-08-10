@@ -1,5 +1,8 @@
 {{ define "header" }}
   <h1>{{ .Title }}{{ if and (eq .Kind "term") (eq .Type "tags") }} posts{{ end }}</h1>
+  {{ with .Description }}
+    <p>{{ . }}</p>
+  {{ end }}
 {{ end }}
 
 {{ define "main" }}
@@ -11,7 +14,7 @@
         {{ partial "card" (dict
           "url" .RelPermalink
           "title" .LinkTitle
-          "date" (cond .Date.IsZero "" (.Date | time.Format ":date_medium"))
+          "date" (cond .Date.IsZero "" (.Date | time.Format ":date_long"))
           "datetime" (cond .Date.IsZero "" (.Date.Format "2006-01-02"))
           "description" .Description
           "page" .)
