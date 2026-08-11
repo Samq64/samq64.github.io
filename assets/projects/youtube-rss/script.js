@@ -19,14 +19,15 @@ const FEED_URL = "https://www.youtube.com/feeds/videos.xml";
 const SWAP_DELAY =
   parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--motion")) * 1000;
 
+// The first of each is the default, so none of them says so.
 const TYPES = [
-  { label: "Public", value: "public", checked: true },
+  { label: "Public", value: "public" },
   { label: "Members only", value: "members" },
   { label: "Popular", value: "popular" },
 ];
 
 const FORMATS = [
-  { label: "All", value: "all", checked: true },
+  { label: "All", value: "all" },
   { label: "Long form", value: "longform" },
   { label: "Shorts", value: "shorts" },
   { label: "Live streams", value: "live" },
@@ -49,12 +50,12 @@ function renderFieldset(legendText, name, options) {
   const fieldset = document.createElement("fieldset");
   fieldset.append(legend);
 
-  for (const { label, value, checked } of options) {
+  for (const [index, { label, value }] of options.entries()) {
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = name;
     radio.value = value;
-    radio.checked = Boolean(checked);
+    radio.checked = index === 0;
 
     const wrapper = document.createElement("label");
     wrapper.append(radio, label);
@@ -79,9 +80,10 @@ function feedUrl() {
     : `${FEED_URL}?channel_id=${result.id}`;
 }
 
-function replaceUrl(q) {
-  const params = new URLSearchParams({ q });
-  if (state.result?.type !== "playlist") {
+/* The handle is what was searched for; an ID stands in for a channel that has not got one. */
+function replaceUrl() {
+  const params = new URLSearchParams({ q: state.result.handle ?? state.result.id });
+  if (state.result.type !== "playlist") {
     params.set("type", selected("type"));
     params.set("format", selected("format"));
   }
@@ -100,7 +102,7 @@ function render() {
   errorEl.textContent = error ?? "";
   resultSection.classList.toggle("visible", !!result);
   const showFilters = !!result && result.type !== "playlist";
-  filtersEl.style.display = showFilters ? "flex" : "none";
+  filtersEl.classList.toggle("visible", showFilters);
   noticeEl.classList.toggle("visible", showFilters && selected("type") === "popular");
   if (!result) return;
 
@@ -133,7 +135,7 @@ async function resolveChannel() {
       await new Promise((resolve) => setTimeout(resolve, SWAP_DELAY));
     }
     state = { result, error: null };
-    replaceUrl(result.handle ?? result.id);
+    replaceUrl();
     render();
   } catch (e) {
     setError(`Fetch error: ${e}`);
@@ -155,7 +157,7 @@ lookupForm.addEventListener("submit", (event) => {
 
 filtersEl.addEventListener("change", () => {
   render();
-  if (state.result) replaceUrl(state.result.handle ?? state.result.id);
+  if (state.result) replaceUrl();
 });
 
 copyButton.addEventListener("click", async () => {

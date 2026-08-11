@@ -3,13 +3,13 @@ title: Windows Update Simulator
 description: Simulates the Windows 10 update screen using the real font and Unicode characters to animate the spinning dots. Press F11 to display it in fullscreen.
 categories: demos
 layout: standalone
+styles:
+  - projects/win10-update/style.css
+scripts:
+  - projects/win10-update/script.js
 ---
 
-<!--
-  Hotlinked, not vendored: the font is Microsoft's and a copy here would be redistributing it.
-  The cost is a render depending on a third party, which for a demo of a loading screen is fine.
-  font-display: block, or the spinner flashes its private-use codepoints as tofu.
--->
+<!-- The @font-face in style.css hotlinks this same URL, and says why. -->
 <link
   rel="preload"
   href="https://raw.githubusercontent.com/Diax170/SegoeBootSemilight/main/Win11/segoe_slboot.ttf"
@@ -18,79 +18,9 @@ layout: standalone
   crossorigin
 />
 
-<style>
-  @font-face {
-    font-family: "SegoeBoot";
-    font-display: block;
-    src: url("https://raw.githubusercontent.com/Diax170/SegoeBootSemilight/main/Win11/segoe_slboot.ttf");
-  }
-
-  body {
-    margin: 0;
-    color: white;
-    background-color: #005c9f;
-    font-family: "SegoeBoot", "Segoe UI", system-ui, sans-serif;
-    user-select: none;
-  }
-
-  .main {
-    min-height: 100dvh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
-
-  span {
-    font-size: clamp(0.9rem, 1.85vmin, 2rem);
-  }
-
-  #spinner {
-    margin: 0.5rem;
-    font-size: clamp(1.75rem, 3.35vmin, 4rem);
-  }
-
-  #msg3 {
-    display: none;
-  }
-</style>
-
 <div class="main">
   <span id="spinner"></span>
   <span id="msg1">Restarting</span>
   <span id="msg2"></span>
   <span id="msg3">Don't turn off your computer</span>
 </div>
-<script>
-  const spinnerEl = document.getElementById("spinner");
-  const statusEl = document.getElementById("msg1");
-  const percentEl = document.getElementById("msg2");
-  const warningEl = document.getElementById("msg3");
-
-  const SPINNER_FIRST = 0xe052;
-  const SPINNER_LAST = 0xe0cb;
-  const FINAL_PERCENT = 30;
-
-  let frame = SPINNER_FIRST;
-  setInterval(() => {
-    spinnerEl.textContent = String.fromCharCode(frame);
-    frame = frame === SPINNER_LAST ? SPINNER_FIRST : frame + 1;
-  }, 1000 / 30);
-
-  setTimeout(() => {
-    statusEl.textContent = "Getting Windows ready";
-    warningEl.style.display = "block";
-  }, 5000);
-
-  setTimeout(() => {
-    statusEl.textContent = "Working on updates";
-    percentEl.textContent = "0% complete";
-
-    let percent = 1;
-    const counter = setInterval(() => {
-      percentEl.textContent = `${percent}% complete`;
-      if (percent === FINAL_PERCENT) clearInterval(counter);
-      percent++;
-    }, 10000);
-  }, 15000);
-</script>

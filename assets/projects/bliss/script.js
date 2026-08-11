@@ -37,13 +37,19 @@ function focusIfTyping(input) {
   if (digits.includes(document.activeElement)) input.focus();
 }
 
+/* Where the next digit lands, which is past the last box once every one of them is filled. */
+function nextEmptyIndex() {
+  const next = digits.findIndex((input) => !input.value);
+  return next === -1 ? digits.length : next;
+}
+
 /*
   Stands in for the caret while the pad is driving. Nothing is marked until a digit is entered,
   a mark on an untouched board reading as a focus the page has not got.
 */
 function markNext() {
   const started = digits.some((input) => input.value);
-  const next = started ? digits.findIndex((input) => !input.value) : -1;
+  const next = started ? nextEmptyIndex() : -1;
   digits.forEach((input, index) => input.classList.toggle("next", index === next));
 }
 
@@ -66,26 +72,27 @@ function flagMiss() {
   digitGroup.classList.add("shake", "error");
 }
 
-function reset() {
+/* The wipe and the miss styling are one state, so dropping either drops both. */
+function cancelPending() {
   clearTimeout(clearTimer);
   clearTimer = null;
+  digitGroup.classList.remove("error");
+}
+
+function reset() {
+  cancelPending();
   /* A new word always starts from a level gaze, whatever the pad was last pointed at. */
   clearTimeout(lingerTimer);
   look(null);
   digits.forEach((input) => (input.value = ""));
-  digitGroup.classList.remove("error");
   focusIfTyping(digits[0]);
   markNext();
 }
 
 function remember(code, word) {
-  const row = document.createElement("tr");
-  const codeCell = document.createElement("td");
-  const wordCell = document.createElement("td");
-  codeCell.textContent = code;
-  wordCell.textContent = word;
-  row.append(codeCell, wordCell);
-  list.append(row);
+  const row = list.insertRow();
+  row.insertCell().textContent = code;
+  row.insertCell().textContent = word;
   historyEl.hidden = false;
 }
 
@@ -117,12 +124,9 @@ function enter(digit, index) {
 
 /* Always clears the last digit entered, whichever box happens to hold the caret. */
 function deleteLast() {
-  clearTimeout(clearTimer);
-  clearTimer = null;
-  digitGroup.classList.remove("error");
+  cancelPending();
 
-  const next = digits.findIndex((input) => !input.value);
-  const last = (next === -1 ? digits.length : next) - 1;
+  const last = nextEmptyIndex() - 1;
   if (last < 0) return;
 
   digits[last].value = "";
@@ -152,8 +156,9 @@ backspace?.addEventListener("click", deleteLast);
 pad.addEventListener("click", (event) => {
   const key = event.target.closest(".key");
   if (!key) return;
-  const next = digits.findIndex((input) => !input.value);
-  enter(key.dataset.digit, next === -1 ? 0 : next);
+  /* A full board is a finished code waiting to wipe, so the next tap starts it over. */
+  const next = nextEmptyIndex();
+  enter(key.dataset.digit, next === digits.length ? 0 : next);
 });
 
 function preview(event) {

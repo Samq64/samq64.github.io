@@ -1,0 +1,40 @@
+/*
+  Hotlinked, not vendored: the font is Microsoft's and a copy here would be redistributing it.
+  The cost is a render depending on a third party, which for a demo of a loading screen is fine.
+  font-display: block, or the spinner flashes its private-use codepoints as tofu. The page
+  preloads this same URL, the two having to be changed together.
+*/
+@font-face {
+  font-family: "SegoeBoot";
+  font-display: block;
+  src: url("https://raw.githubusercontent.com/Diax170/SegoeBootSemilight/main/Win11/segoe_slboot.ttf");
+}
+
+body {
+  margin: 0;
+  color: white;
+  background-color: #005c9f;
+  font-family: "SegoeBoot", "Segoe UI", system-ui, sans-serif;
+  user-select: none;
+}
+
+.main {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+span {
+  font-size: clamp(0.9rem, 1.85vmin, 2rem);
+}
+
+#spinner {
+  margin: 0.5rem;
+  font-size: clamp(1.75rem, 3.35vmin, 4rem);
+}
+
+#msg3 {
+  display: none;
+}
