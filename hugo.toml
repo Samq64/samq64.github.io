@@ -19,7 +19,9 @@ enableRobotsTXT = true
 
 [markup]
   [markup.highlight]
-    style = "tokyonight-night"
+    # Classes, not inline styles: the theme rides the cached stylesheet instead of being re-sent
+    # on every token. assets/css/chroma.css holds the generated rules and the command for them.
+    noClasses = false
     lineNos = true
 
 [[menu.main]]

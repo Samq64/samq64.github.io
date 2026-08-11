@@ -62,6 +62,7 @@ what they style, and two of them by a rule worth stating outright:
 | `variables.css`  | Custom properties and nothing else, never a rule |
 | `reset.css`      | Rules only, the reduced-motion ones included     |
 | `fonts.css`      | The `@font-face` declarations                    |
+| `chroma.css`     | Generated, never edited: the code theme          |
 | `code.css`       | Inline code, fenced blocks, the copy button      |
 | `tables.css`     | Content tables                                   |
 | `partials/*.css` | One file per partial of the same name            |
@@ -69,6 +70,10 @@ what they style, and two of them by a rule worth stating outright:
 Reduced motion is answered in one place: `variables.css` collapses `--motion`, `--lift` and
 `--blink-count` under the query, so a component transitions a duration rather than asking
 whether it should transition at all. `reset.css` carries the one rule the query needs.
+
+`chroma.css` is Chroma's own theme as classes, so it rides this stylesheet instead of being
+re-sent inline on every token. The command that writes it is its first line, so it is in
+`.prettierignore`; `code.css` holds the box around a block and the `tab-size` Chroma inlines.
 
 Page-specific stylesheets live beside the script they belong to, under `assets/projects`.
 

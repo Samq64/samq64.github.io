@@ -2,3 +2,6 @@
 # themselves and folds the whitespace-control markers. The community plugin fares no better.
 # Templates are therefore formatted by hand, to the conventions in the README.
 layouts/
+
+# Written by `hugo gen chromastyles`; reformatting it would make every regeneration a diff.
+assets/css/chroma.css

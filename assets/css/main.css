@@ -1,6 +1,7 @@
 @import "variables.css";
 @import "reset.css";
 @import "fonts.css";
+@import "chroma.css";
 @import "code.css";
 @import "tables.css";
 @import "partials/card.css";
