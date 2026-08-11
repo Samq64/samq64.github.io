@@ -12,6 +12,9 @@ hr:has(+ .cards:empty) {
 }
 
 .card {
+  /* Every card carries the accent, so it is set here rather than named at the one call site. */
+  --accent: var(--blue);
+
   position: relative;
   padding-block: var(--space-2);
 }

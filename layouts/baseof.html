@@ -23,7 +23,8 @@
     {{ partial "page-assets" . }}
     {{ partialCached "theme-script" . }}
   </head>
-  <body>
+  {{/* main.css drops the site chrome when this is an installed app. */}}
+  <body{{ if .Params.pwa }} data-pwa{{ end }}>
     {{ partial "nav" . }}
     <main{{ if in (slice "home" "page") .Kind }} data-pagefind-body{{ end }}>
       <header class="centered-header">

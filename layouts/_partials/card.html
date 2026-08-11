@@ -1,11 +1,11 @@
 {{- /* The title is li's first child so text browsers render its bullet and title on one line; card.css stretches the link over the li and lifts the tags back over. */ -}}
-<li class="card blue hover-lift">
+<li class="card hover-lift">
   <h2><a href="{{ .url }}" class="card-link">{{ .title }}</a></h2>
   <div>
     {{ with .date }}
       <time class="card-date" datetime="{{ $.datetime }}">{{ . }}</time>
     {{ end }}
-    <p>{{ .description }}</p>
+    <p class="card-description">{{ .description }}</p>
     {{ with .page }}
       {{ partial "tags" (dict "page" . "taxonomies" (slice "tags" "categories")) }}
     {{ end }}

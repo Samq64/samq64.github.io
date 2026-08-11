@@ -9,8 +9,24 @@
 @import "partials/footer.css";
 @import "partials/tags.css";
 
+/* The system preference until the theme script names one, which it does by data-theme alone. */
 :root {
   color-scheme: light dark;
+
+  &[data-theme="light"] {
+    color-scheme: light;
+  }
+
+  &[data-theme="dark"] {
+    color-scheme: dark;
+  }
+}
+
+/* An installed app is its own window, so the site chrome around it is not the app's to show. */
+@media not (display-mode: browser) {
+  body[data-pwa] > :is(nav, hr, footer) {
+    display: none;
+  }
 }
 
 :focus-visible:not(input) {
@@ -103,10 +119,6 @@ blockquote,
   border: 1px solid var(--border);
   border-left: 4px solid var(--accent, var(--bg-tertiary));
   border-radius: var(--radius);
-
-  &.blue {
-    --accent: var(--blue);
-  }
 
   &.red {
     --accent: var(--red);

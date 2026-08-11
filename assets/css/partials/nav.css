@@ -110,30 +110,24 @@ nav {
   decides until the script sets data-theme, so the query stands down for an explicit light.
   Compounded with .svg-icon on purpose — that sets display and is declared after this file.
 */
+.svg-icon.theme-icon-sun {
+  display: var(--theme-icon-sun, block);
+}
+
 .svg-icon.theme-icon-moon {
-  display: none;
+  display: var(--theme-icon-moon, none);
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    .svg-icon.theme-icon-sun {
-      display: none;
-    }
-
-    .svg-icon.theme-icon-moon {
-      display: block;
-    }
+    --theme-icon-sun: none;
+    --theme-icon-moon: block;
   }
 }
 
 :root[data-theme="dark"] {
-  .svg-icon.theme-icon-sun {
-    display: none;
-  }
-
-  .svg-icon.theme-icon-moon {
-    display: block;
-  }
+  --theme-icon-sun: none;
+  --theme-icon-moon: block;
 }
 
 .blink {
