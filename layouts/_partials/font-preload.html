@@ -15,6 +15,6 @@
   {{- with $found }}
     <link rel="preload" href="{{ . }}" as="font" type="font/woff2" crossorigin />
   {{- else -}}
-    {{- warnf "No built URL for font %q, so it is not being preloaded." $name -}}
+    {{- errorf "No built URL for font %q, so it cannot be preloaded." $name -}}
   {{- end -}}
 {{- end -}}
