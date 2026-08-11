@@ -1,7 +1,7 @@
 <nav>
   <ul>
     <li>
-      <a href="{{ site.Home.RelPermalink }}" class="hover-lift">$ Samuel Q<span class="blink">_</span></a>
+      <a href="{{ site.Home.RelPermalink }}" class="hover-lift">$ {{ site.Title }}<span class="blink">_</span></a>
     </li>
     {{ range site.Menus.main }}
       {{ $isActive := or ($.IsMenuCurrent .Menu .) ($.HasMenuCurrent .Menu .) }}
@@ -10,11 +10,13 @@
       </li>
     {{ end }}
   </ul>
+  {{/* The search page itself, so its URL and the field standing open both follow a move. */}}
+  {{ $search := site.GetPage "/search" }}
   <form
-    action="{{ "search/" | relURL }}"
+    action="{{ $search.RelPermalink }}"
     role="search"
     class="nav-search"
-    {{ if eq .Type "search" }}data-expanded{{ end }}
+    {{ if eq . $search }}data-expanded{{ end }}
   >
     <label for="search-input" class="icon-button hover-lift">
       {{ partial "icon" (dict "icon" "magnifying-glass" "name" "Search") }}

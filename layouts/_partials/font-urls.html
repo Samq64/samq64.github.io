@@ -2,4 +2,4 @@
   esbuild names the font files, so the built CSS is the only record of them. The preload hints
   and the worker's precache both read this rather than each running a regex of their own.
 */ -}}
-{{- return uniq (findRE `/[^)"']+\.woff2` (partial "main-css" .).Content) -}}
+{{- return uniq (findRE `/[^)"']+\.woff2` (partialCached "main-css" .).Content) -}}

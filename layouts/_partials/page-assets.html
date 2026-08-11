@@ -1,5 +1,5 @@
 {{- /* In the layouts, not head: these have to land after the site stylesheet to override it. */ -}}
-{{- $built := partial "built-assets" . -}}
+{{- $built := partialCached "built-assets" . .Path -}}
 {{- range $built.styles }}
   <link rel="stylesheet" href="{{ .RelPermalink }}" />
 {{- end }}

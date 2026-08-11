@@ -13,7 +13,11 @@
 {{- $pwa := $page.Params.pwa -}}
 {{- $short := or $pwa.short_name $page.Title -}}
 {{- $color := site.Params.themeColor -}}
-{{- $dir := strings.TrimPrefix "/" $page.Path -}}
+{{- /*
+  From the URL the page is served at, not the content path: the manifest's scope and the worker
+  both sit at that URL, and a slug in front matter would part the two.
+*/ -}}
+{{- $dir := strings.TrimSuffix "/" (strings.TrimPrefix site.Home.RelPermalink $page.RelPermalink) -}}
 
 {{- $icon := resources.Get $pwa.icon -}}
 {{- if not $icon -}}
@@ -22,6 +26,7 @@
 {{- $padded := $icon.Filter (images.Padding 64 $color) -}}
 
 {{- $icons := slice -}}
+{{- $apple := "" -}}
 {{- range slice (dict "image" $icon "purpose" "any") (dict "image" $padded "purpose" "maskable") -}}
   {{- $image := .image -}}
   {{- $purpose := .purpose -}}
@@ -34,6 +39,10 @@
       {{- $source = $image.Resize $size -}}
     {{- end -}}
     {{- $sized := resources.Copy $target $source | fingerprint -}}
+    {{- /* iOS scales whatever it is handed and crops to a rounded square, so it shares the 192. */ -}}
+    {{- if and (eq $purpose "any") (eq . 192) -}}
+      {{- $apple = $sized.RelPermalink -}}
+    {{- end -}}
     {{- $icons = $icons | append (dict
       "src" $sized.RelPermalink
       "sizes" $size
@@ -62,11 +71,9 @@
   | fingerprint
 -}}
 {{- $worker := resources.FromString (printf "%s/sw.js" $dir) (partial "sw.js" $page) -}}
-{{- /* iOS scales whatever it is handed and crops to a rounded square, so it shares the 192. */ -}}
-{{- $apple := index (where (where $icons "purpose" "any") "sizes" "192x192") 0 -}}
 
 <link rel="manifest" href="{{ $file.RelPermalink }}" />
-<link rel="apple-touch-icon" href="{{ $apple.src }}" />
+<link rel="apple-touch-icon" href="{{ $apple }}" />
 {{- /* No apple-mobile-web-app-*: iOS reads display and short_name from the manifest since 16.4. */}}
 <script>
   if ("serviceWorker" in navigator) {

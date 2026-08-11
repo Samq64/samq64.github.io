@@ -1,7 +1,8 @@
 {{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML -}}
+{{- $rfc822 := "Mon, 02 Jan 2006 15:04:05 -0700" -}}
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Samuel Q's Blog</title>
+    <title>{{ site.Title }}'s {{ .Title }}</title>
     <link>{{ .Permalink }}</link>
     <description>{{ .Description }}</description>
     <generator>Hugo</generator>
@@ -10,7 +11,7 @@
     {{- end }}
     <copyright>{{ partial "copyright" . }}</copyright>
     {{- if not .Date.IsZero }}
-    <lastBuildDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>
+    <lastBuildDate>{{ .Date.Format $rfc822 | safeHTML }}</lastBuildDate>
     {{- end }}
     {{- with .OutputFormats.Get "RSS" }}
     {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType.Type | safeHTML }}
@@ -19,7 +20,7 @@
     <item>
       <title>{{ .Title }}</title>
       <link>{{ .Permalink }}</link>
-      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      <pubDate>{{ .Date.Format $rfc822 | safeHTML }}</pubDate>
       <guid>{{ .Permalink }}</guid>
       <description>{{ .Content | html }}</description>
     </item>

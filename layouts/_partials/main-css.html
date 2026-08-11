@@ -1,2 +1,1 @@
-{{- $css := resources.Get "css/main.css" | css.Build | minify | fingerprint -}}
-{{- return $css -}}
+{{- return (resources.Get "css/main.css" | css.Build | minify | fingerprint) -}}

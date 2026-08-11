@@ -3,13 +3,14 @@
   is fetched. Only the three every page paints: body Inter, and mono at 400 and 800 for headings
   and the nav. Inter bold and italic are left to the pages that use them.
 */ -}}
-{{- $urls := partial "font-urls" . -}}
+{{- $urls := partialCached "font-urls" . -}}
 {{- range slice "inter-latin-regular" "jetbrains-mono-latin-regular" "jetbrains-mono-latin-800" -}}
   {{- $name := . -}}
   {{- $found := "" -}}
   {{- range $urls -}}
-    {{- if and (not $found) (strings.Contains . (printf "/%s-" $name)) -}}
+    {{- if strings.Contains . (printf "/%s-" $name) -}}
       {{- $found = . -}}
+      {{- break -}}
     {{- end -}}
   {{- end -}}
   {{- with $found }}
