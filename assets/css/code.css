@@ -49,6 +49,10 @@ pre:not(.highlight *) > code {
   min-width: 100%;
 }
 
+/*
+  GTK has broken horizontal overlay scrollbars that only appear when actively scrolling.
+  ::-webkit-scrollbar seems to be the only workaround for now.
+*/
 .highlight::-webkit-scrollbar,
 pre:not(.highlight *)::-webkit-scrollbar {
   height: 0.5rem;
