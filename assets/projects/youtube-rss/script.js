@@ -15,8 +15,9 @@ const image = document.getElementById("result-image");
 const RESOLVER_URL = "https://youtube-proxy.samq64.workers.dev/";
 const FEED_URL = "https://www.youtube.com/feeds/videos.xml";
 
-// Matches --motion, so the old result is gone before the new one fades in.
-const SWAP_DELAY = 250;
+// Read off --motion, so the swap matches the CSS and a reduced-motion reader waits for neither.
+const SWAP_DELAY =
+  parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--motion")) * 1000;
 
 const TYPES = [
   { label: "Public", value: "public", checked: true },
@@ -103,7 +104,6 @@ function render() {
   noticeEl.classList.toggle("visible", showFilters && selected("type") === "popular");
   if (!result) return;
 
-  image.src = "";
   if (result.type === "playlist") {
     imageWrap.className = "thumbnail";
     resultLink.href = `https://www.youtube.com/playlist?list=${result.id}`;
