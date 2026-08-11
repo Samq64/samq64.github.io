@@ -148,6 +148,10 @@ blockquote,
   color: inherit;
   transition: opacity var(--motion) ease;
 
+  &::before {
+    content: "#";
+  }
+
   &:focus-visible {
     opacity: 1;
   }
