@@ -1,7 +1,6 @@
 baseURL = 'https://samuelq.dev/'
 locale = 'en-CA'
 title = 'Samuel Q'
-copyright = '© 2026 Samuel Q.'
 
 pluralizelisttitles = false
 disableKinds = ["RSS"]

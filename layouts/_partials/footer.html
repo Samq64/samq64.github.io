@@ -1,13 +1,15 @@
 <footer>
   <div class="socials">
     {{ range hugo.Data.footer.links }}
+      {{/* A scheme marks a link off the site; an internal one goes through relURL like the rest. */}}
+      {{ $href := cond (strings.Contains .url ":") .url (.url | relURL) }}
       <a
-        href="{{ .url }}"
-        {{ if not (strings.HasPrefix .url "mailto:") }}target="_blank" rel="noreferrer"{{ end }}
+        href="{{ $href }}"
+        {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noreferrer"{{ end }}
       >
         {{ partial "icon" (dict "icon" .icon "name" .name "class" "hover-lift") }}
       </a>
     {{ end }}
   </div>
-  <span>{{ site.Copyright }}</span>
+  <span>{{ partial "copyright" . }}</span>
 </footer>
