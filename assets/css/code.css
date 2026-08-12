@@ -1,5 +1,3 @@
-/* Inline code, fenced blocks, and the copy button the codeblock render hook wraps them in. */
-
 code,
 pre {
   font-family: var(--font-mono);
@@ -12,31 +10,47 @@ pre {
   padding-inline: var(--space-0);
 }
 
-/*
-  Chroma splits the line numbers and the code into separate <pre> elements inside a table, so the
-  box belongs on the .highlight around them; on the <pre> it would draw one per column. A fence
-  with no language and an indented block are not wrapped at all, so both arrive as a bare <pre>.
-*/
 .highlight,
-pre:not(.highlight *) {
-  /* Dark in either mode: tokyonight-day, Chroma's light counterpart, was tried and dropped. */
-  color-scheme: dark;
-  /* Chroma writes this only when styling inline, so classes need it stated here. */
-  tab-size: 4;
+pre:not(.chroma),
+.copy-code-button {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background-color: var(--bg-secondary);
   color: var(--text);
+}
+
+/*
+  Chroma splits its line numbers and code into two <pre class="chroma"> columns, so the box goes on
+  the .highlight around them. Terminal fences and indented blocks skip Chroma and box their own.
+*/
+.highlight,
+pre:not(.chroma) {
+  /* Intentionally dark-only for now. Unsatisfied with Chroma's tokyonight-day. */
+  color-scheme: dark;
+  tab-size: 4;
   overflow-x: auto;
 
+  /* Chroma's inner <pre>s are already inside the box, so they carry the padding. */
+  & pre {
+    padding: var(--space-0);
+  }
+
+  /* An unwrapped block scrolls its own <code>, so its padding has to travel with it. */
+  & > code {
+    display: block;
+    padding: var(--space-0);
+    width: max-content;
+    min-width: 100%;
+  }
+
   &:focus-visible {
-    /* Light mode legibility since it's color-scheme: dark */
+    /* Light mode legibility with the dark <pre>s.*/
     outline-color: var(--blue);
     outline-offset: -2px;
   }
 
   /*
-    GTK has broken horizontal overlay scrollbars that only appear when actively scrolling.
+    Chromium on Linux has horizontal overlay scrollbars that only appear when scrolling.
     ::-webkit-scrollbar seems to be the only workaround for now.
   */
   &::-webkit-scrollbar {
@@ -49,21 +63,7 @@ pre:not(.highlight *) {
   }
 }
 
-/* Only Chroma's inner <pre> is already inside a box, so only it takes the padding. */
-.highlight pre {
-  padding: var(--space-0);
-}
-
-/* An unwrapped block scrolls its own <code>, so its padding has to travel with it. */
-pre:not(.highlight *) > code {
-  display: block;
-  padding: var(--space-0);
-  width: max-content;
-  min-width: 100%;
-}
-
 .highlight td:first-child {
-  /* Held in place so the numbers stay readable while the code scrolls under them. */
   position: sticky;
   left: 0;
   background-color: var(--bg-secondary);
@@ -76,7 +76,6 @@ pre:not(.highlight *) > code {
 
 .code-block {
   position: relative;
-  /* The button is outside the block, so it needs the scheme of its own to match. */
   color-scheme: dark;
 
   &:hover .copy-code-button,
@@ -91,10 +90,6 @@ pre:not(.highlight *) > code {
   right: var(--space-0);
   display: flex;
   padding: 0.1rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background-color: var(--bg-secondary);
-  color: var(--text);
   cursor: pointer;
   opacity: 0;
   transition: opacity var(--motion) ease;

@@ -8,7 +8,6 @@ footer {
   gap: var(--space-2);
   margin-bottom: var(--space-1);
 
-  /* Not the link blue the rest of the site uses: these read as buttons and tint on hover. */
   a {
     color: var(--text);
 

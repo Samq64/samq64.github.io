@@ -2,12 +2,14 @@
   --bg-primary: light-dark(#e1e2e7, #16161e);
   --bg-secondary: light-dark(#e6e7ed, #1a1b26);
   --bg-tertiary: light-dark(#c4c8da, #24283b);
+
   --text: light-dark(#343b58, #a9b1d6);
+  --accent-fg: light-dark(#e1e2e7, #343b58);
+  --border: color-mix(in srgb, var(--text) 15%, transparent);
+
   --blue: light-dark(#254e99, #7aa2f7);
   --red: light-dark(#8c4351, #f7768e);
   --yellow: light-dark(#8f5e15, #e0af68);
-  --accent-fg: light-dark(#e1e2e7, #343b58);
-  --border: color-mix(in srgb, var(--text) 15%, transparent);
 
   --font-sans: Inter, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
@@ -20,16 +22,14 @@
 
   --radius: 0.25rem;
 
-  /* All reduced-motion policy lives here so components can just use the values. */
+  /* Reduced-motion policy lives here so components can just use the values. */
   --motion: 0.25s;
   --lift: -4px;
-  --blink-count: 3;
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --motion: 0s;
     --lift: 0px;
-    --blink-count: 0;
   }
 }

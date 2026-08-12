@@ -17,7 +17,7 @@ nav {
   }
 
   a {
-    display: block;
+    display: block; /* for transition */
     text-decoration: none;
     color: var(--text);
     user-select: none;
@@ -27,18 +27,12 @@ nav {
       color: var(--blue);
     }
   }
-
-  .svg-icon {
-    width: 1.5rem;
-    height: 1.5rem;
-  }
 }
 
 .icon-button {
   padding: 0;
   border: none;
   background: transparent;
-  /* Buttons inherit no colour of their own, and the icon inside takes its fill from this. */
   color: var(--text);
   cursor: pointer;
 
@@ -49,11 +43,10 @@ nav {
   &:hover {
     color: var(--blue);
   }
-}
 
-@keyframes blink {
-  50% {
-    opacity: 0;
+  .svg-icon {
+    width: 1.5rem;
+    height: 1.5rem;
   }
 }
 
@@ -62,31 +55,39 @@ nav {
   text-decoration-thickness: 2px;
 }
 
-/*
-  Both icons ship; the one shown offers the theme the page is not in. The system preference
-  decides until the script sets data-theme, so the query stands down for an explicit light.
-  Compounded with .svg-icon on purpose — that sets display and is declared after this file.
-*/
-.svg-icon.theme-icon-sun {
-  display: var(--theme-icon-sun, block);
+.svg-icon.theme-icon-moon {
+  /* Beats .svg-icon's display set later on */
+  display: none;
 }
 
-.svg-icon.theme-icon-moon {
-  display: var(--theme-icon-moon, none);
+:root[data-theme="dark"] {
+  .theme-icon-sun {
+    display: none;
+  }
+  .theme-icon-moon {
+    display: block;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --theme-icon-sun: none;
-    --theme-icon-moon: block;
+    .theme-icon-sun {
+      display: none;
+    }
+    .theme-icon-moon {
+      display: block;
+    }
   }
 }
 
-:root[data-theme="dark"] {
-  --theme-icon-sun: none;
-  --theme-icon-moon: block;
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
 }
 
-.blink {
-  animation: blink 2s steps(1) var(--blink-count);
+@media (prefers-reduced-motion: no-preference) {
+  .blink {
+    animation: blink 2s steps(1) 3;
+  }
 }

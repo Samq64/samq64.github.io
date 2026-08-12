@@ -4,13 +4,11 @@
 @import "chroma.css";
 @import "code.css";
 @import "tables.css";
-@import "search.css";
 @import "partials/card.css";
 @import "partials/nav.css";
 @import "partials/footer.css";
 @import "partials/tags.css";
 
-/* The system preference until the theme script names one, which it does by data-theme alone. */
 :root {
   color-scheme: light dark;
 
@@ -23,7 +21,10 @@
   }
 }
 
-/* An installed app is its own window, so the site chrome around it is not the app's to show. */
+:root[data-switching] * {
+  transition: none !important;
+}
+
 @media not (display-mode: browser) {
   body[data-pwa] > :is(nav, hr, footer) {
     display: none;
@@ -33,11 +34,6 @@
 :focus-visible:not(input) {
   outline: 2px solid var(--text);
   outline-offset: 2px;
-}
-
-/* A theme switch repaints everything at once; without this the page fades instead of flips. */
-:root[data-switching] * {
-  transition: none !important;
 }
 
 ::selection {
@@ -55,12 +51,6 @@
   white-space: nowrap;
 }
 
-mark {
-  background-color: transparent;
-  color: var(--blue);
-  font-weight: bold;
-}
-
 body {
   max-width: 760px;
   margin-inline: auto;
@@ -70,14 +60,50 @@ body {
   font-family: var(--font-sans);
 }
 
+main {
+  img {
+    margin-inline: auto;
+  }
+
+  ul,
+  ol,
+  dl {
+    margin-block: var(--space-1);
+  }
+}
+
+.centered-header,
+.no-content {
+  font-family: var(--font-mono);
+  text-align: center;
+}
+
+.centered-header {
+  margin-top: var(--space-3);
+
+  p {
+    font-family: var(--font-sans);
+  }
+}
+
 a {
   color: var(--blue);
+}
+
+mark {
+  background-color: transparent;
+  color: var(--blue);
+  font-weight: bold;
 }
 
 hr {
   width: 75%;
   margin: var(--space-2) auto;
   border: 1px solid var(--border);
+}
+
+p {
+  margin-block: var(--space-2);
 }
 
 h1,
@@ -94,24 +120,30 @@ h6 {
   }
 }
 
-/*
-  A field shows the ring on any focus, not only a keyboard one, and fades it in. Transparent
-  rather than absent so that is a colour change and never a ring appearing and shifting layout.
-*/
-input {
-  outline: 2px solid transparent;
-  transition: outline-color var(--motion) ease;
+.header-link {
+  opacity: 0;
+  margin-inline-end: var(--space-1);
+  text-decoration: none;
+  color: inherit;
+  transition: opacity var(--motion) ease;
 
-  &:focus {
-    outline-color: var(--blue);
+  &::before {
+    content: "#";
+  }
+
+  &:focus-visible {
+    opacity: 1;
   }
 }
 
-p {
-  margin-block: var(--space-2);
+dt {
+  font-weight: bold;
 }
 
-/* One boxed surface. .callout is a class, an error or a noscript notice being no quotation. */
+dd {
+  margin-inline-start: var(--space-2);
+}
+
 blockquote,
 .card,
 .callout {
@@ -147,6 +179,30 @@ blockquote {
   }
 }
 
+input {
+  color: var(--text);
+  outline: 2px solid transparent;
+  transition: outline-color var(--motion) ease;
+
+  &:focus {
+    outline-color: var(--blue);
+  }
+}
+
+.search-bar {
+  margin-block: var(--space-2);
+
+  input {
+    width: 100%;
+    padding: var(--space-1) var(--space-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: var(--bg-secondary);
+    font-family: var(--font-mono);
+    text-align: start;
+  }
+}
+
 .button {
   padding: var(--space-1) var(--space-2);
   background-color: var(--bg-secondary);
@@ -158,7 +214,6 @@ blockquote {
   transition: background-color var(--motion) ease;
   touch-action: manipulation;
 
-  /* The only press feedback a touch device gets, since it never hovers. */
   &:active {
     background-color: var(--bg-tertiary);
   }
@@ -168,58 +223,6 @@ blockquote {
   }
 }
 
-.header-link {
-  opacity: 0;
-  margin-inline-end: var(--space-1);
-  text-decoration: none;
-  color: inherit;
-  transition: opacity var(--motion) ease;
-
-  &::before {
-    content: "#";
-  }
-
-  &:focus-visible {
-    opacity: 1;
-  }
-}
-
-.centered-header,
-.no-content {
-  font-family: var(--font-mono);
-  text-align: center;
-}
-
-.centered-header p {
-  font-family: var(--font-sans);
-}
-
-.centered-header {
-  margin-top: var(--space-3);
-}
-
-main {
-  img {
-    margin-inline: auto;
-  }
-
-  ul,
-  ol,
-  dl {
-    margin-block: var(--space-1);
-  }
-}
-
-dt {
-  font-weight: bold;
-}
-
-dd {
-  margin-inline-start: var(--space-2);
-}
-
-/* Icons follow the surrounding colour, so a control tints one by setting its own. Buttons
-   inherit no colour, so .icon-button and .button set theirs. */
 .svg-icon {
   display: block;
   fill: currentColor;

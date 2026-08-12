@@ -1,10 +1,14 @@
 /* The :not() keeps content-table styling off Chroma's line number table. */
-table:not(.highlight *) {
+table:not(.lntable) {
   width: 100%;
   margin-block: var(--space-2);
-  /* Collapsed borders cannot be rounded, so the cells draw the grid themselves. */
+  /* Collapsed borders cannot be rounded, so the table draws its own outside edge. */
   border-collapse: separate;
   border-spacing: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  /* Rounds the cell backgrounds to match. The border follows the radius by itself. */
+  overflow: hidden;
 
   thead tr {
     background-color: var(--bg-tertiary);
@@ -18,32 +22,13 @@ table:not(.highlight *) {
   th,
   td {
     padding: var(--space-1);
-    /* Leading edges only, so neighbouring cells do not draw the same line twice. */
-    border: 1px solid var(--border);
-    border-width: 1px 0 0 1px;
-
-    &:last-child {
-      border-right-width: 1px;
-    }
   }
 
-  tbody tr:last-child :is(th, td) {
-    border-bottom-width: 1px;
+  tbody :is(th, td) {
+    border-top: 1px solid var(--border);
   }
 
-  thead th:first-child {
-    border-start-start-radius: var(--radius);
-  }
-
-  thead th:last-child {
-    border-start-end-radius: var(--radius);
-  }
-
-  tbody tr:last-child td:first-child {
-    border-end-start-radius: var(--radius);
-  }
-
-  tbody tr:last-child td:last-child {
-    border-end-end-radius: var(--radius);
+  :is(th, td) + :is(th, td) {
+    border-left: 1px solid var(--border);
   }
 }

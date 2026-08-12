@@ -12,9 +12,7 @@ hr:has(+ .cards:empty) {
 }
 
 .card {
-  /* Every card carries the accent, so it is set here rather than named at the one call site. */
   --accent: var(--blue);
-
   position: relative;
   padding-block: var(--space-2);
 }
@@ -23,7 +21,7 @@ hr:has(+ .cards:empty) {
   color: var(--text);
   text-decoration: none;
 
-  /* Stretched over the card. Positioned children later in it paint above; the tags must. */
+  /* Full card click target while allowing tag links. */
   &::after {
     content: "";
     position: absolute;
@@ -38,6 +36,5 @@ hr:has(+ .cards:empty) {
 
 .card .tag-list {
   position: relative;
-  /* Only the badges themselves, leaving the rest of the row clicking through to the card. */
   width: fit-content;
 }
