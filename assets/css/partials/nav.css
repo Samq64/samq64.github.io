@@ -42,55 +42,12 @@ nav {
   color: var(--text);
   cursor: pointer;
 
+  &[aria-current] {
+    color: var(--blue);
+  }
+
   &:hover {
     color: var(--blue);
-  }
-}
-
-.nav-search {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  gap: var(--space-1);
-
-  &:focus-within .svg-icon {
-    color: var(--blue);
-  }
-
-  input {
-    width: 0;
-    min-width: 0;
-    padding-block: var(--space-0);
-    padding-inline: 0;
-    border: none;
-    border-radius: var(--radius);
-    background-color: transparent;
-    color: var(--text);
-    font-size: var(--font-size-sm);
-    opacity: 0;
-    transition:
-      width var(--motion) ease,
-      padding-inline var(--motion) ease,
-      opacity var(--motion) ease,
-      outline-color var(--motion) ease;
-  }
-
-  &:is(:focus-within, [data-expanded]) input {
-    width: 14rem;
-    padding-inline: var(--space-1);
-    outline-color: var(--border);
-    background-color: var(--bg-secondary);
-    opacity: 1;
-  }
-
-  input:focus {
-    outline-color: var(--blue);
-  }
-}
-
-@media (width < 34rem) {
-  nav:has(.nav-search:is(:focus-within, [data-expanded])) ul li:not(:first-child) {
-    display: none;
   }
 }
 

@@ -10,26 +10,15 @@
       </li>
     {{ end }}
   </ul>
-  {{/* The search page itself, so its URL and the field standing open both follow a move. */}}
+  {{/* The search page itself, so the link follows a move. The field belongs to that page. */}}
   {{ $search := site.GetPage "/search" }}
-  <form
-    action="{{ $search.RelPermalink }}"
-    role="search"
-    class="nav-search"
-    {{ if eq . $search }}data-expanded{{ end }}
+  <a
+    href="{{ $search.RelPermalink }}"
+    class="icon-button hover-lift"
+    {{ if eq . $search }}aria-current="page"{{ end }}
   >
-    <label for="search-input" class="icon-button hover-lift">
-      {{ partial "icon" (dict "icon" "magnifying-glass" "name" "Search") }}
-    </label>
-    <input
-      type="search"
-      id="search-input"
-      name="q"
-      placeholder="Search"
-      aria-label="Search"
-      autocomplete="off"
-    />
-  </form>
+    {{ partial "icon" (dict "icon" "magnifying-glass" "name" "Search") }}
+  </a>
   {{/* One label on the button: both icons are always present, only CSS picks between them. */}}
   <button id="theme-switcher" class="icon-button hover-lift">
     <span class="visually-hidden">Toggle theme</span>
