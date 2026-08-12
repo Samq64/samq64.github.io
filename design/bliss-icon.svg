@@ -1,10 +1,9 @@
 <!--
-  The app icon: the board's eyes, gazing level, on the site's theme colour. Scaled off the pad,
-  whose eyes are 26 by 19 with a pupil radius of 8, and framed to be shown whole, so they run
-  out to 195 of the 256 available. The maskable variant is grown from this — see the pwa partial.
+  Scaled off the pad, whose eyes are 26 by 19 with a pupil radius of 8,
+  and framed to be shown whole, so they run out to 195 of the 256 available.
+  The maskable variant is grown from this — see the pwa partial.
 
-  Hugo never reads this; the build has no rasteriser, so the PNG is committed. After editing:
-
+  The PNG is committed. After editing:
     rsvg-convert -w 512 -h 512 design/bliss-icon.svg -o assets/projects/bliss/icon.png
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">

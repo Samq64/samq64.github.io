@@ -3,7 +3,6 @@
   <head>
     {{ partial "head" . }}
     <meta name="theme-color" content="{{ site.Params.themeColor }}" />
-    {{/* The feed's own URL and title, so a rename or a path prefix carries into the link. */}}
     {{ $blog := site.GetPage "/blog" }}
     {{ with $blog.OutputFormats.Get "rss" }}
       <link
@@ -23,7 +22,6 @@
     {{ partial "page-assets" . }}
     {{ partialCached "theme-script" . }}
   </head>
-  {{/* main.css drops the site chrome when this is an installed app. */}}
   <body{{ if .Params.pwa }} data-pwa{{ end }}>
     {{ partial "nav" . }}
     <main{{ if in (slice "home" "page") .Kind }} data-pagefind-body{{ end }}>

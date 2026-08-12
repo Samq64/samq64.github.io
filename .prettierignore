@@ -1,7 +1,5 @@
-# Prettier has no Go template parser, and the HTML one mangles them: it reflows the actions
-# themselves and folds the whitespace-control markers. The community plugin fares no better.
-# Templates are therefore formatted by hand, to the conventions in the README.
+# The Go template plugin is not good enough and breaks the layout.
 layouts/
 
-# Written by `hugo gen chromastyles`; reformatting it would make every regeneration a diff.
+# Auto-generated file
 assets/css/chroma.css

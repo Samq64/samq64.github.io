@@ -1,8 +1,3 @@
-{{- /*
-  Requests the faces before the stylesheet reveals them, which is otherwise the earliest a font
-  is fetched. Only the three every page paints: body Inter, and mono at 400 and 800 for headings
-  and the nav. Inter bold and italic are left to the pages that use them.
-*/ -}}
 {{- $urls := partialCached "font-urls" . -}}
 {{- range slice "inter-latin-regular" "jetbrains-mono-latin-regular" "jetbrains-mono-latin-800" -}}
   {{- $name := . -}}

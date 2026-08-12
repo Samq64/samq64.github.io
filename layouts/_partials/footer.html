@@ -1,7 +1,6 @@
 <footer>
   <div class="socials">
     {{ range hugo.Data.footer.links }}
-      {{/* A scheme marks a link off the site; an internal one goes through relURL like the rest. */}}
       {{ $href := cond (strings.Contains .url ":") .url (.url | relURL) }}
       <a
         href="{{ $href }}"

@@ -15,11 +15,9 @@ const image = document.getElementById("result-image");
 const RESOLVER_URL = "https://youtube-proxy.samq64.workers.dev/";
 const FEED_URL = "https://www.youtube.com/feeds/videos.xml";
 
-// Read off --motion, so the swap matches the CSS and a reduced-motion reader waits for neither.
 const SWAP_DELAY =
   parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--motion")) * 1000;
 
-// The first of each is the default, so none of them says so.
 const TYPES = [
   { label: "Public", value: "public" },
   { label: "Members only", value: "members" },
@@ -33,8 +31,7 @@ const FORMATS = [
   { label: "Live streams", value: "live" },
 ];
 
-// Uploads playlist IDs are the channel ID with UC swapped for one of these; null means the
-// plain channel feed already covers it.
+// Uploads playlist IDs are the channel ID with UC swapped for one of these.
 const PREFIX = {
   public: { all: null, longform: "UULF", shorts: "UUSH", live: "UULV" },
   popular: { all: "PU", longform: "UULP", shorts: "UUPS", live: "UUPV" },
@@ -80,7 +77,6 @@ function feedUrl() {
     : `${FEED_URL}?channel_id=${result.id}`;
 }
 
-/* The handle is what was searched for; an ID stands in for a channel that has not got one. */
 function replaceUrl() {
   const params = new URLSearchParams({ q: state.result.handle ?? state.result.id });
   if (state.result.type !== "playlist") {

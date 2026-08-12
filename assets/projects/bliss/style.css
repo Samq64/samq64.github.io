@@ -1,5 +1,4 @@
 .bliss {
-  /* The comfortable touch target the boxes, the pad keys and the backspace all match. */
   --touch: 2.75rem;
 
   display: flex;
@@ -7,7 +6,6 @@
   gap: var(--space-3);
 }
 
-/* The stack's gaps do the spacing, so the children's own block margins would double it. */
 .bliss :is(p, table) {
   margin-block: 0;
 }
@@ -23,16 +21,13 @@
   /* Top aligned, which is what levels the bubble with the top of her head. */
   align-items: flex-start;
   gap: var(--space-2);
-  /* Without this the row refuses to shrink below the inputs' default 20-character width. */
   min-width: 0;
 }
 
 .character {
   flex-shrink: 0;
-  /* Held back in the single column, where her height is what sets the stage's height. */
   width: clamp(6rem, 18vw, 7rem);
   height: auto;
-  /* main.css centres images inside <main>; here the row places it instead. */
   margin-inline: 0;
 }
 
@@ -51,7 +46,6 @@
   font-size: 1.125rem;
 }
 
-/* A square on its corner, two edges bordered, offset half its side to centre at any height. */
 .bubble::before {
   content: "";
   position: absolute;
@@ -83,7 +77,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Matches the boxes it sits beside. */
   height: var(--touch);
   padding-inline: var(--space-2);
 
@@ -131,7 +124,6 @@
   text-align: center;
 }
 
-/* Stands in for the ring while the pad is driving and no box is focused, so it matches one. */
 .digits:not(:focus-within) .digit.next {
   outline-color: var(--blue);
 }
@@ -185,7 +177,6 @@
   transition: transform var(--motion) ease;
 }
 
-/* The pad moves alongside only once the speech column can still hold a bubble and four boxes. */
 @media (width >= 48rem) {
   .workspace {
     flex-direction: row;

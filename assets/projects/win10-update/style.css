@@ -1,9 +1,4 @@
-/*
-  Hotlinked, not vendored: the font is Microsoft's and a copy here would be redistributing it.
-  The cost is a render depending on a third party, which for a demo of a loading screen is fine.
-  font-display: block, or the spinner flashes its private-use codepoints as tofu. The page
-  preloads this same URL, the two having to be changed together.
-*/
+/* Fetched remotely to avoid hosting Microsoft's proprietary font. */
 @font-face {
   font-family: "SegoeBoot";
   font-display: block;

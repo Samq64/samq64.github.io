@@ -1,5 +1,4 @@
 .yt-rss {
-  /* The pressed state of the blue buttons below, which is the only pair on the site. */
   --pressed: color-mix(in srgb, var(--blue), black 10%);
 
   display: flex;
@@ -33,12 +32,10 @@
     font-weight: bold;
   }
 
-  /* The column's gap does the spacing, so the callouts' own block margins would double it. */
   .callout {
     margin-block: 0;
   }
 
-  /* Shape and spacing come from the shared .button; these two are the page's main actions. */
   button {
     min-width: 6.5rem;
     background-color: var(--blue);

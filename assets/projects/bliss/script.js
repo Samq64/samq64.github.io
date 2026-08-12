@@ -28,25 +28,18 @@ const eyes = document.querySelector(".eyes");
 const historyEl = document.getElementById("history");
 const list = document.getElementById("list");
 
-/* Non-null only while a finished code waits to wipe. Miss styling is set and cleared with it. */
 let clearTimer = null;
 let lingerTimer;
 
-/* Only chase the caret if already typing: focusing otherwise raises a keyboard over the pad. */
 function focusIfTyping(input) {
   if (digits.includes(document.activeElement)) input.focus();
 }
 
-/* Where the next digit lands, which is past the last box once every one of them is filled. */
 function nextEmptyIndex() {
   const next = digits.findIndex((input) => !input.value);
   return next === -1 ? digits.length : next;
 }
 
-/*
-  Stands in for the caret while the pad is driving. Nothing is marked until a digit is entered,
-  a mark on an untouched board reading as a focus the page has not got.
-*/
 function markNext() {
   const started = digits.some((input) => input.value);
   const next = started ? nextEmptyIndex() : -1;
@@ -65,14 +58,12 @@ function look(digit) {
   eyes.style.setProperty("--dy", `${y * REACH_Y}px`);
 }
 
-/* Removing first restarts the animation when the same miss happens twice running. */
 function flagMiss() {
   digitGroup.classList.remove("shake");
   void digitGroup.offsetWidth;
   digitGroup.classList.add("shake", "error");
 }
 
-/* The wipe and the miss styling are one state, so dropping either drops both. */
 function cancelPending() {
   clearTimeout(clearTimer);
   clearTimer = null;
@@ -81,7 +72,6 @@ function cancelPending() {
 
 function reset() {
   cancelPending();
-  /* A new word always starts from a level gaze, whatever the pad was last pointed at. */
   clearTimeout(lingerTimer);
   look(null);
   digits.forEach((input) => (input.value = ""));
@@ -122,7 +112,6 @@ function enter(digit, index) {
   if (digits.every((input) => input.value)) submit();
 }
 
-/* Always clears the last digit entered, whichever box happens to hold the caret. */
 function deleteLast() {
   cancelPending();
 
@@ -135,7 +124,6 @@ function deleteLast() {
 }
 
 digits.forEach((input, index) => {
-  /* Selecting on focus lets a digit be typed straight over the one already there. */
   input.addEventListener("focus", () => input.select());
 
   input.addEventListener("input", () => {
@@ -156,7 +144,6 @@ backspace?.addEventListener("click", deleteLast);
 pad.addEventListener("click", (event) => {
   const key = event.target.closest(".key");
   if (!key) return;
-  /* A full board is a finished code waiting to wipe, so the next tap starts it over. */
   const next = nextEmptyIndex();
   enter(key.dataset.digit, next === digits.length ? 0 : next);
 });
@@ -168,7 +155,6 @@ function preview(event) {
   look(key.dataset.digit);
 }
 
-/* Holding the direction a moment longer also rides over the gap between two keys. */
 function recentre() {
   clearTimeout(lingerTimer);
   lingerTimer = setTimeout(() => look(null), SETTLE_MS);

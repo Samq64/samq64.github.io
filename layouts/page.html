@@ -2,7 +2,6 @@
   <h1>{{ .Title }}</h1>
   {{ if not .Date.IsZero }}
     <p>
-      {{/* The machine-readable form is captured too, so search results can carry it as well. */}}
       <time
         datetime="{{ .Date.Format "2006-01-02" }}"
         data-pagefind-meta="date, datetime[datetime]"

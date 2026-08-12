@@ -1,11 +1,5 @@
-{{- /* Rendered per page by the pwa partial. A .js partial, so Hugo leaves the JSON quotes alone. */ -}}
 {{- $page := . -}}
 {{- $prefix := printf "%s-" (path.Base $page.RelPermalink) -}}
-{{- /*
-  The app is the page, what it names, and what it renders; a script's imports are bundled into it.
-  Every face is precached, not just the three preloaded, or an app taken offline early loses them.
-  The fonts are listed apart because they outlive edits to the rest, which one name would refetch.
-*/ -}}
 {{- $built := partialCached "built-assets" $page $page.Path -}}
 {{- $app := slice $page.RelPermalink (partialCached "main-css" $page).RelPermalink -}}
 {{- range $built.styles | append $built.scripts -}}
@@ -41,7 +35,6 @@ self.addEventListener("install", (event) => {
   );
 });
 
-/* Only this app's own caches are dropped, in case another page ever registers a worker. */
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches
@@ -57,7 +50,6 @@ self.addEventListener("activate", (event) => {
   );
 });
 
-/* The app cache: anything reaching here was not precached, so it belongs to this build. */
 function save(request, response) {
   if (!response.ok) return response;
   const copy = response.clone();
@@ -65,14 +57,6 @@ function save(request, response) {
   return response;
 }
 
-/*
-  Documents come from the network first, falling back to the cache and then the board itself,
-  so a deploy is picked up as soon as the device is online. Everything else is hashed, so the
-  cache answers outright.
-
-  Cross-origin requests are passed over: a controlled page's extension requests reach the
-  worker too, and the cache takes http alone, so storing one would throw.
-*/
 self.addEventListener("fetch", (event) => {
   const request = event.request;
   if (request.method !== "GET") return;

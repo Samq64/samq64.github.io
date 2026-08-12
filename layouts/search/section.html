@@ -15,7 +15,6 @@
       autofocus
     />
   </form>
-  {{/* Filled by the script below, so that with no script it is the noscript block that speaks. */}}
   <p id="search-status"></p>
 {{ end }}
 
@@ -24,11 +23,9 @@
     <p class="callout red">This page needs JavaScript to search.</p>
   </noscript>
 
-  {{/* Kept adjacent to the list, which is what lets card.css drop it while there are none. */}}
   <hr />
   <ul class="cards" id="search-results"></ul>
 
-  {{/* A placeholder date, so the element is there for the script to fill or drop. */}}
   <template id="card-template">
     {{ partial "card" (dict "url" "" "title" "" "date" "-" "datetime" "" "description" "") }}
   </template>

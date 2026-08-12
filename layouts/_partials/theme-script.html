@@ -1,16 +1,13 @@
 <script>
-  /* data-theme is the whole of the state: main.css reads the colour scheme off it. */
   function setTheme(theme) {
     const root = document.documentElement;
     root.dataset.switching = "";
     root.dataset.theme = theme;
     localStorage.setItem("theme", theme);
-    /* Settles the new colours while transitions are still off, so none of them run. */
     void root.offsetHeight;
     delete root.dataset.switching;
   }
 
-  /* Nothing to settle before <body> exists, and it is already stored, so this is the flag alone. */
   const storedTheme = localStorage.getItem("theme");
   if (storedTheme) document.documentElement.dataset.theme = storedTheme;
 

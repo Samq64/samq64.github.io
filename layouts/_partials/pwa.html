@@ -33,13 +33,11 @@
   {{- range slice 512 192 -}}
     {{- $size := printf "%dx%d" . . -}}
     {{- $target := printf "%s/icon-%s-%d.png" $dir $purpose . -}}
-    {{- /* Copied rather than re-encoded when the icon is already drawn at this size. */ -}}
     {{- $source := $image -}}
     {{- if ne $image.Width . -}}
       {{- $source = $image.Resize $size -}}
     {{- end -}}
     {{- $sized := resources.Copy $target $source | fingerprint -}}
-    {{- /* iOS scales whatever it is handed and crops to a rounded square, so it shares the 192. */ -}}
     {{- if and (eq $purpose "any") (eq . 192) -}}
       {{- $apple = $sized.RelPermalink -}}
     {{- end -}}
@@ -74,7 +72,6 @@
 
 <link rel="manifest" href="{{ $file.RelPermalink }}" />
 <link rel="apple-touch-icon" href="{{ $apple }}" />
-{{- /* No apple-mobile-web-app-*: iOS reads display and short_name from the manifest since 16.4. */}}
 <script>
   if ("serviceWorker" in navigator) {
     addEventListener("load", () => navigator.serviceWorker.register("{{ $worker.RelPermalink }}"));

@@ -126,13 +126,13 @@ An indented block, the other way of writing one:
 
 ## Tables
 
-Alignment, a cell wide enough to push the table past the page, and rows that stop short:
+Alignment, a cell long enough to wrap onto more than one line, and rows that stop short:
 
-| Feature     | Supported | Notes                                                          | Count |
-| :---------- | :-------: | :------------------------------------------------------------- | ----: |
-| Bold/Italic |    Yes    | A deliberately long cell, so the table has to scroll sideways. |     1 |
-| Lists       |    Yes    | Ordered, unordered, nested and tasks                           |    42 |
-| Code blocks |    Yes    | Highlighted, plain and indented                                |   350 |
+| Feature     | Supported | Notes                                                           | Count |
+| :---------- | :-------: | :-------------------------------------------------------------- | ----: |
+| Bold/Italic |    Yes    | A deliberately long cell, so the row has to wrap at some point. |     1 |
+| Lists       |    Yes    | Ordered, unordered, nested and tasks                            |    42 |
+| Code blocks |    Yes    | Highlighted, plain and indented                                 |   350 |
 | Tables      |    Yes    |
 | Footnotes   |    Yes    |
 

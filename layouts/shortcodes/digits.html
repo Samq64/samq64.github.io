@@ -1,4 +1,3 @@
-{{- /* The code boxes, which differ only by where they sit, so the count is said once. */ -}}
 {{- $count := int (.Get 0) -}}
 <div class="digits" role="group" aria-label="{{ $count }} digit code">
   {{- range $i := seq $count }}
