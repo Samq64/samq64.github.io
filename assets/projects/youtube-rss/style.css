@@ -64,9 +64,6 @@
   input[type="text"] {
     min-width: 6rem;
     padding: var(--space-1);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background-color: var(--bg-secondary);
   }
 
   .flex-row {

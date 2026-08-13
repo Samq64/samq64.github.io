@@ -111,14 +111,8 @@
 }
 
 .digit {
-  flex: 1;
   min-width: 0;
-  height: var(--touch);
-  padding: 0;
   background-color: var(--bg-secondary);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
   font-family: var(--font-mono);
   font-size: 1.25rem;
   text-align: center;
@@ -130,7 +124,7 @@
 
 .digits.error .digit {
   border-color: var(--red);
-  outline: 1px solid var(--red);
+  outline-color: var(--red);
 }
 
 .digit:not(:placeholder-shown) {

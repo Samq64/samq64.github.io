@@ -191,8 +191,12 @@ blockquote {
   }
 }
 
-input {
+input[type="text"],
+input[type="search"] {
+  background-color: var(--bg-secondary);
   color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   outline: 2px solid transparent;
   transition: outline-color var(--motion) ease;
 
@@ -207,9 +211,6 @@ input {
   input {
     width: 100%;
     padding: var(--space-1) var(--space-2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background-color: var(--bg-secondary);
     font-family: var(--font-mono);
     text-align: start;
   }
