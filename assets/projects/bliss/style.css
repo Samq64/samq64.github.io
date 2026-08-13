@@ -130,7 +130,7 @@
 
 .digits.error .digit {
   border-color: var(--red);
-  outline-color: var(--red);
+  outline: 1px solid var(--red);
 }
 
 .digit:not(:placeholder-shown) {
