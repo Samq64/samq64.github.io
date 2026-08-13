@@ -10,6 +10,11 @@ pre {
   padding-inline: var(--space-0);
 }
 
+.code-block,
+:not(.code-block) > pre:not(.chroma) {
+  margin-block: var(--space-2);
+}
+
 .highlight,
 pre:not(.chroma),
 .copy-code-button {

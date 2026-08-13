@@ -70,6 +70,18 @@ main {
   dl {
     margin-block: var(--space-1);
   }
+
+  :is(ul, ol) :is(ul, ol) {
+    margin-block: 0;
+  }
+
+  li > p {
+    margin-block: 0;
+
+    & + p {
+      margin-block-start: var(--space-2);
+    }
+  }
 }
 
 .centered-header,
