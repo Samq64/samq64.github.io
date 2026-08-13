@@ -1,0 +1,7 @@
+{{- with .Description -}}
+  <div hidden data-pagefind-body>
+    <span data-pagefind-index-attrs="data-search-text" data-search-text="{{ . }}"></span>
+  </div>
+{{- else -}}
+  {{- warnf "No description on %s, so search has nothing to index for it" .Path -}}
+{{- end -}}

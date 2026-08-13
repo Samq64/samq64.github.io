@@ -5,17 +5,7 @@
     {{ partial "page-assets" . }}
   </head>
   <body>
-    {{/*
-      Pagefind indexes only what carries data-pagefind-body, so without this a standalone
-      project is missing from search. Clipped, to keep the demo's own text out of the index.
-    */}}
-    <div
-      data-pagefind-body
-      style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%)"
-    >
-      <h1>{{ .Title }}</h1>
-      <p>{{ .Description }}</p>
-    </div>
+    {{ partial "search-summary" . }}
     {{ .Content }}
   </body>
 </html>
